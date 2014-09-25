@@ -19,7 +19,8 @@
 	<script src="<{$smarty.const.ADMIN_URL}>/assets/lib/jquery.cookie.js" ></script>
 	<script src="<{$smarty.const.ADMIN_URL}>/assets/lib/bootstrap/js/bootbox.min.js"></script>
 	<script src="<{$smarty.const.ADMIN_URL}>/assets/lib/bootstrap/js/bootstrap-modal.js"></script>
-	<script src="<{$smarty.const.ADMIN_URL}>/assets/js/other.js"></script>
+  <script src="<{$smarty.const.ADMIN_URL}>/assets/js/other.js"></script>
+	<script src="<{$smarty.const.ADMIN_URL}>/assets/js/Chart.min.js"></script>
 	<script src="<{$smarty.const.ADMIN_URL}>/assets/js/jquery-ui.js"></script>
     <!-- Demo page code -->
 

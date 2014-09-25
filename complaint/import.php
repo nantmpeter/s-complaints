@@ -12,11 +12,13 @@ if (Common::isPost ()) {
 			OSAdmin::alert("error",$message);
 		}
 		$file = $_FILES['excel']['tmp_name'];
+
 		$excel_array = ExcelReader::readXLS($file);
 		if($excel_array) {
-			// unset($excel_array[0]);
+
+			unset($excel_array[0]);
 			$error[$_POST['table']] = array();
-			var_dump($excel_array);exit;
+
 			foreach ($excel_array as $key => $value) {
 				$r = Complaint::save($value,$_POST['table']);
 				if(!$r)
@@ -28,11 +30,11 @@ if (Common::isPost ()) {
 		}else{
 			$error[$_POST['table']][] = "导入文件有问题！";
 		}
-		$output=print_r($excel_array,true);
+		// $output=print_r($excel_array,true);
 	}
 }
 
 Template::assign("error" ,$error);
 Template::assign("_POST" ,$_POST);
-Template::assign("output" ,$output);
+// Template::assign("output" ,$output);
 Template::display ('complaint/import.tpl');

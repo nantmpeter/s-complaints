@@ -1,6 +1,7 @@
 <?php 
-session_start(); 
-
+session_start();
+// error_reporting(~ E_ALL);
+// error_reporting(E_ALL ^ E_NOTICE);
 header("Content-type: image/png"); 
  
 $im = imagecreatetruecolor(80, 28);
