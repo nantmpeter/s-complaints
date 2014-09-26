@@ -20,7 +20,7 @@ if (Common::isPost ()) {
 				}
 				$ip = Common::getIp();
 				SysLog::addLog ( $user_name, 'LOGIN', 'User' ,UserSession::getUserId(),json_encode(array("IP" => $ip)));
-				Common::jumpUrl ( 'panel/index.php' );
+				Common::jumpUrl ( 'complaint/search.php' );
 			}else{
 				OSAdmin::alert("error",ErrorMessage::BE_PAUSED);
 			}

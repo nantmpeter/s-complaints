@@ -18,7 +18,7 @@ define ( 'TEMPLATE_CACHE', ADMIN_BASE . '/cache/' );
 // define ( 'ADMIN_URL' ,'http://demo.osadmin.net/uploads');
 define ( 'ADMIN_URL' ,'http://localhost:3000');
 define ( 'ADMIN_TITLE' ,'管理后台');
-define ( 'COMPANY_NAME' ,'OSAdmin.org');
+define ( 'COMPANY_NAME' ,'客户投诉分析系统');
 
 //OSAdmin数据库设置
 define ( 'OSA_DB_ID' ,'osadmin');
