@@ -93,4 +93,22 @@ class Info extends Base{
 		}
 		return $r;
 	}
+
+	public static function getProvinceByName($name)
+	{
+		$db=new Medoo(OSA_DB_ID);
+		$r = $db->get('province','id',array('name'=>$name));
+		if(isset($r['id']))
+			return $r['id'];
+		return '';
+	}
+
+	public static function getProvinceById($id)
+	{
+		$db=new Medoo(OSA_DB_ID);
+		$r = $db->get('province','name',array('id'=>$id));
+		if(isset($r['id']))
+			return $r['id'];
+		return '';
+	}
 }

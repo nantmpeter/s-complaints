@@ -6,6 +6,7 @@ class ExcelReader {
 		$data = new Spreadsheet_Excel_Reader();
 		$data->setOutputEncoding('UTF-8'); //设置输出的编码为utf8
 		$ret = $data->read($file); //要读取的excel文件地址
+
 		if($ret == -1){
 			$array = false;
 		}else{
@@ -16,6 +17,12 @@ class ExcelReader {
 			}
 		}
 		return $array;
+	}
+
+	public static function xlsTime($in){
+		$time = ($in - 25569) * 24*60*60; //获得秒数
+		$time = $time>0?$time:0;
+		return $time;   //出来 2012-02-08
 	}
 }
 ?>
