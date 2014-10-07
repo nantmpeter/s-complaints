@@ -5,6 +5,32 @@
 <{/if}>
 		<{foreach from=$sidebar item=module}>
 			<{if count($module.menu_list)> 0}>
+				<{if $module.module_id == 3}>
+				<ul>
+					<li>客诉分析</li>
+					<ul>
+						<li><a href="/complaint/import.php">数据导入</a></li>
+					</ul>
+					<li>基本信息分析</li>
+					<ul>
+						<li><a href="/complaint/search.php">客户投诉查询</a></li>
+						<!-- <li><a href=""></a></li> -->
+					</ul>
+					<li>不规范定制分析</li>
+						<ul>
+						<li><a href="/complaint/custom_search.php">不规范定制查询</a></li>
+						<li>客户投诉分析</li>
+						<ul>
+							<li><a href="/complaint/custom_analyze.php">全国投诉情况分析</a></li>
+						</ul>
+						</ul>
+					<li>工信部投诉分析</li>
+					<ul>
+						<li><a href="/complaint/complaints_search.php">工信部投诉查询</a></li>
+					</ul>
+					<!-- <li></li> -->
+				</ul>
+				<{else}>
 			<a href="#sidebar_menu_<{$module.module_id}>" class="nav-header collapsed" data-toggle="collapse"><i class="<{$module.module_icon}>"></i><{$module.module_name}> <i class="icon-chevron-up"></i></a>
 				<{if $module.module_id == $current_module_id }>
 					<ul id="sidebar_menu_<{$module.module_id}>" class="nav nav-list collapse in">
@@ -22,6 +48,7 @@
 				
 				<{/foreach}>
 			</ul>
+			<{/if}>
 			<{/if}>
 			
 		<{/foreach}>
