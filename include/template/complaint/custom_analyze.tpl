@@ -29,7 +29,12 @@
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 业务线</label>
-			<{$data.bussLine}>
+			<select name="buss_type"><option value="0">全部</option>
+			<{foreach name=bussLine from=$data.bussLine item=bussLine key=key}>
+				<option value="<{$key}>" <{if $param.buss_type == $key}> selected='selected'<{/if}>><{$bussLine}></option>
+			<{/foreach}>
+			</select>
+			<!-- <{$data.bussLine}> -->
 		</div>
 		
 		<div class="btn-toolbar" style="padding-top:25px;padding-bottom:0px;margin-bottom:0px">
@@ -60,7 +65,6 @@
                <table class="table table-striped">
               <thead>
                 <tr>
-					<th style="width:30px">#</th>
 					<th style="width:50px">省市</th>
 					<!-- <th style="width:55px">工单时间</th> -->
 					<!-- <th style="width:35px">投诉号码</th> -->
@@ -80,21 +84,20 @@
               <tbody>
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
-					<td><{$result.id}></td>
 					<td><{$data.provinceMap[$result.province_id]}></td>
 					<!-- <td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td> -->
 					<!-- <td><{$result.complaint_phone}></td> -->
 					<!-- <td><{$result.buss_name}></td> -->
 					<td><{$result.num}></td>
 					<td><{$result.increase}></td>
-					<td><{$result.increasePercent}>%</td>
+					<td><{$result.increasePercent}></td>
 					<!-- <td><{$result.sp_code}></td> -->
 					<!-- <td><{$result.complaint_content}></td> -->
 					<!-- <td><{$result.suggestion}></td> -->
 					<td><{$result.complaint_type}></td>
 					<!-- <td><{$result.problem_type}></td>
 					<td><{$result.complaint_level}></td> -->
-					<td><{$result.buss_type}></td>
+					<td><{$data.bussLine[$result.buss_type]}></td>
 					<!-- <td style = "word-break: break-all; word-wrap:break-word;"><{$result.result}></td> -->
 					<!-- <td><{$result.op_time}></td> -->
 					</tr>

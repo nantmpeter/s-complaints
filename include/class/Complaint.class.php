@@ -152,9 +152,9 @@ class Complaint extends Base {
 				$tmp[$value['province_id']] = $value['num'];
 			}
 			foreach ($r as $key => $value) {
-				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:1;
+				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
 				$r[$key]['increase'] = $value['num'] - $t;
-				$r[$key]['increasePercent'] = ($value['num'] - $t)/$t * 100;
+				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
 			}
 		}
 
