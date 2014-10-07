@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="<{$smarty.const.ADMIN_URL}>/assets/stylesheets_<{$user_info.template}>/theme.css">
     <link rel="stylesheet" href="<{$smarty.const.ADMIN_URL}>/assets/lib/font-awesome/css/font-awesome.css">
 	<link rel="stylesheet" href="<{$smarty.const.ADMIN_URL}>/assets/css/other.css">
-	<link rel="stylesheet" href="<{$smarty.const.ADMIN_URL}>/assets/css/jquery-ui.css" />
+  <link rel="stylesheet" href="<{$smarty.const.ADMIN_URL}>/assets/css/jquery-ui.css" />
+	<link rel="stylesheet" href="<{$smarty.const.ADMIN_URL}>/assets/css/bootstrap-datetimepicker.min.css" />
 	
     <script src="<{$smarty.const.ADMIN_URL}>/assets/lib/jquery-1.8.1.min.js" ></script>
 	<script src="<{$smarty.const.ADMIN_URL}>/assets/lib/jquery.cookie.js" ></script>
@@ -22,6 +23,8 @@
   <script src="<{$smarty.const.ADMIN_URL}>/assets/js/other.js"></script>
 	<script src="<{$smarty.const.ADMIN_URL}>/assets/js/Chart.min.js"></script>
 	<script src="<{$smarty.const.ADMIN_URL}>/assets/js/jquery-ui.js"></script>
+    <script src="<{$smarty.const.ADMIN_URL}>/assets/js/bootstrap-datetimepicker.js" ></script>
+    
     <!-- Demo page code -->
 
     <style type="text/css">

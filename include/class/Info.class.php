@@ -5,6 +5,11 @@ class Info extends Base{
 	{
 		$db=new Medoo(OSA_DB_ID);
 		$r = $db->select('province','*');
+		$tmp = array();
+		foreach ($r as $key => $value) {
+			$tmp[$value['id']] = $value;
+		}
+		$r = $tmp;
 		if($format) {
 			$html = '<select name="province" id="DropDownTimezone"><option value="0" id="DropDownTimezone-0">全部</option>';
 

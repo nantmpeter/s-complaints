@@ -121,9 +121,123 @@ class Complaint extends Base {
 			$condition["AND"][$key] = $value;
 		}
 		$condition['LIMIT']=array($start,$page_size);
-
 		return $db->select('co_complaints','*',$condition);
 	}
+
+	public static function customAnalayze($param,$start = 0,$page_size=20){
+
+		$db=self::__instance();
+		if($param['start_date']){
+			$start = $param['start_date'];
+			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-31');
+			unset($param['start_date'],$param['end_date']);	
+		}
+
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			$condition["AND"][$key] = $value;
+		}
+		$condition['GROUP'] = 'province_id';
+		$condition['LIMIT']=array($start,$page_size);
+		$r = $db->select('co_custom','*,count(*) as num',$condition);
+		if($r && isset($start)) {
+			$condition["AND"]['order_time[>]'] = strtotime($start.'-01')-3600*24*30;
+			$condition["AND"]['order_time[<]'] = strtotime($start.'-31')-3600*24*30;
+			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
+
+			$tmp = array();
+			foreach ($r2 as $key => $value) {
+				$tmp[$value['province_id']] = $value['num'];
+			}
+			foreach ($r as $key => $value) {
+				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:1;
+				$r[$key]['increase'] = $value['num'] - $t;
+				$r[$key]['increasePercent'] = ($value['num'] - $t)/$t * 100;
+			}
+		}
+
+		return $r;
+	}
+
+	public static function customAnalayzeCount($param)
+	{
+		$condition = array();
+		$db=self::__instance();
+		if($param['start_date']){
+			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-31');
+			unset($param['start_date'],$param['end_date']);	
+		}
+
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			$condition["AND"][$key] = $value;
+		}
+		$condition['GROUP'] = 'province_id';
+
+		return $db->count('co_custom',$condition);
+	}
+
+
+	public static function customAnalayzeMonth($param)
+	{
+		$condition = array();
+		$db=self::__instance();
+		if($param['start_date']){
+			$start = $param['start_date'];
+			$condition["AND"]['order_time[>]'] = strtotime(substr($param['start_date'], 0,4).'-01-01');
+			$condition["AND"]['order_time[<]'] = strtotime(substr($param['start_date'], 0,4).'-12-31');
+			unset($param['start_date'],$param['end_date']);	
+		}
+		$start = isset($start)?$start:date('Y');
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			$condition["AND"][$key] = $value;
+		}
+		$condition['GROUP'] = 'm';
+		$r = $db->select('co_custom','count(*) as num,FROM_UNIXTIME(order_time,"%Y-%m") AS m',$condition);
+		for ($i = 1;$i<=12;$i++){
+			$tmp[substr($start, 0,4).'-'.sprintf('%02s',$i)] = 0;
+		}
+		foreach ($r as $key => $value) {
+			$tmp[$value['m']] = $value['num'];
+		}
+		return implode(',', $tmp);
+	}
+
+	public static function customAnalayzeArea($param)
+	{
+		$condition = array();
+		$db=self::__instance();
+		if($param['start_date']){
+			$start = $param['start_date'];
+			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-31');
+			unset($param['start_date'],$param['end_date']);	
+		}
+		$start = isset($start)?$start:date('Y');
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			$condition["AND"][$key] = $value;
+		}
+		$condition['GROUP'] = 'province_id';
+		$r = $db->select('co_custom','count(*) as num,province_id',$condition);
+		$province = Info::getProvince();
+		foreach ($province as $key => $value) {
+			$tmpProvince[$value['id']] = 0;
+		}
+
+		foreach ($r as $key => $value) {
+			$tmpProvince[$value['province_id']] = $value['num'];
+		}
+		return implode(',', $tmpProvince);
+	}
+
 
 	public static function complaintsSearchCount($param)
 	{

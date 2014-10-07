@@ -20,8 +20,17 @@ foreach ($arr as $key => $value) {
 	$page_no=$page_no<1?1:$page_no;
 	$start = ($page_no - 1) * $page_size;
 
-	$data['result'] = Complaint::customSearch($param,$start,$page_size);
-	$row_count = Complaint::customSearchCount($param);
+	$data['result'] = Complaint::customAnalayze($param,$start,$page_size);
+	$row_count = Complaint::customAnalayzeCount($param);
+	$data['month'] = Complaint::customAnalayzeMonth($param);
+
+	$data['provinces'] = Complaint::customAnalayzeArea($param);
+	$province = Info::getProvince();
+	foreach ($province as $key => $value) {
+		$data['provinceMap'][$key] = $value['name'];
+	}
+	$data['provinceString'] = '"'.implode('","', $data['provinceMap']).'"';
+
 // }
 $data['province'] = Info::getProvince(false);
 $data['complaintType'] = Info::getComplaintType('complaint_type',false);

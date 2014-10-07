@@ -113,7 +113,7 @@ $(function() {
 
 	var ctx = document.getElementById("myChart").getContext("2d");
 	// var myNewChart = new Chart(ctx).PolarArea(data);
-	new Chart(ctx).Line(data);
+	new Chart(ctx).Bar(data);
 	var date=$( "#start_date" );
 	date.datepicker({ dateFormat: "yy-mm-dd" });
 	date.datepicker( "option", "firstDay", 1 );

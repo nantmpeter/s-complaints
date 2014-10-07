@@ -16,12 +16,8 @@
 			<!-- <{$data.province}> -->
 		</div>
 		<div style="float:left;margin-right:5px">
-			<label> 选择起始时间 </label>
-			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="起始时间" >
-		</div>
-		<div style="float:left;margin-right:5px">
-			<label>选择结束时间</label>	
-			<input type="text" id="end_date" name="end_date" value="<{$_GET.end_date}>" placeholder="结束时间" > 
+			<label> 时间段 </label>
+			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="时间段" >
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 具体业务名称</label>
@@ -66,14 +62,14 @@
                 <tr>
 					<th style="width:30px">#</th>
 					<th style="width:50px">省市</th>
-					<th style="width:55px">工单时间</th>
-					<th style="width:35px">投诉号码</th>
-					<th style="width:55px">具体业务名称</th>
-					<th style="width:30px">业务资费</th>
-					<!-- <th style="width:30px">sp公司名称</th>
-					<th style="width:30px">sp企业代码</th>
-					<th style="width:30px">sp接入代码</th> -->
-					<th style="width:30px">投诉内容</th>
+					<!-- <th style="width:55px">工单时间</th> -->
+					<!-- <th style="width:35px">投诉号码</th> -->
+					<!-- <th style="width:55px">具体业务名称</th> -->
+					<th style="width:30px">月不规范定制件数</th>
+					<th style="width:30px">环比增长量</th>
+					<th style="width:30px">环比增长率</th>
+					<!-- <th style="width:30px">sp接入代码</th> -->
+					<!-- <th style="width:30px">投诉内容</th> -->
 					<!-- <th style="width:30px">处理意见</th> -->
 					<th style="width:30px">投诉类型</th>
 				<!-- 	<th style="width:30px">投诉问题分类</th>
@@ -81,19 +77,19 @@
 					<th style="width:30px">业务线</th>
                 </tr>
               </thead>
-              <tbody>							  
+              <tbody>
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
 					<td><{$result.id}></td>
-					<td><{$result.name}></td>
-					<td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td>
-					<td><{$result.complaint_phone}></td>
-					<td><{$result.buss_name}></td>
-					<td><{$result.buss_rates}></td>
-					<!-- <td><{$result.sp_name}></td>
-					<td><{$result.sp_corp_code}></td>
-					<td><{$result.sp_code}></td> -->
-					<td><{$result.complaint_content}></td>
+					<td><{$data.provinceMap[$result.province_id]}></td>
+					<!-- <td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td> -->
+					<!-- <td><{$result.complaint_phone}></td> -->
+					<!-- <td><{$result.buss_name}></td> -->
+					<td><{$result.num}></td>
+					<td><{$result.increase}></td>
+					<td><{$result.increasePercent}>%</td>
+					<!-- <td><{$result.sp_code}></td> -->
+					<!-- <td><{$result.complaint_content}></td> -->
 					<!-- <td><{$result.suggestion}></td> -->
 					<td><{$result.complaint_type}></td>
 					<!-- <td><{$result.problem_type}></td>
@@ -110,17 +106,54 @@
 			   <!--- END -->
         </div>
     </div>
+    <div>
+    	<h3>全国不规范定制发展趋势图</h3>
+    	<canvas id="month" width="600" height="300"></canvas>
+    </div>
+    <div>
+    	<h3>月各省不规范定制的柱状图</h3>
+    	<canvas id="province" width="900" height="400"></canvas>
+    </div>
 <script>
 $(function() {
+
+	var monthData = {
+		labels : ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],
+		datasets : [
+			{
+				fillColor : "rgba(151,187,205,0.5)",
+				strokeColor : "rgba(151,187,205,1)",
+				pointColor : "rgba(151,187,205,1)",
+				pointStrokeColor : "#fff",
+				data : [<{$data.month}>]
+			}
+		]
+	}
+
+	var ctx = document.getElementById("month").getContext("2d");
+	new Chart(ctx).Bar(monthData);
+
+	var provinceData = {
+		labels : [<{$data.provinceString}>],
+		datasets : [
+			{
+				fillColor : "rgba(151,187,205,0.5)",
+				strokeColor : "rgba(151,187,205,1)",
+				pointColor : "rgba(151,187,205,1)",
+				pointStrokeColor : "#fff",
+				data : [<{$data.provinces}>]
+			}
+		]
+	}
+
+	var ctx = document.getElementById("province").getContext("2d");
+	new Chart(ctx).Bar(provinceData);
+
 	var date=$( "#start_date" );
-	date.datepicker({ dateFormat: "yy-mm-dd" });
-	date.datepicker( "option", "firstDay", 1 );
+	date.datetimepicker({format: 'yyyy-mm',startView: 3,minView: 3,viewSelect:'year'});
+	// date.datepicker( "option", "firstDay", 1 );
 });
-$(function() {
-	var date=$( "#end_date" );
-	date.datepicker({ dateFormat: "yy-mm-dd" });
-	date.datepicker( "option", "firstDay", 1 );
-});
+
 
 $(function(){
 	$('[name="complaint_type"]').change(function(msg){
