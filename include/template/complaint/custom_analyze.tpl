@@ -4,6 +4,12 @@
 <!-- TPLSTART 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
 
 <div style="border:0px;padding-bottom:5px;height:auto">
+<ul class="nav nav-tabs">
+  <li class="active">
+    <a href="/complaint/custom_analyze.php">全国不规范定制发展趋势及各省分布情况</a>
+  </li>
+  <li><a href="/complaint/custom_analyze2.php">全国不规范定制件数/各省业务收入</a></li>
+</ul>
 	<form action="" method="GET" style="margin-bottom:0px">
 		<div style="float:left;margin-right:5px">
 
@@ -59,6 +65,7 @@
 			<{$data.questionType.3}>	
 </div>
 </div>
+
 <div class="block">
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
         <div id="page-stats" class="block-body collapse in">
@@ -72,6 +79,10 @@
 					<th style="width:30px">月不规范定制件数</th>
 					<th style="width:30px">环比增长量</th>
 					<th style="width:30px">环比增长率</th>
+					<th style="width:30px">申诉成功</th>
+					<th style="width:30px">申诉失败</th>
+					<th style="width:30px">未申诉量</th>
+					<th style="width:30px">不规范定制/业务收入(百万)</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
 					<!-- <th style="width:30px">处理意见</th> -->
@@ -79,6 +90,7 @@
 				<!-- 	<th style="width:30px">投诉问题分类</th>
 					<th style="width:30px">投诉分级</th> -->
 					<th style="width:30px">业务线</th>
+					<th style="width:30px">认定有效量</th>
                 </tr>
               </thead>
               <tbody>
@@ -91,6 +103,11 @@
 					<td><{$result.num}></td>
 					<td><{$result.increase}></td>
 					<td><{$result.increasePercent}></td>
+					<td><{$result.appealSuc}></td>
+					<td><{$result.appealFail}></td>
+					<td><{$result.appealNot}></td>
+					<td><{$result.cos}></td>
+
 					<!-- <td><{$result.sp_code}></td> -->
 					<!-- <td><{$result.complaint_content}></td> -->
 					<!-- <td><{$result.suggestion}></td> -->
@@ -98,6 +115,7 @@
 					<!-- <td><{$result.problem_type}></td>
 					<td><{$result.complaint_level}></td> -->
 					<td><{$data.bussLine[$result.buss_type]}></td>
+					<td><{$result.valid}></td>
 					<!-- <td style = "word-break: break-all; word-wrap:break-word;"><{$result.result}></td> -->
 					<!-- <td><{$result.op_time}></td> -->
 					</tr>

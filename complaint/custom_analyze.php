@@ -21,6 +21,7 @@ foreach ($arr as $key => $value) {
 	$start = ($page_no - 1) * $page_size;
 
 	$data['result'] = Complaint::customAnalayze($param,$start,$page_size);
+
 	$row_count = Complaint::customAnalayzeCount($param);
 	$data['month'] = Complaint::customAnalayzeMonth($param);
 
