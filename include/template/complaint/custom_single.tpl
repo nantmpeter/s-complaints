@@ -122,10 +122,12 @@
 			   <!--- END -->
         </div>
     </div>
+    <{if $data.result}>
     <div>
     	<h3>单产品不规范定制TOP20</h3>
     	<canvas id="chart" width="700" height="400"></canvas>
     </div>
+    <{/if}>
 
 <script>
 $(function() {

@@ -21,10 +21,14 @@ foreach ($arr as $key => $value) {
 	$start = ($page_no - 1) * $page_size;
 
 	$data['result'] = Complaint::customSingle($param,$start,$page_size);
-	foreach ($data['result'] as $key => $value) {
-		$tmp['name'][] = $value['buss_name'];
-		$tmp['value'][] = $value['num'];
 
+	if($data['result']) {
+		foreach ($data['result'] as $key => $value) {
+			$tmp['name'][] = $value['buss_name'];
+			$tmp['value'][] = $value['num'];
+		}
+		$data['chartName'] = '"'.implode('","', $tmp['name']).'"';
+		$data['chartValue'] = implode(',', $tmp['value']);
 	}
 	// rsort($tmp['wan']);
 
@@ -40,8 +44,7 @@ foreach ($arr as $key => $value) {
 	$data['provinceString'] = '"'.implode('","', $data['provinceMap']).'"';
 
 // }
-$data['chartName'] = '"'.implode('","', $tmp['name']).'"';
-$data['chartValue'] = implode(',', $tmp['value']);
+
 
 
 $data['province'] = Info::getProvince(false);

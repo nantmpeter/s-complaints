@@ -21,12 +21,16 @@ foreach ($arr as $key => $value) {
 	$start = ($page_no - 1) * $page_size;
 
 	$data['result'] = Complaint::customSpAnalayze($param,$start,$page_size);
-	foreach ($data['result'] as $key => $value) {
-		$tmp['name'][] = $value['part_name'];
-		$tmp['value'][] = $value['num'];
-		$tmp['wan'][] = $value['wan'];
+	if($data['result']){
+		foreach ($data['result'] as $key => $value) {
+			$tmp['name'][] = $value['part_name'];
+			$tmp['value'][] = $value['num'];
+			$tmp['wan'][] = $value['wan'];
+		}
+		$data['chartName'] = '"'.implode('","', $tmp['name']).'"';
+		$data['chartValue'] = implode(',', $tmp['value']);
+		$data['chartWan'] = implode(',', $tmp['wan']);
 	}
-
 	$row_count = 20;
 
 	// $data['month'] = Complaint::customAnalayzeMonth($param);
@@ -39,9 +43,6 @@ foreach ($arr as $key => $value) {
 	$data['provinceString'] = '"'.implode('","', $data['provinceMap']).'"';
 
 // }
-$data['chartName'] = '"'.implode('","', $tmp['name']).'"';
-$data['chartValue'] = implode(',', $tmp['value']);
-$data['chartWan'] = implode(',', $tmp['wan']);
 
 $data['province'] = Info::getProvince(false);
 $data['complaintType'] = Info::getComplaintType('complaint_type',false);

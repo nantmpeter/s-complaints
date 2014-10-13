@@ -236,10 +236,10 @@ class Complaint extends Base {
 
 			$tmp = array();
 			foreach ($r2 as $key => $value) {
-				$tmp[$value['province_id']] = $value['num'];
+				$tmp[$value['part_name']] = $value['num'];
 			}
 			foreach ($r as $key => $value) {
-				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
+				$t = isset($tmp[$value['part_name']])?$tmp[$value['part_name']]:0;
 				$valid = $db->count('co_custom',array('complaint_status'=>'有效'));
 				$r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
 				$r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));
@@ -282,10 +282,11 @@ class Complaint extends Base {
 
 			$tmp = array();
 			foreach ($r2 as $key => $value) {
-				$tmp[$value['province_id']] = $value['num'];
+				$tmp[$value['buss_name']] = $value['num'];
 			}
 			foreach ($r as $key => $value) {
-				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
+				$t = isset($tmp[$value['buss_name']])?$tmp[$value['buss_name']]:0;
+
 				$valid = $db->count('co_custom',array('complaint_status'=>'有效'));
 				$r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
 				$r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));

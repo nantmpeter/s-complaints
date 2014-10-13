@@ -122,6 +122,7 @@
 			   <!--- END -->
         </div>
     </div>
+    <{if $data.result}>
     <div>
     	<h3>sp公司不规范定制TOP20</h3>
     	<canvas id="chart" width="700" height="400"></canvas>
@@ -130,6 +131,7 @@
     	<h3>sp公司不规范定制TOP20(万投比)</h3>
     	<canvas id="wanchart" width="700" height="400"></canvas>
     </div>
+    <{/if}>
 <script>
 $(function() {
 
