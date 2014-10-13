@@ -22,6 +22,9 @@
 						<li>客户投诉分析</li>
 						<ul>
 							<li><a href="/complaint/custom_analyze.php">全国投诉情况分析</a></li>
+							<li><a href="/complaint/custom_sp_analyze.php">sp公司投诉情况分析</a></li>
+							<li><a href="/complaint/custom_single.php">单产品不规范定制情况</a></li>
+
 						</ul>
 						</ul>
 					<li>工信部投诉分析</li>

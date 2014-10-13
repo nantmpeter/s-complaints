@@ -27,7 +27,7 @@ class Complaint extends Base {
 		if($table == 'custom') {
 			$param[25] = ExcelReader::xlsTime($param[25]);
 			$param[6] = ExcelReader::xlsTime($param[6]);
-			$param[29] = strtotime($param[29]);
+			$param[29] = strtotime($param[29].'01');
 			$param[7] = $bussLine[$param[7]];
 			$param[22] = Info::getProvinceByName($param[22]);
 			// var_dump(Info::getProvinceByName($param[22]));exit;
@@ -211,6 +211,98 @@ class Complaint extends Base {
 		return count($db->select('co_custom','*',$condition));
 	}
 
+	public static function customSpAnalayze($param,$start = 0,$page_size=20){
+
+		$db=self::__instance();
+		if($param['start_date']){
+			$start = $param['start_date'];
+			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-31:23:23');
+			unset($param['start_date'],$param['end_date']);	
+		}
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			$condition["AND"][$key] = $value;
+		}
+		$condition['GROUP'] = 'part_name';
+		$condition['ORDER'] = 'num desc';
+		$condition['limit'] = 20;
+		$r = $db->select('co_custom','*,count(*) as num',$condition);
+		if($r && isset($start)) {
+			$condition["AND"]['order_time[>]'] = strtotime($start.'-01')-3600*24*30;
+			$condition["AND"]['order_time[<]'] = strtotime($start.'-31:23:23')-3600*24*30;
+			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
+
+			$tmp = array();
+			foreach ($r2 as $key => $value) {
+				$tmp[$value['province_id']] = $value['num'];
+			}
+			foreach ($r as $key => $value) {
+				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
+				$valid = $db->count('co_custom',array('complaint_status'=>'有效'));
+				$r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
+				$r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));
+				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('appeal_status'=>'失败'));
+				$r[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('sp_name'=>$value['part_name']))['cos']/1000000;
+				if($r[$key]['cos'])
+					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
+				else
+					$r[$key]['wan'] = 0;
+				$r[$key]['valid'] = $valid;
+				$r[$key]['increase'] = $value['num'] - $t;
+				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
+			}
+		}
+		return $r;
+	}
+
+	public static function customSingle($param,$start = 0,$page_size=20){
+
+		$db=self::__instance();
+		if($param['start_date']){
+			$start = $param['start_date'];
+			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-31:23:23');
+			unset($param['start_date'],$param['end_date']);	
+		}
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			$condition["AND"][$key] = $value;
+		}
+		$condition['GROUP'] = 'buss_name';
+		$condition['ORDER'] = 'num desc';
+		$condition['limit'] = 20;
+		$r = $db->select('co_custom','*,count(*) as num',$condition);
+		if($r && isset($start)) {
+			$condition["AND"]['order_time[>]'] = strtotime($start.'-01')-3600*24*30;
+			$condition["AND"]['order_time[<]'] = strtotime($start.'-31:23:23')-3600*24*30;
+			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
+
+			$tmp = array();
+			foreach ($r2 as $key => $value) {
+				$tmp[$value['province_id']] = $value['num'];
+			}
+			foreach ($r as $key => $value) {
+				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
+				$valid = $db->count('co_custom',array('complaint_status'=>'有效'));
+				$r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
+				$r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));
+				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('appeal_status'=>'失败'));
+
+				$r[$key]['valid'] = $valid;
+				$r[$key]['increase'] = $value['num'] - $t;
+				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
+			}
+		}
+		return $r;
+	}
+
+	public static function customSpAnalayzeChart()
+	{
+
+	}
 
 	public static function customAnalayzeMonth($param)
 	{
