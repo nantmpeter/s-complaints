@@ -41,7 +41,7 @@ $data['complaintLevel'] = Info::getComplaintLevel('complaint_level',false);
 $data['bussLine'] = Info::getBussLine('buss_type',false);
 // var_dump($data['bussLine']);
 
-$page_html=Pagination::showPager("custom_search.php?class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date",$page_no,PAGE_SIZE,$row_count);
+$page_html=Pagination::showPager("custom_analyze2.php?class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date",$page_no,PAGE_SIZE,$row_count);
 
 Template::assign("error" ,$error);
 Template::assign("_POST" ,$_POST);
