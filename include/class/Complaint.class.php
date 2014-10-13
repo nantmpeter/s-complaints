@@ -208,7 +208,7 @@ class Complaint extends Base {
 		}
 		$condition['GROUP'] = 'province_id';
 
-		return $db->count('co_custom',$condition);
+		return count($db->select('co_custom','*',$condition));
 	}
 
 

@@ -23,6 +23,7 @@ foreach ($arr as $key => $value) {
 	$data['result'] = Complaint::customAnalayze($param,$start,$page_size);
 
 	$row_count = Complaint::customAnalayzeCount($param);
+
 	$data['month'] = Complaint::customAnalayzeMonth($param);
 
 	$data['provinces'] = Complaint::customAnalayzeArea($param);
