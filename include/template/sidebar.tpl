@@ -30,6 +30,12 @@
 					<li>工信部投诉分析</li>
 					<ul>
 						<li><a href="/complaint/complaints_search.php">工信部投诉查询</a></li>
+						<li>工信部投诉分析</li>
+						<ul>
+							<li><a href="/complaint/complaints_analyze.php">全国工信部投诉分析</a></li>
+							<li><a href="/complaint/complaints_sp_analyze.php">sp公司工信部投诉分析</a></li>
+							<li><a href="/complaint/complaints_single.php">单产品不规范定制情况</a></li>
+						</ul>
 					</ul>
 					<!-- <li></li> -->
 				</ul>

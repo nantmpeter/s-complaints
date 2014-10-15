@@ -89,6 +89,29 @@
 		</pre>
 		<{/if}>
 	</div>
+
+	<div id="page-stats" class="block-body collapse in">
+	
+	<form id="tab" method="post" action="" autocomplete="off" ENCTYPE="multipart/form-data">
+				<hr />
+				<h4>每月所有增值业务收入</h4>
+				<input type="file" name="excel"  id="DropDownTimezone"  class="input-xlarge">
+				<input type="hidden" name="table" value="value_income">
+				 
+				<span class="btn-toolbar">
+				<button type="submit" class="btn btn-primary"><strong>提交</strong></button>
+				<div class="btn-group"></div>
+				</span>
+		</form>
+		<{if $error.value_income }>
+		<pre>
+			<{foreach from=$error.value_income item=module}>
+				<{$module}><br>
+			<{/foreach}>
+		</pre>
+		<{/if}>
+	</div>
+
 </div>
 <!-- TPLEND 以下内容不需更改，请保证该TPL页内的标签匹配即可 -->
 <{include file="footer.tpl" }>
