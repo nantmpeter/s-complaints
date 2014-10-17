@@ -20,21 +20,36 @@ foreach ($arr as $key => $value) {
 	$page_no=$page_no<1?1:$page_no;
 	$start = ($page_no - 1) * $page_size;
 
-	$data['result'] = Complaint::complaintsAnalayze($param,$start,$page_size);
+	$data['result'] = Complaint::complaintsAnalayze2($param,$start,$page_size);
+// var_dump($data['result']);
+	foreach ($data['result'] as $key => $value) {
+		$tmp['typeName'][$key] = $value['product_type'];
 
+		if($value['cos'])
+			$tmp['value'][$key] = $value['num']/$value['cos'];
+		else
+			$tmp['value'][$key] = 0;
+	}
+	// var_dump($tmp);
 	$row_count = Complaint::customAnalayzeCount($param);
 
-	$data['month'] = Complaint::complaintsAnalayzeMonth($param);
+	// $data['month'] = Complaint::complaintsAnalayzeMonth($param);
+	// $r = Complaint::complaintsAnalayzeType($param);
+	// var_dump($r);
+	// $data['provinces'] = implode(',',Complaint::complaintsAnalayzeType($param)['province']);
+	// $data['complaints'] = Complaint::complaintsAnalayzeType($param)['complaints'];
 
-	$data['provinces'] = implode(',',Complaint::complaintsAnalayzeProvince($param)['province']);
-	$data['complaints'] = Complaint::complaintsAnalayzeProvince($param)['complaints'];
 	$province = Info::getProvince();
 	foreach ($province as $key => $value) {
 		$data['provinceMap'][$key] = $value['name'];
 	}
-	$data['provinceString'] = '"'.implode('","', $data['provinceMap']).'"';
+
+	$data['zhuString'] = '"'.implode('","', $tmp['typeName']).'"';
+	$data['zhuData'] = '"'.implode('","', $tmp['value']).'"';
+
 
 // }
+
 $data['province'] = Info::getProvince(false);
 $data['complaintType'] = Info::getComplaintType('complaint_type',false);
 $data['questionType'][1] = Info::getQuestionType(1,'question_type',true);
@@ -53,4 +68,4 @@ Template::assign("data" ,$data);
 Template::assign("param" ,$param);
 Template::assign ( 'page_html', $page_html );
 // Template::assign("output" ,$output);
-Template::display ('complaint/complaints_analyze.tpl');
+Template::display ('complaint/complaints_analyze2.tpl');

@@ -5,10 +5,10 @@
 
 <div style="border:0px;padding-bottom:5px;height:auto">
 <ul class="nav nav-tabs">
-  <li class="active">
+  <li>
     <a href="/complaint/complaints_analyze.php">综合分析</a>
   </li>
-  <li><a href="/complaint/complaints_analyze2.php">图标分析</a></li>
+  <li class="active"><a href="/complaint/complaints_analyze2.php">图标分析</a></li>
 </ul>
 	<form action="" method="GET" style="margin-bottom:0px">
 		<div style="float:left;margin-right:5px">
@@ -80,6 +80,7 @@
                <table class="table table-striped">
               <thead>
                 <tr>
+					<th style="width:50px">产品类别</th>
 					<th style="width:50px">省市</th>
 					<th style="width:50px">统计月份</th>
 					<!-- <th style="width:55px">工单时间</th> -->
@@ -104,6 +105,7 @@
               <tbody>
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
+					<td><{$result.product_type}></td>
 					<td><{$data.provinceMap[$result.corp_area]}></td>
 					<td><{$result.month|date_format:'%Y-%m'}></td>
 					<!-- <td><{$result.complaint_phone}></td> -->
@@ -135,8 +137,12 @@
         </div>
     </div>
     <div>
+    	<h3>全网业务申诉量变化趋势分析</h3>
+    	<canvas id="line" width="600" height="300"></canvas>
+    </div>
+    <div>
     	<h3>工信部投诉发展趋势图</h3>
-    	<canvas id="month" width="600" height="300"></canvas>
+    	<canvas id="zhuData" width="600" height="300"></canvas>
     </div>
     <div>
     	<h3>月各省工信部投诉分布</h3>
@@ -149,37 +155,61 @@
 <script>
 $(function() {
 
-	var monthData = {
+	var lineData = {
 		labels : ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],
+		datasets : [
+			// {
+			// 	fillColor : "rgba(255,255,255,0.5)",
+			// 	// fillColor : "rgba(220,220,220,0.5)",
+			// 	strokeColor : "rgba(220,220,220,1)",
+			// 	pointColor : "rgba(220,220,220,1)",
+			// 	pointStrokeColor : "#fff",
+			// 	data : [65,59,90,81,56,55,40]
+			// },
+			// {
+			// 	fillColor : "rgba(151,187,205,0.5)",
+			// 	strokeColor : "rgba(151,187,205,1)",
+			// 	pointColor : "rgba(151,187,205,1)",
+			// 	pointStrokeColor : "#fff",
+			// 	data : [28,48,40,19,96,27,100]
+			// }
+			<{$lineData}>
+		]
+	}
+	var ctx = document.getElementById("line").getContext("2d");
+	new Chart(ctx).Line(lineData);
+
+	var zhuData = {
+		labels : [<{$data.zhuSting}>],
 		datasets : [
 			{
 				fillColor : "rgba(151,187,205,0.5)",
 				strokeColor : "rgba(151,187,205,1)",
 				pointColor : "rgba(151,187,205,1)",
 				pointStrokeColor : "#fff",
-				data : [<{$data.month}>]
+				data : [<{$data.zhuData}>]
 			}
 		]
 	}
 
-	var ctx = document.getElementById("month").getContext("2d");
-	new Chart(ctx).Bar(monthData);
+	var ctx = document.getElementById("zhuData").getContext("2d");
+	new Chart(ctx).Bar(zhuData);
 
-	var provinceData = {
-		labels : [<{$data.provinceString}>],
+	var zhuData = {
+		labels : [<{$data.zhuString}>],
 		datasets : [
 			{
 				fillColor : "rgba(151,187,205,0.5)",
 				strokeColor : "rgba(151,187,205,1)",
 				pointColor : "rgba(151,187,205,1)",
 				pointStrokeColor : "#fff",
-				data : [<{$data.provinces}>]
+				data : [<{$data.zhuData}>]
 			}
 		]
 	}
 
 	var ctx = document.getElementById("province").getContext("2d");
-	new Chart(ctx).Bar(provinceData);
+	new Chart(ctx).Bar(zhuData);
 
 	var complaintsData = {
 		labels : [<{$data.provinceString}>],
