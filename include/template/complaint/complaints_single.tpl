@@ -67,14 +67,15 @@
                <table class="table table-striped">
               <thead>
                 <tr>
+					<th style="width:50px">产品名称</th>
 					<th style="width:50px">公司名称</th>
 					<!-- <th style="width:55px">工单时间</th> -->
 					<!-- <th style="width:35px">投诉号码</th> -->
 					<!-- <th style="width:55px">具体业务名称</th> -->
-					<th style="width:30px">月工信部投诉量</th>
+					<th style="width:30px">月不规范定制件数</th>
 					<th style="width:30px">环比增长量</th>
 					<th style="width:30px">环比增长率</th>
-					<!-- <th style="width:30px">申诉成功</th>
+				<!-- 	<th style="width:30px">申诉成功</th>
 					<th style="width:30px">申诉失败</th>
 					<th style="width:30px">未申诉量</th>
 					<th style="width:30px">不规范定制/业务收入(百万)</th> -->
@@ -91,6 +92,7 @@
               <tbody>
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
+					<td><{$result.buss_name}></td>
 					<td><{$result.sp_corp_name}></td>
 					<!-- <td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td> -->
 					<!-- <td><{$result.complaint_phone}></td> -->
@@ -98,19 +100,19 @@
 					<td><{$result.num}></td>
 					<td><{$result.increase}></td>
 					<td><{$result.increasePercent}></td>
-					<!-- <td><{$result.appealSuc}></td>
+				<!-- 	<td><{$result.appealSuc}></td>
 					<td><{$result.appealFail}></td>
 					<td><{$result.appealNot}></td>
-					<td><{$result.cos}></td>
- -->
+					<td><{$result.cos}></td> -->
+
 					<!-- <td><{$result.sp_code}></td> -->
 					<!-- <td><{$result.complaint_content}></td> -->
 					<!-- <td><{$result.suggestion}></td> -->
 					<!-- <td><{$result.complaint_type}></td> -->
 					<!-- <td><{$result.problem_type}></td>
 					<td><{$result.complaint_level}></td> -->
-					<!-- <td><{$data.bussLine[$result.buss_type]}></td> -->
-					<!-- <td><{$result.valid}></td> -->
+					<!-- <td><{$data.bussLine[$result.buss_type]}></td>
+					<td><{$result.valid}></td> -->
 					<!-- <td style = "word-break: break-all; word-wrap:break-word;"><{$result.result}></td> -->
 					<!-- <td><{$result.op_time}></td> -->
 					</tr>
@@ -124,11 +126,11 @@
     </div>
     <{if $data.result}>
     <div>
-    	<h3>sp公司工信部投诉TOP20</h3>
+    	<h3>单产品投诉情况TOP20</h3>
     	<canvas id="chart" width="700" height="400"></canvas>
     </div>
-
     <{/if}>
+
 <script>
 $(function() {
 
@@ -148,24 +150,9 @@ $(function() {
 	var ctx = document.getElementById("chart").getContext("2d");
 	new Chart(ctx).Bar(Data);
 
-	// var wanData = {
-	// 	labels : [<{$data.chartName}>],
-	// 	datasets : [
-	// 		{
-	// 			fillColor : "rgba(151,187,205,0.5)",
-	// 			strokeColor : "rgba(151,187,205,1)",
-	// 			pointColor : "rgba(151,187,205,1)",
-	// 			pointStrokeColor : "#fff",
-	// 			data : [<{$data.chartWan}>]
-	// 		}
-	// 	]
-	// }
 
-	// var ctx = document.getElementById("wanchart").getContext("2d");
-	// new Chart(ctx).Bar(wanData);
-
-	// var date=$( "#start_date" );
-	// date.datetimepicker({format: 'yyyy-mm',startView: 3,minView: 3,viewSelect:'year'});
+	var date=$( "#start_date" );
+	date.datetimepicker({format: 'yyyy-mm',startView: 3,minView: 3,viewSelect:'year'});
 	// date.datepicker( "option", "firstDay", 1 );
 });
 

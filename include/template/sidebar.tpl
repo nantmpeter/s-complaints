@@ -14,7 +14,13 @@
 					<li>基本信息分析</li>
 					<ul>
 						<li><a href="/complaint/search.php">客户投诉查询</a></li>
-						<!-- <li><a href=""></a></li> -->
+						<li>客户投诉分析</li>
+						<ul>
+							<li><a href="/complaint/analyze.php">全国投诉情况分析</a></li>
+							<li><a href="/complaint/sp_analyze.php">sp公司投诉情况分析</a></li>
+							<li><a href="/complaint/single.php">单产品投诉情况</a></li>
+
+						</ul>
 					</ul>
 					<li>不规范定制分析</li>
 						<ul>
@@ -34,7 +40,7 @@
 						<ul>
 							<li><a href="/complaint/complaints_analyze.php">全国工信部投诉分析</a></li>
 							<li><a href="/complaint/complaints_sp_analyze.php">sp公司工信部投诉分析</a></li>
-							<li><a href="/complaint/complaints_single.php">单产品不规范定制情况</a></li>
+							<li><a href="/complaint/complaints_single.php">单产品工信部投诉情况</a></li>
 						</ul>
 					</ul>
 					<!-- <li></li> -->

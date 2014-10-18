@@ -141,16 +141,12 @@
     	<canvas id="line" width="600" height="300"></canvas>
     </div>
     <div>
-    	<h3>工信部投诉发展趋势图</h3>
+    	<h3>全网业务申诉量/业务收入（千万元）</h3>
     	<canvas id="zhuData" width="600" height="300"></canvas>
     </div>
     <div>
-    	<h3>月各省工信部投诉分布</h3>
-    	<canvas id="province" width="900" height="400"></canvas>
-    </div>
-    <div>
-    	<h3>各省月申诉量与收入比</h3>
-    	<canvas id="complaints" width="900" height="400"></canvas>
+    	<h3></h3>
+    	<canvas id="pie" width="900" height="400"></canvas>
     </div>
 <script>
 $(function() {
@@ -180,7 +176,7 @@ $(function() {
 	new Chart(ctx).Line(lineData);
 
 	var zhuData = {
-		labels : [<{$data.zhuSting}>],
+		labels : [<{$data.zhuString}>],
 		datasets : [
 			{
 				fillColor : "rgba(151,187,205,0.5)",
@@ -195,37 +191,50 @@ $(function() {
 	var ctx = document.getElementById("zhuData").getContext("2d");
 	new Chart(ctx).Bar(zhuData);
 
-	var zhuData = {
-		labels : [<{$data.zhuString}>],
-		datasets : [
-			{
-				fillColor : "rgba(151,187,205,0.5)",
-				strokeColor : "rgba(151,187,205,1)",
-				pointColor : "rgba(151,187,205,1)",
-				pointStrokeColor : "#fff",
-				data : [<{$data.zhuData}>]
-			}
-		]
-	}
+	// var zhuData = {
+	// 	labels : [<{$data.zhuString}>],
+	// 	datasets : [
+	// 		{
+	// 			fillColor : "rgba(151,187,205,0.5)",
+	// 			strokeColor : "rgba(151,187,205,1)",
+	// 			pointColor : "rgba(151,187,205,1)",
+	// 			pointStrokeColor : "#fff",
+	// 			data : [<{$data.zhuData}>]
+	// 		}
+	// 	]
+	// }
 
-	var ctx = document.getElementById("province").getContext("2d");
-	new Chart(ctx).Bar(zhuData);
+	// var ctx = document.getElementById("province").getContext("2d");
+	// new Chart(ctx).Bar(zhuData);
 
-	var complaintsData = {
-		labels : [<{$data.provinceString}>],
-		datasets : [
-			{
-				fillColor : "rgba(151,187,205,0.5)",
-				strokeColor : "rgba(151,187,205,1)",
-				pointColor : "rgba(151,187,205,1)",
-				pointStrokeColor : "#fff",
-				data : [<{$data.complaints}>]
-			}
-		]
-	}
+	// var complaintsData = {
+	// 	labels : [<{$data.provinceString}>],
+	// 	datasets : [
+	// 		{
+	// 			fillColor : "rgba(151,187,205,0.5)",
+	// 			strokeColor : "rgba(151,187,205,1)",
+	// 			pointColor : "rgba(151,187,205,1)",
+	// 			pointStrokeColor : "#fff",
+	// 			data : [<{$data.complaints}>]
+	// 		}
+	// 	]
+	// }
 
-	var ctx = document.getElementById("complaints").getContext("2d");
-	new Chart(ctx).Bar(complaintsData);
+	// var ctx = document.getElementById("complaints").getContext("2d");
+	// new Chart(ctx).Bar(complaintsData);
+
+
+	// var pieData = {
+	// 	labels : [<{$data.zhuString}>],
+	// 	datasets : <{$data.pie}>
+	// }
+	var pieData = <{$data.pie}>;
+
+	var ctx = document.getElementById("pie").getContext("2d");
+	new Chart(ctx).Pie(pieData,{segmentStrokeColor:"#F38630"});
+
+
+
 
 	var date=$( "#start_date" );
 	date.datetimepicker({format: 'yyyy-mm',startView: 3,minView: 3,viewSelect:'year'});

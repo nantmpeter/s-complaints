@@ -4,7 +4,12 @@
 <!-- TPLSTART 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
 
 <div style="border:0px;padding-bottom:5px;height:auto">
-
+<ul class="nav nav-tabs">
+  <li>
+    <a href="/complaint/custom_analyze.php">全国不规范定制发展趋势及各省分布情况</a>
+  </li>
+  <li class="active"><a href="/complaint/custom_analyze2.php">全国不规范定制件数/各省业务收入</a></li>
+</ul>
 	<form action="" method="GET" style="margin-bottom:0px">
 		<div style="float:left;margin-right:5px">
 
@@ -67,50 +72,50 @@
                <table class="table table-striped">
               <thead>
                 <tr>
-					<th style="width:50px">公司名称</th>
+					<th style="width:50px">省市</th>
 					<!-- <th style="width:55px">工单时间</th> -->
 					<!-- <th style="width:35px">投诉号码</th> -->
 					<!-- <th style="width:55px">具体业务名称</th> -->
-					<th style="width:30px">月工信部投诉量</th>
+					<th style="width:30px">月不规范定制件数</th>
 					<th style="width:30px">环比增长量</th>
 					<th style="width:30px">环比增长率</th>
-					<!-- <th style="width:30px">申诉成功</th>
+					<th style="width:30px">申诉成功</th>
 					<th style="width:30px">申诉失败</th>
 					<th style="width:30px">未申诉量</th>
-					<th style="width:30px">不规范定制/业务收入(百万)</th> -->
+					<th style="width:30px">不规范定制/业务收入(百万)</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
 					<!-- <th style="width:30px">处理意见</th> -->
-					<!-- <th style="width:30px">投诉类型</th> -->
+					<th style="width:30px">投诉类型</th>
 				<!-- 	<th style="width:30px">投诉问题分类</th>
 					<th style="width:30px">投诉分级</th> -->
-					<!-- <th style="width:30px">业务线</th> -->
-					<!-- <th style="width:30px">认定有效量</th> -->
+					<th style="width:30px">业务线</th>
+					<th style="width:30px">认定有效量</th>
                 </tr>
               </thead>
               <tbody>
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
-					<td><{$result.sp_corp_name}></td>
+					<td><{$data.provinceMap[$result.province_id]}></td>
 					<!-- <td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td> -->
 					<!-- <td><{$result.complaint_phone}></td> -->
 					<!-- <td><{$result.buss_name}></td> -->
 					<td><{$result.num}></td>
 					<td><{$result.increase}></td>
 					<td><{$result.increasePercent}></td>
-					<!-- <td><{$result.appealSuc}></td>
+					<td><{$result.appealSuc}></td>
 					<td><{$result.appealFail}></td>
 					<td><{$result.appealNot}></td>
 					<td><{$result.cos}></td>
- -->
+
 					<!-- <td><{$result.sp_code}></td> -->
 					<!-- <td><{$result.complaint_content}></td> -->
 					<!-- <td><{$result.suggestion}></td> -->
-					<!-- <td><{$result.complaint_type}></td> -->
+					<td><{$result.complaint_type}></td>
 					<!-- <td><{$result.problem_type}></td>
 					<td><{$result.complaint_level}></td> -->
-					<!-- <td><{$data.bussLine[$result.buss_type]}></td> -->
-					<!-- <td><{$result.valid}></td> -->
+					<td><{$data.bussLine[$result.buss_type]}></td>
+					<td><{$result.valid}></td>
 					<!-- <td style = "word-break: break-all; word-wrap:break-word;"><{$result.result}></td> -->
 					<!-- <td><{$result.op_time}></td> -->
 					</tr>
@@ -118,54 +123,55 @@
               </tbody>
             </table>
 				<!--- START 分页模板 -->
-               <!-- <{$page_html}> -->
+               <{$page_html}>
 			   <!--- END -->
         </div>
     </div>
-    <{if $data.result}>
+<!--     <div>
+    	<h3>全国不规范定制发展趋势图</h3>
+    	<canvas id="month" width="600" height="300"></canvas>
+    </div> -->
     <div>
-    	<h3>sp公司工信部投诉TOP20</h3>
-    	<canvas id="chart" width="700" height="400"></canvas>
+    	<h3>月各省不规范定制的柱状图</h3>
+    	<canvas id="province" width="900" height="400"></canvas>
     </div>
-
-    <{/if}>
 <script>
 $(function() {
 
-	var Data = {
-		labels : [<{$data.chartName}>],
-		datasets : [
-			{
-				fillColor : "rgba(151,187,205,0.5)",
-				strokeColor : "rgba(151,187,205,1)",
-				pointColor : "rgba(151,187,205,1)",
-				pointStrokeColor : "#fff",
-				data : [<{$data.chartValue}>]
-			}
-		]
-	}
-
-	var ctx = document.getElementById("chart").getContext("2d");
-	new Chart(ctx).Bar(Data);
-
-	// var wanData = {
-	// 	labels : [<{$data.chartName}>],
+	// var monthData = {
+	// 	labels : ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],
 	// 	datasets : [
 	// 		{
 	// 			fillColor : "rgba(151,187,205,0.5)",
 	// 			strokeColor : "rgba(151,187,205,1)",
 	// 			pointColor : "rgba(151,187,205,1)",
 	// 			pointStrokeColor : "#fff",
-	// 			data : [<{$data.chartWan}>]
+	// 			data : [<{$data.month}>]
 	// 		}
 	// 	]
 	// }
 
-	// var ctx = document.getElementById("wanchart").getContext("2d");
-	// new Chart(ctx).Bar(wanData);
+	// var ctx = document.getElementById("month").getContext("2d");
+	// new Chart(ctx).Bar(monthData);
 
-	// var date=$( "#start_date" );
-	// date.datetimepicker({format: 'yyyy-mm',startView: 3,minView: 3,viewSelect:'year'});
+	var provinceData = {
+		labels : [<{$data.provinceString}>],
+		datasets : [
+			{
+				fillColor : "rgba(151,187,205,0.5)",
+				strokeColor : "rgba(151,187,205,1)",
+				pointColor : "rgba(151,187,205,1)",
+				pointStrokeColor : "#fff",
+				data : [<{$data.provinces}>]
+			}
+		]
+	}
+
+	var ctx = document.getElementById("province").getContext("2d");
+	new Chart(ctx).Bar(provinceData);
+
+	var date=$( "#start_date" );
+	date.datetimepicker({format: 'yyyy-mm',startView: 3,minView: 3,viewSelect:'year'});
 	// date.datepicker( "option", "firstDay", 1 );
 });
 
