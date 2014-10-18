@@ -20,18 +20,20 @@ foreach ($arr as $key => $value) {
 	$page_no=$page_no<1?1:$page_no;
 	$start = ($page_no - 1) * $page_size;
 
-	$data['result'] = Complaint::complaintsAnalayze2($param,$start,$page_size);
-// var_dump($data['result']);
+	$result = Complaint::complaintsAnalayze2($param,$start,$page_size);
+	$data['result'] = $result['list'];
 	foreach ($data['result'] as $key => $value) {
-		$tmp['typeName'][$key] = $value['product_type'];
 
+		$tmp['typeName'][$key] = $value['product_type'];
+		$data['pie'][$key]['value'] = $value['num']/$result['total'];
+		// $data['pie'][$key]['color'] = "#F38630";
 		if($value['cos'])
 			$tmp['value'][$key] = $value['num']/$value['cos'];
 		else
 			$tmp['value'][$key] = 0;
 	}
-	// var_dump($tmp);
-	$row_count = Complaint::customAnalayzeCount($param);
+
+	$row_count = Complaint::complaintsAnalayze2Count($param);
 
 	// $data['month'] = Complaint::complaintsAnalayzeMonth($param);
 	// $r = Complaint::complaintsAnalayzeType($param);
@@ -46,6 +48,8 @@ foreach ($arr as $key => $value) {
 
 	$data['zhuString'] = '"'.implode('","', $tmp['typeName']).'"';
 	$data['zhuData'] = '"'.implode('","', $tmp['value']).'"';
+	$data['pie'] = json_encode($data['pie']);
+
 
 
 // }

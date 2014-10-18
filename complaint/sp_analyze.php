@@ -20,12 +20,12 @@ foreach ($arr as $key => $value) {
 	$page_no=$page_no<1?1:$page_no;
 	$start = ($page_no - 1) * $page_size;
 
-	$data['result'] = Complaint::complaintsSpAnalayze($param,$start,$page_size);
-
+	$data['result'] = Complaint::baseSpAnalayze($param,$start,$page_size);
+	$total = 0;
 	if($data['result']){
 		foreach ($data['result'] as $key => $value) {
-			// var_dump($value);
-			$tmp['name'][] = trim($value['sp_corp_name']);
+			$total += $value['num'];
+			$tmp['name'][] = $value['sp_name'];
 			$tmp['value'][] = $value['num'];
 			$tmp['wan'][] = $value['wan'];
 		}
@@ -46,6 +46,7 @@ foreach ($arr as $key => $value) {
 
 // }
 
+$data['total'] = $total;
 $data['province'] = Info::getProvince(false);
 $data['complaintType'] = Info::getComplaintType('complaint_type',false);
 $data['questionType'][1] = Info::getQuestionType(1,'question_type',true);
@@ -64,4 +65,4 @@ Template::assign("data" ,$data);
 Template::assign("param" ,$param);
 Template::assign ( 'page_html', $page_html );
 // Template::assign("output" ,$output);
-Template::display ('complaint/complaints_sp_analyze.tpl');
+Template::display ('complaint/sp_analyze.tpl');

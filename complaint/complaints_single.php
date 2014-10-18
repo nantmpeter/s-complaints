@@ -20,19 +20,18 @@ foreach ($arr as $key => $value) {
 	$page_no=$page_no<1?1:$page_no;
 	$start = ($page_no - 1) * $page_size;
 
-	$data['result'] = Complaint::complaintsSpAnalayze($param,$start,$page_size);
+	$data['result'] = Complaint::complaintsSingle($param,$start,$page_size);
 
-	if($data['result']){
+	if($data['result']) {
 		foreach ($data['result'] as $key => $value) {
-			// var_dump($value);
-			$tmp['name'][] = trim($value['sp_corp_name']);
+			$tmp['name'][] = $value['buss_name'];
 			$tmp['value'][] = $value['num'];
-			$tmp['wan'][] = $value['wan'];
 		}
 		$data['chartName'] = '"'.implode('","', $tmp['name']).'"';
 		$data['chartValue'] = implode(',', $tmp['value']);
-		$data['chartWan'] = implode(',', $tmp['wan']);
 	}
+	// rsort($tmp['wan']);
+
 	$row_count = 20;
 
 	// $data['month'] = Complaint::customAnalayzeMonth($param);
@@ -46,6 +45,8 @@ foreach ($arr as $key => $value) {
 
 // }
 
+
+
 $data['province'] = Info::getProvince(false);
 $data['complaintType'] = Info::getComplaintType('complaint_type',false);
 $data['questionType'][1] = Info::getQuestionType(1,'question_type',true);
@@ -55,7 +56,7 @@ $data['complaintLevel'] = Info::getComplaintLevel('complaint_level',false);
 $data['bussLine'] = Info::getBussLine('buss_type',false);
 // var_dump($data['bussLine']);
 
-$page_html=Pagination::showPager("custom_sp_analyze.php?class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date",$page_no,PAGE_SIZE,$row_count);
+// $page_html=Pagination::showPager("custom_sp_analyze.php?class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date",$page_no,PAGE_SIZE,$row_count);
 
 Template::assign("error" ,$error);
 Template::assign("_POST" ,$_POST);
@@ -64,4 +65,4 @@ Template::assign("data" ,$data);
 Template::assign("param" ,$param);
 Template::assign ( 'page_html', $page_html );
 // Template::assign("output" ,$output);
-Template::display ('complaint/complaints_sp_analyze.tpl');
+Template::display ('complaint/complaints_single.tpl');

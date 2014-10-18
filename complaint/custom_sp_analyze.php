@@ -21,6 +21,7 @@ foreach ($arr as $key => $value) {
 	$start = ($page_no - 1) * $page_size;
 
 	$data['result'] = Complaint::customSpAnalayze($param,$start,$page_size);
+
 	if($data['result']){
 		foreach ($data['result'] as $key => $value) {
 			$tmp['name'][] = $value['part_name'];
