@@ -45,9 +45,10 @@ foreach ($arr as $key => $value) {
 	foreach ($province as $key => $value) {
 		$data['provinceMap'][$key] = $value['name'];
 	}
-
-	$data['zhuString'] = '"'.implode('","', $tmp['typeName']).'"';
-	$data['zhuData'] = '"'.implode('","', $tmp['value']).'"';
+	if(isset($tmp['typeName'])) {
+		$data['zhuString'] = '"'.implode('","', $tmp['typeName']).'"';
+		$data['zhuData'] = '"'.implode('","', $tmp['value']).'"';
+	}
 	$data['pie'] = json_encode($data['pie']);
 
 
