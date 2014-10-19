@@ -96,7 +96,7 @@ class Complaint extends Base {
 
 		if($param['month']) {
 			$condition["AND"]['month[>]'] = strtotime($param['month'].'-01');
-			$condition["AND"]['month[<]'] = strtotime($param['month'].'-31');
+			$condition["AND"]['month[<]'] = strtotime($param['month'].'-01 +1 month -1 day');
 			unset($param['month']);
 		}
 
@@ -122,7 +122,7 @@ class Complaint extends Base {
 
 		if($param['month']) {
 			$condition["AND"]['month[>]'] = strtotime($param['month'].'-01');
-			$condition["AND"]['month[<]'] = strtotime($param['month'].'-31');
+			$condition["AND"]['month[<]'] = strtotime($param['month'].'-01 +1 month -1 day');
 			unset($param['month']);
 		}
 
@@ -157,9 +157,9 @@ class Complaint extends Base {
 
 		$db=self::__instance();
 		if($param['start_date']){
-			$start = $param['start_date'];
+			$s = $param['start_date'];
 			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-31');
+			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 
@@ -172,9 +172,9 @@ class Complaint extends Base {
 		$condition['LIMIT']=array($start,$page_size);
 		$r = $db->select('co_custom','*,count(*) as num',$condition);
 
-		if($r && isset($start)) {
-			$condition["AND"]['order_time[>]'] = strtotime($start.'-01')-3600*24*30;
-			$condition["AND"]['order_time[<]'] = strtotime($start.'-31')-3600*24*30;
+		if($r && isset($s)) {
+			$condition["AND"]['order_time[>]'] = strtotime($s.'-01')-3600*24*30;
+			$condition["AND"]['order_time[<]'] = strtotime($s.'-01 +1 month -1 day')-3600*24*30;
 			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
 
 			$tmp = array();
@@ -205,9 +205,9 @@ class Complaint extends Base {
 
 		$db=self::__instance();
 		if($param['start_date']){
-			$start = $param['start_date'];
+			$s = $param['start_date'];
 			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-31');
+			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 
@@ -220,9 +220,9 @@ class Complaint extends Base {
 		$condition['LIMIT']=array($start,$page_size);
 		$r = $db->select('co_base','*,count(*) as num',$condition);
 // var_dump($r);
-		if($r && isset($start)) {
-			$condition["AND"]['order_time[>]'] = strtotime($start.'-01')-3600*24*30;
-			$condition["AND"]['order_time[<]'] = strtotime($start.'-31')-3600*24*30;
+		if($r && isset($s)) {
+			$condition["AND"]['order_time[>]'] = strtotime($s.'-01')-3600*24*30;
+			$condition["AND"]['order_time[<]'] = strtotime($s.'-01 +1 month -1 day')-3600*24*30;
 			$r2 = $db->select('co_base','*,count(*) as num',$condition);
 
 			$tmp = $lastMonth = array();
@@ -259,7 +259,7 @@ class Complaint extends Base {
 		$db=self::__instance();
 		if($param['start_date']){
 			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-31');
+			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 
@@ -279,7 +279,7 @@ class Complaint extends Base {
 		$db=self::__instance();
 		if($param['start_date']){
 			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-31');
+			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 
@@ -661,7 +661,7 @@ class Complaint extends Base {
 		if($param['start_date']){
 			$start = $param['start_date'];
 			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-31');
+			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 		$start = isset($start)?$start:date('Y');
@@ -701,7 +701,7 @@ class Complaint extends Base {
 		if($param['start_date']){
 			$start = $param['start_date'];
 			$condition["AND"]['month[>]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-31');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 		$start = isset($start)?$start:date('Y');
@@ -743,7 +743,7 @@ class Complaint extends Base {
 		if($param['start_date']){
 			$start = $param['start_date'];
 			$condition["AND"]['month[>]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-31');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 		$start = isset($start)?$start:date('Y');
@@ -802,7 +802,7 @@ class Complaint extends Base {
 		if($param['start_date']){
 			$start = $param['start_date'];
 			$condition["AND"]['month[>]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-31');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 
@@ -818,7 +818,7 @@ class Complaint extends Base {
 		$start = $start?$start:date('Y-m');
 		if($r && isset($start)) {
 			$condition["AND"]['month[>]'] = strtotime($start.'-01')-3600*24*30;
-			$condition["AND"]['month[<]'] = strtotime($start.'-31')-3600*24*30;
+			$condition["AND"]['month[<]'] = strtotime($start.'-01 +1 month -1 day')-3600*24*30;
 
 			$r2 = $db->select('co_complaints','*,count(*) as num',$condition);
 		// var_dump($start,$condition,$r2);
@@ -852,7 +852,7 @@ class Complaint extends Base {
 		if($param['start_date']){
 			$start = $param['start_date'];
 			$condition["AND"]['month[>]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-31');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 
@@ -868,7 +868,7 @@ class Complaint extends Base {
 		$start = $start?$start:date('Y-m');
 		if($r && isset($start)) {
 			$condition["AND"]['month[>]'] = strtotime($start.'-01')-3600*24*30;
-			$condition["AND"]['month[<]'] = strtotime($start.'-31')-3600*24*30;
+			$condition["AND"]['month[<]'] = strtotime($start.'-01 +1 month -1 day')-3600*24*30;
 
 			$r2 = $db->select('co_complaints','*,count(*) as num',$condition);
 		// var_dump($start,$condition,$r2);
@@ -904,7 +904,7 @@ class Complaint extends Base {
 		if($param['start_date']){
 			$start = $param['start_date'];
 			$condition["AND"]['month[>]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-31');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 
@@ -921,4 +921,40 @@ class Complaint extends Base {
 
 		return $r;
 	}
+
+	public static function getBlackList($param,$start = 0,$page_size = 20)
+	{
+		if($param['start_date']){
+			$condition["AND"]['month[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			unset($param['start_date'],$param['end_date']);	
+		}
+		$db=self::__instance();
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			$condition["AND"][$key] = $value;
+		}
+		$condition['LIMIT']=array($start,$page_size);
+
+		return $db->select('co_black_list','*',$condition);
+	}
+
+	public static function getBlackListCount($param)
+	{
+		if($param['start_date']){
+			$start = $param['start_date'];
+			$condition["AND"]['month[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			unset($param['start_date'],$param['end_date']);	
+		}
+		$db=self::__instance();
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			$condition["AND"][$key] = $value;
+		}
+		return $db->count('co_black_list',$condition);
+	}
+
 }

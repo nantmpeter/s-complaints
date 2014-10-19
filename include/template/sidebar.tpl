@@ -43,7 +43,7 @@
 							<li><a href="/complaint/complaints_single.php">单产品工信部投诉情况</a></li>
 						</ul>
 					</ul>
-					<!-- <li></li> -->
+					<li><a href="/complaint/black_list.php">黑名单</a></li>
 				</ul>
 				<{else}>
 			<a href="#sidebar_menu_<{$module.module_id}>" class="nav-header collapsed" data-toggle="collapse"><i class="<{$module.module_icon}>"></i><{$module.module_name}> <i class="icon-chevron-up"></i></a>
