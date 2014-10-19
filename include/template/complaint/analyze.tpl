@@ -22,7 +22,7 @@
 			<!-- <{$data.province}> -->
 		</div>
 		<div style="float:left;margin-right:5px">
-			<label> 时间段 </label>
+			<label> 统计时间 </label>
 			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="时间段" >
 		</div>
 		<div style="float:left;margin-right:5px">
@@ -68,6 +68,7 @@
 
 <div class="block">
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
+        <{if $data.result.0 neq ""}>
         <div id="page-stats" class="block-body collapse in">
                <table class="table table-striped">
               <thead>
@@ -76,11 +77,12 @@
 					<!-- <th style="width:55px">工单时间</th> -->
 					<!-- <th style="width:35px">投诉号码</th> -->
 					<!-- <th style="width:55px">具体业务名称</th> -->
-					<th >月不规范定制件数</th>
+					<th>统计月份</th>
+					<th >月投诉件数</th>
 					<th >环比增长量</th>
 					<th >环比增长率</th>
 
-					<th >不规范定制/业务收入(百万)</th>
+					<th >投诉量/业务收入(万)</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
 					<!-- <th style="width:30px">处理意见</th> -->
@@ -94,6 +96,7 @@
 					<!-- <td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td> -->
 					<!-- <td><{$result.complaint_phone}></td> -->
 					<!-- <td><{$result.buss_name}></td> -->
+					<td><{$result.month|date_format:'%Y-%m'}></td>
 					<td><{$result.num}></td>
 					<td><{$result.increase}></td>
 					<td><{$result.increasePercent}></td>
@@ -118,14 +121,21 @@
                <{$page_html}>
 			   <!--- END -->
         </div>
+                <{else}>
+        	<h4>当月无数据！</h4>
+        <{/if}>
     </div>
     <div>
-    	<h3>全国短彩信业务发展趋势图</h3>
+    	<h3>全年短彩信业务发展趋势图</h3>
     	<canvas id="month" width="600" height="300"></canvas>
     </div>
     <div>
     	<h3>全网联通短彩信业务重点省份投诉量</h3>
     	<canvas id="province" width="900" height="400"></canvas>
+    </div>
+        <div>
+    	<h3>最近两月投诉量与收入比</h3>
+    	<canvas id="baseTwoMonthWan" width="300" height="200"></canvas>
     </div>
 <script>
 $(function() {
@@ -166,6 +176,22 @@ $(function() {
 
 	var ctx = document.getElementById("province").getContext("2d");
 	new Chart(ctx).Bar(provinceData);
+
+		var baseTwoMonthWan = {
+		labels : [<{$data.baseTwoMonthWanString}>],
+		datasets : [
+			{
+				fillColor : "rgba(151,187,205,0.5)",
+				strokeColor : "rgba(151,187,205,1)",
+				pointColor : "rgba(151,187,205,1)",
+				pointStrokeColor : "#fff",
+				data : [<{$data.baseTwoMonthWanVal}>]
+			}
+		]
+	}
+
+	var ctx = document.getElementById("baseTwoMonthWan").getContext("2d");
+	new Chart(ctx).Bar(baseTwoMonthWan);
 
 	var date=$( "#start_date" );
 	date.datetimepicker({format: 'yyyy-mm',startView: 3,minView: 3,viewSelect:'year'});

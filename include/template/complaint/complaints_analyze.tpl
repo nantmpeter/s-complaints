@@ -165,15 +165,28 @@ $(function() {
 	var ctx = document.getElementById("month").getContext("2d");
 	new Chart(ctx).Bar(monthData);
 
+	// var provinceData = {
+	// 	labels : [<{$data.provinceString}>],
+	// 	datasets : [
+	// 		{
+	// 			fillColor : "rgba(151,187,205,0.5)",
+	// 			strokeColor : "rgba(151,187,205,1)",
+	// 			pointColor : "rgba(151,187,205,1)",
+	// 			pointStrokeColor : "#fff",
+	// 			data : [<{$data.provinces}>]
+	// 		}
+	// 	]
+	// }
+
 	var provinceData = {
-		labels : [<{$data.provinceString}>],
+		labels : ['test','test2','test3'],
 		datasets : [
 			{
 				fillColor : "rgba(151,187,205,0.5)",
 				strokeColor : "rgba(151,187,205,1)",
 				pointColor : "rgba(151,187,205,1)",
 				pointStrokeColor : "#fff",
-				data : [<{$data.provinces}>]
+				data : [10,-10,-2]
 			}
 		]
 	}

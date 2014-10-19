@@ -17,6 +17,7 @@ class Complaint extends Base {
 		$columns['complaints'] = "complaints_id,case_id,user_name,phone,dispute_phone,address,about_corp,corp_area,type_one,type_two,type_three,buss_one,buss_two,buss_three,buss_four,complaint_source,comfirm_user,complaint_time,get_time,handle_time,complaint_content,complaint10010,10010status,complaint10015,10015status,complaint_status,problem,problem_type,contact_element,element,buss_type,product_type,problem_channel,service_need,buss_way,netproblem,phoneproblem,vipuser,partment,buss_class,complaint_num,sp_corp_name,sp_corp_code,sp_code,buss_name,complaint_class,buss_line,month";
 		$columns['income'] = "province_id,sp_name,sp_code,buss_type,province_income,sp_income,owe,tuipei_cost,imbalance_cost,20_cost,diaozhang_cost,violate_cost,custom_cost,month,mastsp_code,mastsp_cost,mastsp_sleave";
 		$columns['value_income'] = "month,buss_type,value,custom_cost";
+		$columns['black_list'] = "complaint_phone,province_id,sp_corp_code,month,sp_corp_name,complaint_phone_tag,level,time_limit";
 		// unset($param[0]);
 
 		// var_dump(count(explode(',', $columns[$table])),count($param));exit;
@@ -24,11 +25,21 @@ class Complaint extends Base {
 				'联通在信' => 1,
 				'彩信' => 2,
 			);
+		$db=self::__instance();
 
 		if($table == 'base') {
 			$param[0] = Info::getProvinceByName($param[0]);
 			// $param[6] = ExcelReader::xlsTime($param[6]);
 			$param[25] = strtotime($param[25].'01');
+			$tmp = array($param[3],$param[0],$param[6],$param[25],$param[5],'',1,'一年');
+			$num = $db->count('co_base',array('complaint_phone'=>$param[3]));
+			if($num > 0) {
+				$db->delete('co_black_list',array('complaint_phone'=>$param[3]));
+				$tmp = array($param[3],$param[0],$param[6],$param[25],$param[5],'',2,'五年');
+			}
+			$sql = 'insert into co_black_list ('.$columns['black_list'].') values ("'.implode('","', $tmp).'")';
+			if($param[3])
+				$db->query($sql);
 		}
 		if($table == 'custom') {
 			$param[25] = ExcelReader::xlsTime($param[25]);
@@ -36,6 +47,15 @@ class Complaint extends Base {
 			$param[29] = strtotime($param[29].'01');
 			$param[7] = $bussLine[$param[7]];
 			$param[22] = Info::getProvinceByName($param[22]);
+			$tmp = array($param[16],$param[22],$param[6],$param[29],$param[2],'',1,'一年');
+			$num = $db->count('co_custom',array('complaint_phone'=>$param[16]));
+			if($num > 0) {
+				$db->delete('co_black_list',array('complaint_phone'=>$param[16]));
+				$tmp = array($param[16],$param[22],$param[6],$param[29],$param[2],'',2,'五年');
+			}
+			$sql = 'insert into co_black_list ('.$columns['black_list'].') values ("'.implode('","', $tmp).'")';
+			if($param[16])
+				$db->query($sql);
 			// var_dump(Info::getProvinceByName($param[22]));exit;
 		}
 		if($table == 'complaints'){
@@ -44,6 +64,10 @@ class Complaint extends Base {
 			$param[19] = ExcelReader::xlsTime($param[19]);
 			$param[7] = Info::getProvinceByName($param[7]);
 			$param[47] = strtotime($param[47].'01');
+			$tmp = array($param[4],$param[7],$param[42],$param[47],$param[41],'',3,'永久屏蔽');
+			$sql = 'insert into co_black_list ('.$columns['black_list'].') values ("'.implode('","', $tmp).'")';
+
+			$db->query($sql);
 		}
 		if($table == 'income'){
 			$param[0] = Info::getProvinceByName($param[0]);
@@ -55,14 +79,18 @@ class Complaint extends Base {
 		// var_dump($param);exit;
 		$sql = "insert into co_". $table ." (".$columns[$table].") values ('".implode("','", $param)."')";
 		// echo $sql.'<br>';exit;
-		$db=self::__instance();
 		return $db->query ($sql);
 	}
 
 	public static function search($param,$start = 0,$page_size=20){
 		$db=self::__instance();
-		$condition["AND"]['order_time[>]'] = strtotime($param['start_date']);
-		$condition["AND"]['order_time[<]'] = strtotime($param['end_date']);
+		if($param['start_date']) {
+			$s = $param['start_date'];
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+		}
+		// $condition["AND"]['month[>=]'] = strtotime($param['start_date']);
+		// $condition["AND"]['month[<]'] = strtotime($param['end_date']);
 		unset($param['start_date'],$param['end_date']);
 		foreach ($param as $key => $value) {
 			$condition["AND"][$key] = $value;
@@ -76,8 +104,8 @@ class Complaint extends Base {
 	{
 		$condition = array();
 		$db=self::__instance();
-		$condition["AND"]['order_time[>]'] = strtotime($param['start_date']);
-		$condition["AND"]['order_time[<]'] = strtotime($param['end_date']);
+		$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+		$condition["AND"]['month[<]'] = strtotime($param['end_date'].'-01 +1 month -1 day');
 		unset($param['start_date'],$param['end_date']);
 		foreach ($param as $key => $value) {
 			$condition["AND"][$key] = $value;
@@ -89,13 +117,13 @@ class Complaint extends Base {
 
 		$db=self::__instance();
 		if($param['start_date'] && $param['end_date']){
-			$condition["AND"]['order_time[>]'] = strtotime($param['start_date']);
+			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date']);
 			$condition["AND"]['order_time[<]'] = strtotime($param['end_date']);
 			unset($param['start_date'],$param['end_date']);	
 		}
 
 		if($param['month']) {
-			$condition["AND"]['month[>]'] = strtotime($param['month'].'-01');
+			$condition["AND"]['month[>=]'] = strtotime($param['month'].'-01');
 			$condition["AND"]['month[<]'] = strtotime($param['month'].'-01 +1 month -1 day');
 			unset($param['month']);
 		}
@@ -115,13 +143,13 @@ class Complaint extends Base {
 		$condition = array();
 		$db=self::__instance();
 		if($param['start_date'] && $param['end_date']){
-			$condition["AND"]['order_time[>]'] = strtotime($param['start_date']);
+			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date']);
 			$condition["AND"]['order_time[<]'] = strtotime($param['end_date']);
 			unset($param['start_date'],$param['end_date']);	
 		}
 
 		if($param['month']) {
-			$condition["AND"]['month[>]'] = strtotime($param['month'].'-01');
+			$condition["AND"]['month[>=]'] = strtotime($param['month'].'-01');
 			$condition["AND"]['month[<]'] = strtotime($param['month'].'-01 +1 month -1 day');
 			unset($param['month']);
 		}
@@ -139,7 +167,7 @@ class Complaint extends Base {
 
 		$db=self::__instance();
 		if($param['start_date'] && $param['end_date']){
-			$condition["AND"]['complaint_time[>]'] = strtotime($param['start_date']);
+			$condition["AND"]['complaint_time[>=]'] = strtotime($param['start_date']);
 			$condition["AND"]['complaint_time[<]'] = strtotime($param['end_date']);
 			unset($param['start_date'],$param['end_date']);	
 		}
@@ -158,7 +186,7 @@ class Complaint extends Base {
 		$db=self::__instance();
 		if($param['start_date']){
 			$s = $param['start_date'];
-			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
@@ -173,7 +201,7 @@ class Complaint extends Base {
 		$r = $db->select('co_custom','*,count(*) as num',$condition);
 
 		if($r && isset($s)) {
-			$condition["AND"]['order_time[>]'] = strtotime($s.'-01')-3600*24*30;
+			$condition["AND"]['order_time[>=]'] = strtotime($s.'-01')-3600*24*30;
 			$condition["AND"]['order_time[<]'] = strtotime($s.'-01 +1 month -1 day')-3600*24*30;
 			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
 
@@ -206,8 +234,8 @@ class Complaint extends Base {
 		$db=self::__instance();
 		if($param['start_date']){
 			$s = $param['start_date'];
-			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 
@@ -219,16 +247,16 @@ class Complaint extends Base {
 		$condition['GROUP'] = 'province_id';
 		$condition['LIMIT']=array($start,$page_size);
 		$r = $db->select('co_base','*,count(*) as num',$condition);
-// var_dump($r);
+
 		if($r && isset($s)) {
-			$condition["AND"]['order_time[>]'] = strtotime($s.'-01')-3600*24*30;
-			$condition["AND"]['order_time[<]'] = strtotime($s.'-01 +1 month -1 day')-3600*24*30;
+			$condition["AND"]['month[>=]'] = strtotime($s.'-01')-3600*24*30;
+			$condition["AND"]['month[<]'] = strtotime($s.'-01 +1 month -1 day')-3600*24*30;
 			$r2 = $db->select('co_base','*,count(*) as num',$condition);
 
 			$tmp = $lastMonth = array();
 			foreach ($r2 as $key => $value) {
 				$tmp[$value['province_id']] = $lastMonth[$value['province_id']] = $value['num'];
-				$r2[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/1000000;
+				$r2[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/10000;
 				if($r[$key]['cos'])
 					$r2[$key]['wan'] = $value['num']/$r2[$key]['cos'];
 				else
@@ -239,7 +267,7 @@ class Complaint extends Base {
 			foreach ($r as $key => $value) {
 				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
 
-				$r[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/1000000;
+				$r[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/10000;
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
@@ -249,6 +277,7 @@ class Complaint extends Base {
 				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
 			}
 		}
+		$r2 = $r2?$r2:array();
 		// var_dump($r);
 		return array('now' => $r,'last'=>$r2);
 	}
@@ -258,7 +287,7 @@ class Complaint extends Base {
 		$condition = array();
 		$db=self::__instance();
 		if($param['start_date']){
-			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
@@ -278,7 +307,7 @@ class Complaint extends Base {
 		$condition = array();
 		$db=self::__instance();
 		if($param['start_date']){
-			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
@@ -298,7 +327,7 @@ class Complaint extends Base {
 		$db=self::__instance();
 		if($param['start_date']){
 			$start = $param['start_date'];
-			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
@@ -313,7 +342,7 @@ class Complaint extends Base {
 		$r = $db->select('co_custom','*,count(*) as num',$condition);
 
 		if($r && $start) {
-			$condition["AND"]['order_time[>]'] = strtotime($start.'-01')-3600*24*30;
+			$condition["AND"]['order_time[>=]'] = strtotime($start.'-01')-3600*24*30;
 			$condition["AND"]['order_time[<]'] = strtotime($start.'-01 +1 month -1 day')-3600*24*30;
 			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
 
@@ -410,7 +439,7 @@ class Complaint extends Base {
 		$r = $db->select('co_complaints','*,count(*) as num',$condition);
 
 		if($r && $start) {
-			$condition["AND"]['month[>]'] = strtotime($start.'-01')-3600*24*30;
+			$condition["AND"]['month[>=]'] = strtotime($start.'-01')-3600*24*30;
 			$condition["AND"]['month[<]'] = strtotime($start.'-01 +1 month -1 day')-3600*24*30;
 			$r2 = $db->select('co_complaints','*,count(*) as num',$condition);
 
@@ -442,7 +471,7 @@ class Complaint extends Base {
 		$db=self::__instance();
 		if($param['start_date']){
 			$start = $param['start_date'];
-			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
@@ -456,7 +485,7 @@ class Complaint extends Base {
 		$condition['LIMIT'] = 20;
 		$r = $db->select('co_custom','*,count(*) as num',$condition);
 		if($r && isset($start)) {
-			$condition["AND"]['order_time[>]'] = strtotime($start.'-01')-3600*24*30;
+			$condition["AND"]['order_time[>=]'] = strtotime($start.'-01')-3600*24*30;
 			$condition["AND"]['order_time[<]'] = strtotime($start.'-01 +1 month -1 day')-3600*24*30;
 			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
 
@@ -485,7 +514,7 @@ class Complaint extends Base {
 		$db=self::__instance();
 		if($param['start_date']){
 			$start = $param['start_date'];
-			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
@@ -499,7 +528,7 @@ class Complaint extends Base {
 		$condition['LIMIT'] = 20;
 		$r = $db->select('co_base','*,count(*) as num',$condition);
 		if($r && isset($start)) {
-			$condition["AND"]['order_time[>]'] = strtotime($start.'-01')-3600*24*30;
+			$condition["AND"]['order_time[>=]'] = strtotime($start.'-01')-3600*24*30;
 			$condition["AND"]['order_time[<]'] = strtotime($start.'-01 +1 month -1 day')-3600*24*30;
 			$r2 = $db->select('co_base','*,count(*) as num',$condition);
 
@@ -522,7 +551,7 @@ class Complaint extends Base {
 		$db=self::__instance();
 		if($param['start_date']){
 			$start = $param['start_date'];
-			$condition["AND"]['month[>]'] = strtotime($param['month'].'-01');
+			$condition["AND"]['month[>=]'] = strtotime($param['month'].'-01');
 			$condition["AND"]['month[<]'] = strtotime($param['month'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
@@ -537,7 +566,7 @@ class Complaint extends Base {
 		$r = $db->select('co_complaints','*,count(*) as num',$condition);
 
 		if($r && isset($start)) {
-			$condition["AND"]['month[>]'] = strtotime($start.'-01')-3600*24*30;
+			$condition["AND"]['month[>=]'] = strtotime($start.'-01')-3600*24*30;
 			$condition["AND"]['month[<]'] = strtotime($start.'-01 +1 month -1 day')-3600*24*30;
 			$r2 = $db->select('co_complaints','*,count(*) as num',$condition);
 
@@ -569,7 +598,7 @@ class Complaint extends Base {
 		unset($param['province_id']);
 		if($param['start_date']){
 			$start = $param['start_date'];
-			$condition["AND"]['order_time[>]'] = strtotime(substr($param['start_date'], 0,4).'-01-01');
+			$condition["AND"]['order_time[>=]'] = strtotime(substr($param['start_date'], 0,4).'-01-01');
 			$condition["AND"]['order_time[<]'] = strtotime(substr($param['start_date'], 0,4).'-12-31');
 			unset($param['start_date'],$param['end_date']);	
 		}
@@ -599,12 +628,12 @@ class Complaint extends Base {
 		$db=self::__instance();
 		unset($param['province_id']);
 		if($param['start_date']){
-			$start = $param['start_date'];
-			$condition["AND"]['order_time[>]'] = strtotime(substr($param['start_date'], 0,4).'-01-01');
-			$condition["AND"]['order_time[<]'] = strtotime(substr($param['start_date'], 0,4).'-12-31');
+			$s = $param['start_date'];
+			$condition["AND"]['month[>=]'] = strtotime(substr($param['start_date'], 0,4).'-01-01');
+			$condition["AND"]['month[<]'] = strtotime(substr($param['start_date'], 0,4).'-12-31');
 			unset($param['start_date'],$param['end_date']);	
 		}
-		$start = isset($start)?$start:date('Y');
+		$s = isset($s)?$s:date('Y');
 		if(empty($param))
 			$param = array();
 		foreach ($param as $key => $value) {
@@ -612,28 +641,102 @@ class Complaint extends Base {
 		}
 		$condition['GROUP'] = 'm';
 		$r = $db->select('co_base','count(*) as num,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
+		if($r && $s) {
+			$condition["AND"]['month[>=]'] = strtotime($s.'-01')-3600*24*30;
+			$condition["AND"]['month[<]'] = strtotime($s.'-01 +1 month -1 day')-3600*24*30;
+			$r2 = $db->select('co_base','*,count(*) as num',$condition);
+			$r2 = $r2?$r2:array();
+			$tmp = $lastMonth = array();
+			foreach ($r2 as $key => $value) {
+				$tmp[$value['province_id']] = $lastMonth[$value['province_id']] = $value['num'];
+				$r2[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/10000;
+				if($r[$key]['cos'])
+					$r2[$key]['wan'] = $value['num']/$r2[$key]['cos'];
+				else
+					$r2[$key]['wan'] = 0;
+			}
+
+		}
+
 		// var_dump($r);
 		for ($i = 1;$i<=12;$i++){
-			$tmp[substr($start, 0,4).'-'.sprintf('%02s',$i)] = 0;
+			$tmp[substr($s, 0,4).'-'.sprintf('%02s',$i)] = 0;
 		}
 
 		foreach ($r as $key => $value) {
-			if($value['m'] < substr($start, 0,4).'-01-01')
+			if($value['m'] < substr($s, 0,4).'-01-01')
 				continue;
 			$tmp[$value['m']] = $value['num'];
 		}
 		return implode(',', $tmp);
 	}
 
+	public static function baseTwoMonthWan($param)
+	{
+		$db=self::__instance();
+
+		if(empty($param))
+			$param = array();
+		if($param['start_date']){
+			$start = $param['start_date'];
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+		}
+		$start = isset($start)?$start:date('Y-m');
+		unset($param['province_id'],$param['start_date']);
+		foreach ($param as $key => $value) {
+			$condition["AND"][$key] = $value;
+		}
+		$condition['GROUP'] = 'm';
+		// $r = $db->select('co_base','count(*) as num,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
+
+		$r = $db->get(
+			'co_income',
+			'sum(custom_cost) as cos',
+			array(
+					'AND'=>array(
+						'month[<]'=>strtotime($start.'-01 +1 month -1 day'),
+						'month[>=]'=>strtotime($start.'-01'),
+						)
+					)
+				)['cos']/10000;
+
+		$lastMonth = array();
+
+		$lastMonth = $db->get(
+			'co_income',
+			'sum(custom_cost) as cos',
+			array(
+				'AND'=>array(
+				'month[>=]'=>strtotime($start.'-01 -1 month'),
+				'month[<]'=>strtotime($start.'-01 -1 day')
+				)
+				)
+			)['cos']/10000;
+		// for ($i = 1;$i<=12;$i++){
+		// 	$tmp[substr($start, 0,4).'-'.sprintf('%02s',$i)] = 0;
+		// }
+
+		// foreach ($r as $key => $value) {
+		// 	if($value['m'] < substr($start, 0,4).'-01-01')
+		// 		continue;
+		// 	$tmp[$value['m']] = $value['num'];
+		// }
+		return array($start=>$r,date('Y-m',strtotime($start.'-01 -1 month'))=>$lastMonth);
+
+		// retrun array($start=>$r,date(strtotime($start.'-01 -1 month'),'Y-m')=>$lastMonth);
+		// return implode(',', $tmp);
+	}
+
 	public static function complaintsAnalayzeMonth($param)
 	{
 		$condition = array();
 		$db=self::__instance();
-		unset($param['province_id']);
 
 		$start = isset($start)?$start:date('Y');
 		if(empty($param))
 			$param = array();
+		unset($param['province_id'],$param['start_date']);
 		foreach ($param as $key => $value) {
 			$condition["AND"][$key] = $value;
 		}
@@ -660,7 +763,7 @@ class Complaint extends Base {
 		$db=self::__instance();
 		if($param['start_date']){
 			$start = $param['start_date'];
-			$condition["AND"]['order_time[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
@@ -700,7 +803,7 @@ class Complaint extends Base {
 		$db=self::__instance();
 		if($param['start_date']){
 			$start = $param['start_date'];
-			$condition["AND"]['month[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
@@ -742,7 +845,7 @@ class Complaint extends Base {
 		$db=self::__instance();
 		if($param['start_date']){
 			$start = $param['start_date'];
-			$condition["AND"]['month[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
@@ -782,7 +885,7 @@ class Complaint extends Base {
 		$condition = array();
 		$db=self::__instance();
 		if($param['start_date'] && $param['end_date']){
-			$condition["AND"]['complaint_time[>]'] = strtotime($param['start_date']);
+			$condition["AND"]['complaint_time[>=]'] = strtotime($param['start_date']);
 			$condition["AND"]['complaint_time[<]'] = strtotime($param['end_date']);
 			unset($param['start_date'],$param['end_date']);	
 		}
@@ -801,7 +904,7 @@ class Complaint extends Base {
 		$db=self::__instance();
 		if($param['start_date']){
 			$start = $param['start_date'];
-			$condition["AND"]['month[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
@@ -817,7 +920,7 @@ class Complaint extends Base {
 		$r = $db->select('co_complaints','*,count(*) as num',$condition);
 		$start = $start?$start:date('Y-m');
 		if($r && isset($start)) {
-			$condition["AND"]['month[>]'] = strtotime($start.'-01')-3600*24*30;
+			$condition["AND"]['month[>=]'] = strtotime($start.'-01')-3600*24*30;
 			$condition["AND"]['month[<]'] = strtotime($start.'-01 +1 month -1 day')-3600*24*30;
 
 			$r2 = $db->select('co_complaints','*,count(*) as num',$condition);
@@ -851,7 +954,7 @@ class Complaint extends Base {
 		$db=self::__instance();
 		if($param['start_date']){
 			$start = $param['start_date'];
-			$condition["AND"]['month[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
@@ -867,7 +970,7 @@ class Complaint extends Base {
 		$r = $db->select('co_complaints','*,count(*) as num',$condition);
 		$start = $start?$start:date('Y-m');
 		if($r && isset($start)) {
-			$condition["AND"]['month[>]'] = strtotime($start.'-01')-3600*24*30;
+			$condition["AND"]['month[>=]'] = strtotime($start.'-01')-3600*24*30;
 			$condition["AND"]['month[<]'] = strtotime($start.'-01 +1 month -1 day')-3600*24*30;
 
 			$r2 = $db->select('co_complaints','*,count(*) as num',$condition);
@@ -903,7 +1006,7 @@ class Complaint extends Base {
 		$db=self::__instance();
 		if($param['start_date']){
 			$start = $param['start_date'];
-			$condition["AND"]['month[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
@@ -925,7 +1028,7 @@ class Complaint extends Base {
 	public static function getBlackList($param,$start = 0,$page_size = 20)
 	{
 		if($param['start_date']){
-			$condition["AND"]['month[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
@@ -944,7 +1047,7 @@ class Complaint extends Base {
 	{
 		if($param['start_date']){
 			$start = $param['start_date'];
-			$condition["AND"]['month[>]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}

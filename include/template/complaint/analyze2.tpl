@@ -6,9 +6,9 @@
 <div style="border:0px;padding-bottom:5px;height:auto">
 <ul class="nav nav-tabs">
   <li>
-    <a href="/complaint/custom_analyze.php">全国不规范定制发展趋势及各省分布情况</a>
+    <a href="/complaint/analyze.php">全国发展趋势及各省分布情况</a>
   </li>
-  <li class="active"><a href="/complaint/custom_analyze2.php">全国不规范定制件数/各省业务收入</a></li>
+  <li class="active"><a href="/complaint/analyze2.php">全国各省投诉量/各省业务收入</a></li>
 </ul>
 	<form action="" method="GET" style="margin-bottom:0px">
 		<div style="float:left;margin-right:5px">
@@ -22,7 +22,7 @@
 			<!-- <{$data.province}> -->
 		</div>
 		<div style="float:left;margin-right:5px">
-			<label> 时间段 </label>
+			<label> 统计时间 </label>
 			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="时间段" >
 		</div>
 		<div style="float:left;margin-right:5px">
@@ -68,29 +68,25 @@
 
 <div class="block">
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
+        <{if $data.result.0 neq ""}>
         <div id="page-stats" class="block-body collapse in">
                <table class="table table-striped">
               <thead>
                 <tr>
-					<th style="width:50px">省市</th>
+					<th>省市</th>
 					<!-- <th style="width:55px">工单时间</th> -->
 					<!-- <th style="width:35px">投诉号码</th> -->
 					<!-- <th style="width:55px">具体业务名称</th> -->
-					<th style="width:30px">月不规范定制件数</th>
-					<th style="width:30px">环比增长量</th>
-					<th style="width:30px">环比增长率</th>
-					<th style="width:30px">申诉成功</th>
-					<th style="width:30px">申诉失败</th>
-					<th style="width:30px">未申诉量</th>
-					<th style="width:30px">不规范定制/业务收入(百万)</th>
+					<th>统计月份</th>
+					<th >月投诉件数</th>
+					<th >环比增长量</th>
+					<th >环比增长率</th>
+
+					<th >投诉量/业务收入(万)</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
 					<!-- <th style="width:30px">处理意见</th> -->
-					<th style="width:30px">投诉类型</th>
-				<!-- 	<th style="width:30px">投诉问题分类</th>
-					<th style="width:30px">投诉分级</th> -->
-					<th style="width:30px">业务线</th>
-					<th style="width:30px">认定有效量</th>
+
                 </tr>
               </thead>
               <tbody>
@@ -100,22 +96,21 @@
 					<!-- <td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td> -->
 					<!-- <td><{$result.complaint_phone}></td> -->
 					<!-- <td><{$result.buss_name}></td> -->
+					<td><{$result.month|date_format:'%Y-%m'}></td>
 					<td><{$result.num}></td>
 					<td><{$result.increase}></td>
 					<td><{$result.increasePercent}></td>
-					<td><{$result.appealSuc}></td>
-					<td><{$result.appealFail}></td>
-					<td><{$result.appealNot}></td>
+
 					<td><{$result.cos}></td>
 
 					<!-- <td><{$result.sp_code}></td> -->
 					<!-- <td><{$result.complaint_content}></td> -->
 					<!-- <td><{$result.suggestion}></td> -->
-					<td><{$result.complaint_type}></td>
+
 					<!-- <td><{$result.problem_type}></td>
 					<td><{$result.complaint_level}></td> -->
-					<td><{$data.bussLine[$result.buss_type]}></td>
-					<td><{$result.valid}></td>
+
+
 					<!-- <td style = "word-break: break-all; word-wrap:break-word;"><{$result.result}></td> -->
 					<!-- <td><{$result.op_time}></td> -->
 					</tr>
@@ -126,33 +121,18 @@
                <{$page_html}>
 			   <!--- END -->
         </div>
+                <{else}>
+        	<h4>当月无数据！</h4>
+        <{/if}>
     </div>
-<!--     <div>
-    	<h3>全国不规范定制发展趋势图</h3>
-    	<canvas id="month" width="600" height="300"></canvas>
-    </div> -->
+
     <div>
-    	<h3>月各省不规范定制的柱状图</h3>
+    	<h3>全网联通短彩信业务重点省份投诉量</h3>
     	<canvas id="province" width="900" height="400"></canvas>
     </div>
+
 <script>
 $(function() {
-
-	// var monthData = {
-	// 	labels : ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],
-	// 	datasets : [
-	// 		{
-	// 			fillColor : "rgba(151,187,205,0.5)",
-	// 			strokeColor : "rgba(151,187,205,1)",
-	// 			pointColor : "rgba(151,187,205,1)",
-	// 			pointStrokeColor : "#fff",
-	// 			data : [<{$data.month}>]
-	// 		}
-	// 	]
-	// }
-
-	// var ctx = document.getElementById("month").getContext("2d");
-	// new Chart(ctx).Bar(monthData);
 
 	var provinceData = {
 		labels : [<{$data.provinceString}>],
@@ -163,6 +143,11 @@ $(function() {
 				pointColor : "rgba(151,187,205,1)",
 				pointStrokeColor : "#fff",
 				data : [<{$data.provinces}>]
+			},
+			{
+				fillColor : "rgba(220,220,220,0.5)",
+				strokeColor : "rgba(151,187,205,1)",
+				data : [<{$data.provinces2}>]
 			}
 		]
 	}

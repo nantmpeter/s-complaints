@@ -35,7 +35,7 @@ foreach ($arr as $key => $value) {
 
 	$row_count = Complaint::complaintsAnalayze2Count($param);
 
-	// $data['month'] = Complaint::complaintsAnalayzeMonth($param);
+	$data['month'] = Complaint::baseAnalayzeMonth($param);
 	// $r = Complaint::complaintsAnalayzeType($param);
 	// var_dump($r);
 	// $data['provinces'] = implode(',',Complaint::complaintsAnalayzeType($param)['province']);

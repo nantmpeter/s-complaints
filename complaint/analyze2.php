@@ -8,11 +8,11 @@ extract ( $_GET, EXTR_IF_EXISTS );
 $user_info = UserSession::getSessionInfo();
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
 foreach ($arr as $key => $value) {
-
 	if($$value) {
 		$param[$value] = $$value;
 	}
 }
+$start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$_GET['start_date']:date('Y-m');
 
 // if (Common::isPost ()) {
 // if($start_date != '' && $end_date !=''){
@@ -20,16 +20,43 @@ foreach ($arr as $key => $value) {
 	$page_no=$page_no<1?1:$page_no;
 	$start = ($page_no - 1) * $page_size;
 
-	$data['result'] = Complaint::customAnalayze($param,$start,$page_size);
+	$result = Complaint::baseAnalayze($param,$start,$page_size);
 
-	$row_count = Complaint::customAnalayzeCount($param);
-	$param['flag'] = 1;
-	$data['provinces'] = Complaint::customAnalayzeArea($param);
+	$data['result'] = $result['now'];
+	$row_count = Complaint::baseAnalayzeCount($param);
+
+	$data['month'] = Complaint::baseAnalayzeMonth($param);
+
+	// $data['provinces'] = Complaint::baseAnalayzeArea($param);
 	$province = Info::getProvince();
+		foreach ($province as $key => $value) {
+			$tmpProvince[$value['id']] = $tmpProvince2[$value['id']] = 0;
+		}
+
+		foreach ($result['now'] as $key => $value) {
+				$tmpProvince[$value['province_id']] = $value['wan'];
+		}
+		foreach ($result['last'] as $key => $value) {
+				$tmpProvince2[$value['province_id']] = $value['wan'];
+		}
+		$data['provinces'] = implode(',', $tmpProvince);
+		$data['provinces2'] = implode(',', $tmpProvince2);
+
+	// $province = Info::getProvince();
 	foreach ($province as $key => $value) {
 		$data['provinceMap'][$key] = $value['name'];
 	}
 	$data['provinceString'] = '"'.implode('","', $data['provinceMap']).'"';
+
+	$baseTwoMonthWan = Complaint::baseTwoMonthWan($param);
+	foreach ($baseTwoMonthWan as $key => $value) {
+		$baseTwoMonthWanString[] = $key;
+		$baseTwoMonthWanVal[] = $value;
+	}
+	$data['baseTwoMonthWanString'] = '"'.implode('","', $baseTwoMonthWanString).'"';
+	$data['baseTwoMonthWanVal'] = implode(',', $baseTwoMonthWanVal);
+
+
 
 // }
 $data['province'] = Info::getProvince(false);
@@ -41,7 +68,7 @@ $data['complaintLevel'] = Info::getComplaintLevel('complaint_level',false);
 $data['bussLine'] = Info::getBussLine('buss_type',false);
 // var_dump($data['bussLine']);
 
-$page_html=Pagination::showPager("custom_analyze2.php?class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date",$page_no,PAGE_SIZE,$row_count);
+$page_html=Pagination::showPager("custom_analyze.php?class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date",$page_no,PAGE_SIZE,$row_count);
 
 Template::assign("error" ,$error);
 Template::assign("_POST" ,$_POST);
@@ -50,4 +77,4 @@ Template::assign("data" ,$data);
 Template::assign("param" ,$param);
 Template::assign ( 'page_html', $page_html );
 // Template::assign("output" ,$output);
-Template::display ('complaint/custom_analyze2.tpl');
+Template::display ('complaint/analyze2.tpl');

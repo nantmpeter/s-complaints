@@ -8,11 +8,11 @@ extract ( $_GET, EXTR_IF_EXISTS );
 $user_info = UserSession::getSessionInfo();
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
 foreach ($arr as $key => $value) {
-
 	if($$value) {
 		$param[$value] = $$value;
 	}
 }
+$start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$_GET['start_date']:date('Y-m');
 
 // if (Common::isPost ()) {
 // if($start_date != '' && $end_date !=''){
@@ -20,8 +20,9 @@ foreach ($arr as $key => $value) {
 	$page_no=$page_no<1?1:$page_no;
 	$start = ($page_no - 1) * $page_size;
 
-	$data['result'] = Complaint::baseAnalayze($param,$start,$page_size);
+	$result = Complaint::baseAnalayze($param,$start,$page_size);
 
+	$data['result'] = $result['now'];
 	$row_count = Complaint::baseAnalayzeCount($param);
 
 	$data['month'] = Complaint::baseAnalayzeMonth($param);
@@ -32,10 +33,10 @@ foreach ($arr as $key => $value) {
 			$tmpProvince[$value['id']] = $tmpProvince2[$value['id']] = 0;
 		}
 
-		foreach ($data['result']['now'] as $key => $value) {
+		foreach ($result['now'] as $key => $value) {
 				$tmpProvince[$value['province_id']] = $value['num'];
 		}
-		foreach ($data['result']['last'] as $key => $value) {
+		foreach ($result['last'] as $key => $value) {
 				$tmpProvince2[$value['province_id']] = $value['num'];
 		}
 		$data['provinces'] = implode(',', $tmpProvince);
@@ -46,6 +47,15 @@ foreach ($arr as $key => $value) {
 		$data['provinceMap'][$key] = $value['name'];
 	}
 	$data['provinceString'] = '"'.implode('","', $data['provinceMap']).'"';
+
+	$baseTwoMonthWan = Complaint::baseTwoMonthWan($param);
+	foreach ($baseTwoMonthWan as $key => $value) {
+		$baseTwoMonthWanString[] = $key;
+		$baseTwoMonthWanVal[] = $value;
+	}
+	$data['baseTwoMonthWanString'] = '"'.implode('","', $baseTwoMonthWanString).'"';
+	$data['baseTwoMonthWanVal'] = implode(',', $baseTwoMonthWanVal);
+
 
 
 // }

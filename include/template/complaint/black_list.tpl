@@ -8,7 +8,7 @@
 	<form action="" method="GET" style="margin-bottom:0px">
 		<div style="float:left;margin-right:5px">
 			<label> 投诉号码</label>
-			<input type="text" name="buss_name" value="<{$_GET.complaint_phone}>" placeholder="投诉号码" > 
+			<input type="text" name="complaint_phone" value="<{$_GET.complaint_phone}>" placeholder="投诉号码" > 
 		</div>
 		<div style="float:left;margin-right:5px">
 
@@ -21,7 +21,7 @@
 			<!-- <{$data.province}> -->
 		</div>
 		<div style="float:left;margin-right:5px">
-			<label> 时间段 </label>
+			<label> 统计月份 </label>
 			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="时间段" >
 		</div>
 		<div style="float:left;margin-right:5px">
@@ -39,9 +39,9 @@
 		<div style="float:left;margin-right:5px">
 		<label> 黑名单级别</label>
 			<select name="level"><option value="0">全部</option>
-			<option value="1">一级</option>
-			<option value="2">二级</option>
-			<option value="3">三级</option>
+			<option value="1" <{if $param.level == 1}> selected='selected'<{/if}>>一级</option>
+			<option value="2" <{if $param.level == 2}> selected='selected'<{/if}>>二级</option>
+			<option value="3" <{if $param.level == 3}> selected='selected'<{/if}>>三级</option>
 			</select>
 		</div>
 
@@ -89,9 +89,9 @@
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
 					<td><{$result.complaint_phone}></td>
-					<td><{$result.province_id}></td>
+					<td><{$data.province[$result.province_id].name}></td>
 					<td><{$result.sp_corp_code}></td>
-					<td><{$result.month}></td>
+					<td><{$result.month|date_format:'%Y-%m'}></td>
 					<td><{$result.sp_corp_name}></td>
 					<td><{$result.complaint_phone_tag}></td>
 					<td><{$result.level}></td>
@@ -101,7 +101,7 @@
               </tbody>
             </table>
 				<!--- START 分页模板 -->
-               <!-- <{$page_html}> -->
+               <{$page_html}>
 			   <!--- END -->
         </div>
     </div>

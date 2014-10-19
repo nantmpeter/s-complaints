@@ -16,12 +16,8 @@
 			<!-- <{$data.province}> -->
 		</div>
 		<div style="float:left;margin-right:5px">
-			<label> 选择起始时间 </label>
-			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="起始时间" >
-		</div>
-		<div style="float:left;margin-right:5px">
-			<label>选择结束时间</label>	
-			<input type="text" id="end_date" name="end_date" value="<{$_GET.end_date}>" placeholder="结束时间" > 
+			<label> 统计月份 </label>
+			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="统计月份">
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 具体业务名称</label>
@@ -56,21 +52,26 @@
 
 		</div>
 		<div style="float:left;margin-right:5px">
-		<label> 投诉分级 </label>
+		<label> 业务线</label>
+			<select name="buss_type"><option value="0">全部</option>
+			<{foreach name=bussLine from=$data.bussLine item=bussLine key=key}>
+				<option value="<{$key}>" <{if $param.buss_type == $key}> selected='selected'<{/if}>><{$bussLine}></option>
+			<{/foreach}>
+			</select>
+		</div>
+		<div style="float:left;margin-right:5px">
+		<label> 投诉分级</label>
 			<select name="complaint_level"><option value="0">全部</option>
 			<{foreach name=complaintLevel from=$data.complaintLevel key=key item=complaintLevel}>
 				<option value="<{$key}>" <{if $param.complaint_level == $key}> selected='selected'<{/if}>><{$complaintLevel}></option>
 			<{/foreach}>
-			<!-- <{$data.complaintLevel}> -->
+			</select>
 		</div>
-		<div style="float:left;margin-right:5px">
-		<label> 业务线</label>
-			<{$data.bussLine}>
-		</div>
-		<div style="float:left;margin-right:5px">
-		<label> sp接入号码</label>
+
+	<!-- 	<div style="float:left;margin-right:5px">
+		<label> sp接入号码11</label>
 				<input type="text" name="buss_line" value="<{$_GET.buss_line}>" placeholder="sp接入号码" > 
-		</div>
+		</div> -->
 		<div class="btn-toolbar" style="padding-top:25px;padding-bottom:0px;margin-bottom:0px">
 		<button type="submit" class="btn btn-primary"><strong>检索</strong></button>
 		</div>
@@ -91,6 +92,7 @@
 </div>
 <div class="block">
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
+        <{if $data.result.0 neq ""}>
         <div id="page-stats" class="block-body collapse in">
                <table class="table table-striped">
               <thead>
@@ -100,7 +102,7 @@
 					<th style="width:55px">工单时间</th>
 					<th style="width:35px">投诉号码</th>
 					<th style="width:55px">具体业务名称</th>
-					<th style="width:30px">业务资费</th>
+					<th style="width:30px">统计月份</th>
 					<th style="width:30px">sp公司名称</th>
 					<th style="width:30px">sp企业代码</th>
 					<th style="width:30px">sp接入代码</th>
@@ -116,11 +118,11 @@
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
 					<td><{$result.id}></td>
-					<td><{$result.province_id}></td>
+					<td><{$data.province[$result.province_id].name}></td>
 					<td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td>
 					<td><{$result.complaint_phone}></td>
 					<td><{$result.buss_name}></td>
-					<td><{$result.buss_rates}></td>
+					<td><{$result.month|date_format:'%Y-%m'}></td>
 					<td><{$result.sp_name}></td>
 					<td><{$result.sp_corp_code}></td>
 					<td><{$result.sp_code}></td>
@@ -140,18 +142,18 @@
                <{$page_html}>
 			   <!--- END -->
         </div>
+        <{else}>
+        	<h4>当月无数据！</h4>
+        <{/if}>
     </div>
+
 <script>
 $(function() {
+
 	var date=$( "#start_date" );
-	date.datepicker({ dateFormat: "yy-mm-dd" });
-	date.datepicker( "option", "firstDay", 1 );
+	date.datetimepicker({format: 'yyyy-mm',startView: 3,minView: 3,viewSelect:'year'});
 });
-$(function() {
-	var date=$( "#end_date" );
-	date.datepicker({ dateFormat: "yy-mm-dd" });
-	date.datepicker( "option", "firstDay", 1 );
-});
+
 
 $(function(){
 	$('[name="complaint_type"]').change(function(msg){

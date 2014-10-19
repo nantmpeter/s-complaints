@@ -13,23 +13,26 @@ foreach ($arr as $key => $value) {
 		$param[$value] = $$value;
 	}
 }
+$start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$_GET['start_date']:date('Y-m');
 
 // if (Common::isPost ()) {
-if($start_date != '' && $end_date !=''){
+if($start_date != ''){
 	$page_size = PAGE_SIZE;
 	$page_no=$page_no<1?1:$page_no;
 	$start = ($page_no - 1) * $page_size;
 
 	$data['result'] = Complaint::search($param,$start,$page_size);
+
 	$row_count = Complaint::searchCount($param);
 }
 $data['province'] = Info::getProvince(false);
+
 $data['complaintType'] = Info::getComplaintType('complaint_type',false);
 $data['questionType'][1] = Info::getQuestionType(1,'question_type',true);
 $data['questionType'][2] = Info::getQuestionType(2,'question_type',true);
 $data['questionType'][3] = Info::getQuestionType(3,'question_type',true);
 $data['complaintLevel'] = Info::getComplaintLevel('complaint_level',false);
-$data['bussLine'] = Info::getBussLine('buss_line',true);
+$data['bussLine'] = Info::getBussLine('buss_line',false);
 
 $page_html=Pagination::showPager("search.php?class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date",$page_no,PAGE_SIZE,$row_count);
 
