@@ -13,6 +13,7 @@ foreach ($arr as $key => $value) {
 		$param[$value] = $$value;
 	}
 }
+$start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$_GET['start_date']:date('Y-m');
 
 // if (Common::isPost ()) {
 // if($start_date != '' && $end_date !=''){
@@ -31,6 +32,7 @@ foreach ($arr as $key => $value) {
 		$data['chartValue'] = implode(',', $tmp['value']);
 	}
 	// rsort($tmp['wan']);
+	$start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$_GET['start_date']:date('Y-m');
 
 	$row_count = 20;
 

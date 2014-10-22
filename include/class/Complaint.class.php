@@ -201,8 +201,8 @@ class Complaint extends Base {
 		$r = $db->select('co_custom','*,count(*) as num',$condition);
 
 		if($r && isset($s)) {
-			$condition["AND"]['order_time[>=]'] = strtotime($s.'-01')-3600*24*30;
-			$condition["AND"]['order_time[<]'] = strtotime($s.'-01 +1 month -1 day')-3600*24*30;
+			$condition["AND"]['order_time[>=]'] = strtotime($s.'-01 -1 month');
+			$condition["AND"]['order_time[<]'] = strtotime($s.'-01 -1 day');
 			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
 
 			$tmp = array();
@@ -249,8 +249,9 @@ class Complaint extends Base {
 		$r = $db->select('co_base','*,count(*) as num',$condition);
 
 		if($r && isset($s)) {
-			$condition["AND"]['month[>=]'] = strtotime($s.'-01')-3600*24*30;
-			$condition["AND"]['month[<]'] = strtotime($s.'-01 +1 month -1 day')-3600*24*30;
+			unset($condition["AND"]);
+			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
+			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
 			$r2 = $db->select('co_base','*,count(*) as num',$condition);
 
 			$tmp = $lastMonth = array();
@@ -342,8 +343,8 @@ class Complaint extends Base {
 		$r = $db->select('co_custom','*,count(*) as num',$condition);
 
 		if($r && $start) {
-			$condition["AND"]['order_time[>=]'] = strtotime($start.'-01')-3600*24*30;
-			$condition["AND"]['order_time[<]'] = strtotime($start.'-01 +1 month -1 day')-3600*24*30;
+			$condition["AND"]['order_time[>=]'] = strtotime($start.'-01 -1 month');
+			$condition["AND"]['order_time[<]'] = strtotime($start.'-01 -1 day');
 			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
 
 			$tmp = array();
@@ -391,8 +392,8 @@ class Complaint extends Base {
 
 // var_dump($condition,$r);
 		if($r && $start) {
-			$condition["AND"]['month[>=]'] = strtotime($start.'-01')-3600*24*30;
-			$condition["AND"]['month[<]'] = strtotime($start.'-01 +1 month -1 day')-3600*24*30;
+			$condition["AND"]['month[>=]'] = strtotime($start.'-01 -1 month');
+			$condition["AND"]['month[<]'] = strtotime($start.'-01 -1 day');
 			$r2 = $db->select('co_base','*,count(*) as num',$condition);
 
 
@@ -403,7 +404,8 @@ class Complaint extends Base {
 			foreach ($r as $key => $value) {
 				$t = isset($tmp[$value['sp_name']])?$tmp[$value['sp_name']]:0;
 
-				$r[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('sp_name'=>$value['sp_name']))['cos']/1000000;
+				$r[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('sp_name'=>$value['sp_name']))['cos']/10000;
+
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
@@ -439,8 +441,8 @@ class Complaint extends Base {
 		$r = $db->select('co_complaints','*,count(*) as num',$condition);
 
 		if($r && $start) {
-			$condition["AND"]['month[>=]'] = strtotime($start.'-01')-3600*24*30;
-			$condition["AND"]['month[<]'] = strtotime($start.'-01 +1 month -1 day')-3600*24*30;
+			$condition["AND"]['month[>=]'] = strtotime($start.'-01 -1 month');
+			$condition["AND"]['month[<]'] = strtotime($start.'-01 -1 day');
 			$r2 = $db->select('co_complaints','*,count(*) as num',$condition);
 
 			$tmp = array();
@@ -485,8 +487,8 @@ class Complaint extends Base {
 		$condition['LIMIT'] = 20;
 		$r = $db->select('co_custom','*,count(*) as num',$condition);
 		if($r && isset($start)) {
-			$condition["AND"]['order_time[>=]'] = strtotime($start.'-01')-3600*24*30;
-			$condition["AND"]['order_time[<]'] = strtotime($start.'-01 +1 month -1 day')-3600*24*30;
+			$condition["AND"]['order_time[>=]'] = strtotime($start.'-01 -1 month');
+			$condition["AND"]['order_time[<]'] = strtotime($start.'-01 -1 day');
 			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
 
 			$tmp = array();
@@ -512,10 +514,11 @@ class Complaint extends Base {
 		public static function baseSingle($param,$start = 0,$page_size=20){
 
 		$db=self::__instance();
+
 		if($param['start_date']){
-			$start = $param['start_date'];
-			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			$s = $param['start_date'];
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 		if(empty($param))
@@ -527,9 +530,10 @@ class Complaint extends Base {
 		$condition['ORDER'] = 'num desc';
 		$condition['LIMIT'] = 20;
 		$r = $db->select('co_base','*,count(*) as num',$condition);
-		if($r && isset($start)) {
-			$condition["AND"]['order_time[>=]'] = strtotime($start.'-01')-3600*24*30;
-			$condition["AND"]['order_time[<]'] = strtotime($start.'-01 +1 month -1 day')-3600*24*30;
+// var_dump($condition,$r);
+		if($r && isset($s)) {
+			$condition["AND"]['order_time[>=]'] = strtotime($s.'-01 -1 month');
+			$condition["AND"]['order_time[<]'] = strtotime($s.'-01 -1 day');
 			$r2 = $db->select('co_base','*,count(*) as num',$condition);
 
 			$tmp = array();
@@ -566,8 +570,8 @@ class Complaint extends Base {
 		$r = $db->select('co_complaints','*,count(*) as num',$condition);
 
 		if($r && isset($start)) {
-			$condition["AND"]['month[>=]'] = strtotime($start.'-01')-3600*24*30;
-			$condition["AND"]['month[<]'] = strtotime($start.'-01 +1 month -1 day')-3600*24*30;
+			$condition["AND"]['month[>=]'] = strtotime($start.'-01 -1 month');
+			$condition["AND"]['month[<]'] = strtotime($start.'-01 -1 day');
 			$r2 = $db->select('co_complaints','*,count(*) as num',$condition);
 
 			$tmp = array();
@@ -642,8 +646,8 @@ class Complaint extends Base {
 		$condition['GROUP'] = 'm';
 		$r = $db->select('co_base','count(*) as num,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
 		if($r && $s) {
-			$condition["AND"]['month[>=]'] = strtotime($s.'-01')-3600*24*30;
-			$condition["AND"]['month[<]'] = strtotime($s.'-01 +1 month -1 day')-3600*24*30;
+			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
+			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
 			$r2 = $db->select('co_base','*,count(*) as num',$condition);
 			$r2 = $r2?$r2:array();
 			$tmp = $lastMonth = array();
@@ -920,8 +924,8 @@ class Complaint extends Base {
 		$r = $db->select('co_complaints','*,count(*) as num',$condition);
 		$start = $start?$start:date('Y-m');
 		if($r && isset($start)) {
-			$condition["AND"]['month[>=]'] = strtotime($start.'-01')-3600*24*30;
-			$condition["AND"]['month[<]'] = strtotime($start.'-01 +1 month -1 day')-3600*24*30;
+			$condition["AND"]['month[>=]'] = strtotime($start.'-01 -1 month');
+			$condition["AND"]['month[<]'] = strtotime($start.'-01 -1 day');
 
 			$r2 = $db->select('co_complaints','*,count(*) as num',$condition);
 		// var_dump($start,$condition,$r2);
@@ -970,8 +974,8 @@ class Complaint extends Base {
 		$r = $db->select('co_complaints','*,count(*) as num',$condition);
 		$start = $start?$start:date('Y-m');
 		if($r && isset($start)) {
-			$condition["AND"]['month[>=]'] = strtotime($start.'-01')-3600*24*30;
-			$condition["AND"]['month[<]'] = strtotime($start.'-01 +1 month -1 day')-3600*24*30;
+			$condition["AND"]['month[>=]'] = strtotime($start.'-01 -1 month');
+			$condition["AND"]['month[<]'] = strtotime($start.'-01 -1 day');
 
 			$r2 = $db->select('co_complaints','*,count(*) as num',$condition);
 		// var_dump($start,$condition,$r2);

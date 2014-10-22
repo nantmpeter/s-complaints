@@ -17,8 +17,8 @@
 			<!-- <{$data.province}> -->
 		</div>
 		<div style="float:left;margin-right:5px">
-			<label> 时间段 </label>
-			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="时间段" >
+			<label> 统计时间 </label>
+			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="统计时间" >
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 具体业务名称</label>
@@ -63,18 +63,19 @@
 
 <div class="block">
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
+        <{if $data.result.0 neq ""}>
         <div id="page-stats" class="block-body collapse in">
                <table class="table table-striped">
               <thead>
                 <tr>
+					<th style="width:50px">省</th>
 					<th style="width:50px">业务名称</th>
 					<th style="width:50px">公司名称</th>
 					<th style="width:50px">公司sp代码</th>
-					<th style="width:50px">公司sp接入号码</th>
-					<!-- <th style="width:55px">工单时间</th> -->
-					<!-- <th style="width:35px">投诉号码</th> -->
-					<!-- <th style="width:55px">具体业务名称</th> -->
-					<th style="width:30px">月不规范定制件数</th>
+					<th style="width:50px">sp接入号码</th>
+					<th style="width:50px">统计时间</th>
+
+					<th style="width:30px">月投诉件数</th>
 					<th style="width:30px">环比增长量</th>
 					<th style="width:30px">环比增长率</th>
                 </tr>
@@ -82,10 +83,12 @@
               <tbody>
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
+					<td><{$data.province[$result.province_id]['name']}></td>
 					<td><{$result.buss_name_detail}></td>
 					<td><{$result.sp_name}></td>
 					<td><{$result.sp_corp_code}></td>
 					<td><{$result.sp_code}></td>
+					<td><{$result.month|date_format:'%Y-%m'}></td>
 					<!-- <td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td> -->
 					<!-- <td><{$result.complaint_phone}></td> -->
 					<!-- <td><{$result.buss_name}></td> -->
@@ -100,13 +103,16 @@
                <!-- <{$page_html}> -->
 			   <!--- END -->
         </div>
+        <{else}>
+        	<h4>当月无数据！</h4>
+        <{/if}>
     </div>
-    <{if $data.result}>
+
     <div>
     	<h3>单产品不规范定制TOP20</h3>
     	<canvas id="chart" width="700" height="400"></canvas>
     </div>
-    <{/if}>
+
 
 <script>
 $(function() {

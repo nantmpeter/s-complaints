@@ -4,7 +4,7 @@ class Info extends Base{
 	public static function getProvince($format = false)
 	{
 		$db=new Medoo(OSA_DB_ID);
-		$r = $db->select('province','*');
+		$r = $db->select('province','*',array('ORDER'=>'pinyin'));
 		$tmp = array();
 		foreach ($r as $key => $value) {
 			$tmp[$value['id']] = $value;

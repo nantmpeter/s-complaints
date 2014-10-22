@@ -93,19 +93,20 @@
                 <tr>
 					<th style="width:30px">#</th>
 					<th style="width:50px">省市</th>
+					<th style="width:50px">合作伙伴代码</th>
+					<th style="width:50px">公司名称</th>
+					<th style="width:50px">业务类型</th>
+					<th style="width:50px">业务名称</th>
+					<th style="width:50px">投诉类型名称</th>
 					<th style="width:55px">工单时间</th>
+					<th style="width:55px">不规范定制投诉量</th>
 					<th style="width:35px">投诉号码</th>
-					<th style="width:55px">具体业务名称</th>
-					<th style="width:30px">业务资费</th>
-					<!-- <th style="width:30px">sp公司名称</th>
-					<th style="width:30px">sp企业代码</th>
-					<th style="width:30px">sp接入代码</th> -->
+
 					<th style="width:30px">投诉内容</th>
-					<!-- <th style="width:30px">处理意见</th> -->
-					<th style="width:30px">统计月份</th>
-					<th style="width:30px">投诉类型</th>
-				<!-- 	<th style="width:30px">投诉问题分类</th>
-					<th style="width:30px">投诉分级</th> -->
+					<th style="width:30px">申诉内容</th>
+					<th style="width:30px">投诉状态</th>
+					<th style="width:30px">申诉状态</th>
+					<th style="width:30px">扣款金额</th>
 					<th style="width:30px">业务线</th>
                 </tr>
               </thead>
@@ -114,22 +115,21 @@
 					<tr>
 					<td><{$result.id}></td>
 					<td><{$result.name}></td>
-					<td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td>
-					<td><{$result.complaint_phone}></td>
-					<td><{$result.buss_name}></td>
-					<td><{$result.buss_rates}></td>
-					<!-- <td><{$result.sp_name}></td>
-					<td><{$result.sp_corp_code}></td>
-					<td><{$result.sp_code}></td> -->
-					<td><{$result.complaint_content}></td>
-					<!-- <td><{$result.suggestion}></td> -->
-					<td><{$result.month|date_format:'%Y-%m-%d %H:%M:%S'}></td>
-					<td><{$result.complaint_type}></td>
-					<!-- <td><{$result.problem_type}></td>
-					<td><{$result.complaint_level}></td> -->
+					<td><{$result.part_code}></td>
+					<td><{$result.part_name}></td>
 					<td><{$data.bussLine[$result.buss_type]}></td>
-					<!-- <td style = "word-break: break-all; word-wrap:break-word;"><{$result.result}></td> -->
-					<!-- <td><{$result.op_time}></td> -->
+					<td><{$result.buss_name}></td>
+					<td><{$result.complaint_type}></td>
+					<td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td>
+					<td><{$result.complaint_total}></td>
+					<td><{$result.complaint_phone}></td>
+
+					<td><{$result.complaint_content}></td>
+					<td><{$result.appeal_content}></td>
+					<td><{$result.complaint_status}></td>
+					<td><{$result.appeal_status}></td>
+					<td></td>
+					<td><{$result.buss_line}></td>
 					</tr>
 				<{/foreach}>
               </tbody>
