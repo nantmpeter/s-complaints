@@ -635,7 +635,7 @@ class Complaint extends Base {
 	{
 		$condition = array();
 		$db=self::__instance();
-		unset($param['province_id']);
+		// unset($param['province_id']);
 		if($param['start_date']){
 			$s = $param['start_date'];
 			$condition["AND"]['month[>=]'] = strtotime(substr($param['start_date'], 0,4).'-01-01');
@@ -649,23 +649,24 @@ class Complaint extends Base {
 			$condition["AND"][$key] = $value;
 		}
 		$condition['GROUP'] = 'm';
-		$r = $db->select('co_base','count(*) as num,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
-		if($r && $s) {
-			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
-			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
-			$r2 = $db->select('co_base','*,count(*) as num',$condition);
-			$r2 = $r2?$r2:array();
-			$tmp = $lastMonth = array();
-			foreach ($r2 as $key => $value) {
-				$tmp[$value['province_id']] = $lastMonth[$value['province_id']] = $value['num'];
-				$r2[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/10000;
-				if($r[$key]['cos'])
-					$r2[$key]['wan'] = $value['num']/$r2[$key]['cos'];
-				else
-					$r2[$key]['wan'] = 0;
-			}
 
-		}
+		$r = $db->select('co_base','count(*) as num,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
+		// if($r && $s) {
+		// 	$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
+		// 	$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
+		// 	$r2 = $db->select('co_base','*,count(*) as num',$condition);
+		// 	$r2 = $r2?$r2:array();
+		// 	$tmp = $lastMonth = array();
+		// 	foreach ($r2 as $key => $value) {
+		// 		$tmp[$value['province_id']] = $lastMonth[$value['province_id']] = $value['num'];
+		// 		$r2[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/10000;
+		// 		if($r[$key]['cos'])
+		// 			$r2[$key]['wan'] = $value['num']/$r2[$key]['cos'];
+		// 		else
+		// 			$r2[$key]['wan'] = 0;
+		// 	}
+
+		// }
 
 		// var_dump($r);
 		for ($i = 1;$i<=12;$i++){

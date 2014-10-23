@@ -54,6 +54,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$baseTwoMonthWanString[] = $key;
 		$baseTwoMonthWanVal[] = $value;
 	}
+
 	$data['baseTwoMonthWanString'] = '"'.implode('","', $baseTwoMonthWanString).'"';
 	$data['baseTwoMonthWanVal'] = implode(',', $baseTwoMonthWanVal);
 
