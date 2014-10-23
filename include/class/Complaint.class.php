@@ -530,19 +530,22 @@ class Complaint extends Base {
 		$condition['GROUP'] = 'buss_name_detail';
 		$condition['ORDER'] = 'num desc';
 		$condition['LIMIT'] = 20;
+
 		$r = $db->select('co_base','*,count(*) as num',$condition);
 // var_dump($condition,$r);
 		if($r && isset($s)) {
 			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
 			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
+
 			$r2 = $db->select('co_base','*,count(*) as num',$condition);
 
 			$tmp = array();
 			foreach ($r2 as $key => $value) {
 				$tmp[$value['buss_name_detail']] = $value['num'];
 			}
+
 			foreach ($r as $key => $value) {
-				$t = isset($tmp[$value['buss_name_detail']])?$tmp[$value['buss_name']]:0;
+				$t = isset($tmp[$value['buss_name_detail']])?$tmp[$value['buss_name_detail']]:0;
 
 				$r[$key]['increase'] = $value['num'] - $t;
 				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
