@@ -8,69 +8,37 @@
 		<div style="float:left;margin-right:5px">
 
 			<label> 选择省份 </label>
-			<select name="corp_area"><option value="0">全部</option>
+			<select name="province_id"><option value="0">全部</option>
 			<{foreach name=province from=$data.province item=province}>
-				<option value="<{$province.id}>" <{if $param.corp_area == $province.id}> selected='selected'<{/if}>><{$province.name}></option>
+				<option value="<{$province.id}>" <{if $param.province_id == $province.id}> selected='selected'<{/if}>><{$province.name}></option>
 			<{/foreach}>
 			</select>
 			<!-- <{$data.province}> -->
 		</div>
 		<div style="float:left;margin-right:5px">
-			<label> 选择起始时间 </label>
-			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="起始时间" >
+			<label> 统计月份 </label>
+			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="统计月份" >
 		</div>
 		<div style="float:left;margin-right:5px">
-			<label>选择结束时间</label>	
-			<input type="text" id="end_date" name="end_date" value="<{$_GET.end_date}>" placeholder="结束时间" > 
+			<label> 申诉日期 </label>
+			<input type="text" id="appeal_date" name="appeal_date" value="<{$_GET.appeal_date}>" placeholder="申诉日期" >
 		</div>
 		<div style="float:left;margin-right:5px">
-		<label> 具体业务名称</label>
+		<label> 业务名称</label>
 			<input type="text" name="buss_name" value="<{$_GET.buss_name}>" placeholder="具体业务名称" > 
 		</div>
-		<!-- <div style="float:left;margin-right:5px">
+		<div style="float:left;margin-right:5px">
+		<label> 案件编号</label>
+			<input type="text" name="case_id" value="<{$_GET.case_id}>" placeholder="案件编号" > 
+		</div>
+		<div style="float:left;margin-right:5px">
+		<label> 投诉号码</label>
+			<input type="text" name="dispute_phone" value="<{$_GET.dispute_phone}>" placeholder="投诉号码" > 
+		</div>
+		<div style="float:left;margin-right:5px">
 		<label> SP公司名称</label>
 				<input type="text" name="sp_name" value="<{$_GET.sp_name}>" placeholder="SP公司名称" > 
 		</div>
-		<div style="float:left;margin-right:5px">
-		<label> SP企业代码</label>
-				<input type="text" name="sp_corp_code" value="<{$_GET.sp_corp_code}>" placeholder="SP企业代码" > 
-		</div> -->
-		<!-- <div style="float:left;margin-right:5px">
-		<label> 投诉类型 </label>
-			<select name="complaint_type"><option value="0">全部</option>
-			<{foreach name=complaintType from=$data.complaintType key=key item=complaintType}>
-				<option value="<{$key}>" <{if $param.complaint_type == $key}> selected='selected'<{/if}>><{$complaintType}></option>
-			<{/foreach}>
-			</select>
-			<!-- <{$data.complaintType}> -->
-				<!-- <input type="text" name="sp_code" value="<{$_GET.sp_code}>" placeholder="投诉类型" >  -->
-		</div>
-		<div style="float:left;margin-right:5px">
-
-		<!-- label> 投诉问题分类 </label>
-			<div class="question_type">
-			<select name="question_type">
-				<option value="0">全部</option>
-			</select>				
-			</div>
-
-		</div>
-		<div style="float:left;margin-right:5px">
-		<label> 投诉分级 </label>
-			<select name="complaint_level"><option value="0">全部</option>
-			<{foreach name=complaintLevel from=$data.complaintLevel key=key item=complaintLevel}>
-				<option value="<{$key}>" <{if $param.complaint_level == $key}> selected='selected'<{/if}>><{$complaintLevel}></option>
-			<{/foreach}>
-			 <{$data.complaintLevel}> 
-		</div> -->
-		<div style="float:left;margin-right:5px">
-		<label> 业务线</label>
-			<{$data.bussType}>
-		</div>
-		<!-- <div style="float:left;margin-right:5px">
-		<label> sp接入号码</label>
-				<input type="text" name="buss_type" value="<{$_GET.buss_type}>" placeholder="sp接入号码" > 
-		</div> -->
 		<div class="btn-toolbar" style="padding-top:25px;padding-bottom:0px;margin-bottom:0px">
 		<button type="submit" class="btn btn-primary"><strong>检索</strong></button>
 		</div>
@@ -95,43 +63,48 @@
                <table class="table table-striped">
               <thead>
                 <tr>
-					<th style="width:30px">#</th>
 					<th style="width:50px">省市</th>
-					<th style="width:50px">工单编号</th>
-					<th style="width:55px">工单时间</th>
+					<th style="width:50px">案件编号</th>
+					<th style="width:55px">申诉日期</th>
 					<th style="width:35px">投诉号码</th>
+					<th style="width:35px">产品类别</th>
+					<th style="width:35px">业务名称</th>
+					<th style="width:35px">sp公司名称</th>
 					<!-- <th style="width:55px">具体业务名称</th> -->
 					<!-- <th style="width:30px">业务资费</th> -->
 					<!-- <th style="width:30px">sp公司名称</th> -->
-					<!-- <th style="width:30px">sp企业代码</th> -->
-					<!-- <th style="width:30px">sp接入代码</th> -->
+					<th style="width:30px">sp企业代码</th>
+					<th style="width:30px">sp接入代码</th>
 					<th style="width:30px">投诉内容</th>
+					<th style="width:30px">申诉内容</th>
+					<th style="width:30px">申诉核查情况</th>
 					<!-- <th style="width:30px">处理意见</th> -->
 					<!-- <th style="width:30px">投诉类型</th> -->
-					<!-- <th style="width:30px">投诉问题分类</th>
-					<th style="width:30px">投诉分级</th> -->
+					<th style="width:30px">投诉问题分类</th>
+					<!-- <th style="width:30px">投诉分级</th> -->
 					<th style="width:30px">业务线</th>
                 </tr>
               </thead>
               <tbody>							  
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
-					<td><{$result.id}></td>
-					<td><{$result.corp_area}></td>
-					<td><{$result.complaints_id}></td>
-					<td><{$result.complaint_time|date_format:'%Y-%m-%d %H:%M:%S'}></td>
+					<td><{$data.province[$result.corp_area]['name']}></td>
+					<td><{$result.case_id}></td>
+					<td><{$result.complaint_time|date_format:'%Y-%m-%d'}></td>
 					<td><{$result.phone}></td>
-					<!-- <td><{$result.sp_name}></td>
-					<td><{$result.sp_corp_code}></td> -->
-					<!-- <td><{$result.sp_code}></td> -->
+					<td><{$result.product_type}></td>
+					<td><{$result.buss_name}></td>
+					<td><{$result.sp_corp_name}></td>
+					<!-- <td><{$result.sp_name}></td> -->
+					<td><{$result.sp_corp_code}></td>
+					<td><{$result.sp_code}></td>
 					<td><{$result.complaint_content}></td>
+					<td><{$result.10010_content}></td>
+					<td><{$result.complaint_status}></td>
 					<!-- <td><{$result.suggestion}></td> -->
 					<!-- <td><{$result.complaint_type}></td> -->
-					<!-- <td><{$result.problem_type}></td> -->
-					<!-- <td><{$result.complaint_level}></td> -->
+					<td><{$result.problem_type}></td>
 					<td><{$result.buss_type}></td>
-					<!-- <td style = "word-break: break-all; word-wrap:break-word;"><{$result.result}></td> -->
-					<!-- <td><{$result.op_time}></td> -->
 					</tr>
 				<{/foreach}>
               </tbody>
@@ -143,15 +116,12 @@
     </div>
 <script>
 $(function() {
-	var date=$( "#start_date" );
-	date.datepicker({ dateFormat: "yy-mm-dd" });
-	date.datepicker( "option", "firstDay", 1 );
+
+	$( "#start_date" ).datetimepicker({format: 'yyyy-mm',startView: 3,minView: 3,viewSelect:'year'});
+	$( "#appeal_date" ).datetimepicker({format: 'yyyy-mm-dd',startView: 2,minView: 2,viewSelect:'year'});
+
 });
-$(function() {
-	var date=$( "#end_date" );
-	date.datepicker({ dateFormat: "yy-mm-dd" });
-	date.datepicker( "option", "firstDay", 1 );
-});
+
 
 $(function(){
 	$('[name="complaint_type"]').change(function(msg){

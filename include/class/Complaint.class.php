@@ -164,11 +164,10 @@ class Complaint extends Base {
 	}
 
 		public static function complaintsSearch($param,$start = 0,$page_size=20){
-
 		$db=self::__instance();
-		if($param['start_date'] && $param['end_date']){
-			$condition["AND"]['complaint_time[>=]'] = strtotime($param['start_date']);
-			$condition["AND"]['complaint_time[<]'] = strtotime($param['end_date']);
+		if($param['start_date']){
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 
@@ -178,7 +177,8 @@ class Complaint extends Base {
 			$condition["AND"][$key] = $value;
 		}
 		$condition['LIMIT']=array($start,$page_size);
-		return $db->select('co_complaints','*',$condition);
+		$r = $db->select('co_complaints','*',$condition);
+		return $r;
 	}
 
 	public static function customAnalayze($param,$start = 0,$page_size=20){
@@ -492,6 +492,7 @@ class Complaint extends Base {
 			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
 
 			$tmp = array();
+			$r2 = $r2?$r2:array();
 			foreach ($r2 as $key => $value) {
 				$tmp[$value['buss_name']] = $value['num'];
 			}
@@ -532,8 +533,8 @@ class Complaint extends Base {
 		$r = $db->select('co_base','*,count(*) as num',$condition);
 // var_dump($condition,$r);
 		if($r && isset($s)) {
-			$condition["AND"]['order_time[>=]'] = strtotime($s.'-01 -1 month');
-			$condition["AND"]['order_time[<]'] = strtotime($s.'-01 -1 day');
+			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
+			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
 			$r2 = $db->select('co_base','*,count(*) as num',$condition);
 
 			$tmp = array();
@@ -888,9 +889,10 @@ class Complaint extends Base {
 	{
 		$condition = array();
 		$db=self::__instance();
-		if($param['start_date'] && $param['end_date']){
-			$condition["AND"]['complaint_time[>=]'] = strtotime($param['start_date']);
-			$condition["AND"]['complaint_time[<]'] = strtotime($param['end_date']);
+
+		if($param['start_date']){
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 
