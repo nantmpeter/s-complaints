@@ -120,7 +120,7 @@
 					<td><{$data.bussLine[$result.buss_type]}></td>
 					<td><{$result.buss_name}></td>
 					<td><{$result.complaint_type}></td>
-					<td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td>
+					<td><{$result.order_time|date_format:'%Y-%m'}></td>
 					<td><{$result.complaint_total}></td>
 					<td><{$result.complaint_phone}></td>
 
