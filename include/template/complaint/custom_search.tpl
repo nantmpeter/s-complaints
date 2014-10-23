@@ -125,7 +125,7 @@
 					<td><{$result.complaint_phone}></td>
 
 					<td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_content}>" title="" data-original-title1="投诉内容">详情</a></td>
-					<td><{$result.appeal_content}></td>
+					<td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.appeal_content}>" title="" data-original-title1="投诉内容">详情</a></td>
 					<td><{$result.complaint_status}></td>
 					<td><{$result.appeal_status}></td>
 					<td></td>
