@@ -22,8 +22,8 @@
 			<!-- <{$data.province}> -->
 		</div>
 		<div style="float:left;margin-right:5px">
-			<label> 统计月份 </label>
-			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="统计月份" >
+			<label> 时间段 </label>
+			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="时间段" >
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 业务名称</label>
@@ -165,28 +165,15 @@ $(function() {
 	var ctx = document.getElementById("month").getContext("2d");
 	new Chart(ctx).Bar(monthData);
 
-	// var provinceData = {
-	// 	labels : [<{$data.provinceString}>],
-	// 	datasets : [
-	// 		{
-	// 			fillColor : "rgba(151,187,205,0.5)",
-	// 			strokeColor : "rgba(151,187,205,1)",
-	// 			pointColor : "rgba(151,187,205,1)",
-	// 			pointStrokeColor : "#fff",
-	// 			data : [<{$data.provinces}>]
-	// 		}
-	// 	]
-	// }
-
 	var provinceData = {
-		labels : ['test','test2','test3'],
+		labels : [<{$data.provinceString}>],
 		datasets : [
 			{
 				fillColor : "rgba(151,187,205,0.5)",
 				strokeColor : "rgba(151,187,205,1)",
 				pointColor : "rgba(151,187,205,1)",
 				pointStrokeColor : "#fff",
-				data : [10,-10,-2]
+				data : [<{$data.provinces}>]
 			}
 		]
 	}

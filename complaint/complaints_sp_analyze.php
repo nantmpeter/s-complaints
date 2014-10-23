@@ -25,10 +25,11 @@ foreach ($arr as $key => $value) {
 	if($data['result']){
 		foreach ($data['result'] as $key => $value) {
 			// var_dump($value);
-			$tmp['name'][] = trim($value['sp_corp_name']);
+			$tmp['name'][] = mb_substr(str_replace("\n","",trim($value['sp_corp_name'])),0,18,'utf-8');
 			$tmp['value'][] = $value['num'];
 			$tmp['wan'][] = $value['wan'];
 		}
+
 		$data['chartName'] = '"'.implode('","', $tmp['name']).'"';
 		$data['chartValue'] = implode(',', $tmp['value']);
 		$data['chartWan'] = implode(',', $tmp['wan']);

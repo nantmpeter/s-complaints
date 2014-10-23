@@ -27,7 +27,8 @@ foreach ($arr as $key => $value) {
 	$data['month'] = Complaint::complaintsAnalayzeMonth($param);
 
 	$data['provinces'] = implode(',',Complaint::complaintsAnalayzeProvince($param)['province']);
-	$data['complaints'] = Complaint::complaintsAnalayzeProvince($param)['complaints'];
+	$data['complaints'] = implode(',',Complaint::complaintsAnalayzeProvince($param)['complaints']);
+
 	$province = Info::getProvince();
 	foreach ($province as $key => $value) {
 		$data['provinceMap'][$key] = $value['name'];
