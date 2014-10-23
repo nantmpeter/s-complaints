@@ -99,10 +99,10 @@
 					<!-- <td><{$result.sp_name}></td> -->
 					<td><{$result.sp_corp_code}></td>
 					<td><{$result.sp_code}></td>
-					<td><{$result.complaint_content}></td>
-					<td><{$result.10010_content}></td>
-					<td><{$result.complaint_status}></td>
-					<!-- <td><{$result.suggestion}></td> -->
+					<td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_content}>" title="" data-original-title1="投诉内容">详情</a></td>
+					<td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.10010status}>" title="" data-original-title1="投诉内容">详情</a></td>
+					<td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_status}>" title="" data-original-title1="投诉内容">详情</a></td>
+					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.suggestion}>" title="" data-original-title1="">详情</a></td> -->
 					<!-- <td><{$result.complaint_type}></td> -->
 					<td><{$result.problem_type}></td>
 					<td><{$result.buss_type}></td>

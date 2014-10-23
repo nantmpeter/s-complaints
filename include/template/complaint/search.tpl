@@ -2,7 +2,9 @@
 <{include file ="navibar.tpl"}>
 <{include file ="sidebar.tpl"}>
 <!-- TPLSTART 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+<style type="text/css">
 
+</style>
 <div style="border:0px;padding-bottom:5px;height:auto">
 	<form action="" method="GET" style="margin-bottom:0px">
 		<div style="float:left;margin-right:5px">
@@ -124,8 +126,8 @@
 					<td><{$result.sp_name}></td>
 					<td><{$result.sp_corp_code}></td>
 					<td><{$result.sp_code}></td>
-					<td><{$result.complaint_content}></td>
-					<td><{$result.suggestion}></td>
+					<td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_content}>" title="" data-original-title1="投诉内容">详情</a></td>
+					<td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.suggestion}>" title="" data-original-title1="处理意见">详情</a></td>
 					<td><{$result.complaint_type}></td>
 					<td><{$result.problem_type}></td>
 					<td><{$result.complaint_level}></td>
@@ -147,7 +149,6 @@
 
 <script>
 $(function() {
-
 	var date=$( "#start_date" );
 	date.datetimepicker({format: 'yyyy-mm',startView: 3,minView: 3,viewSelect:'year'});
 });

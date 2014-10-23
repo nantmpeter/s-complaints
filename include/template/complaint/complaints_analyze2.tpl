@@ -112,15 +112,15 @@
 					<!-- <td><{$result.buss_name}></td> -->
 					<td><{$result.num}></td>
 					<td><{$result.increase}></td>
-					<td><{$result.increasePercent}></td>
+					<td><{$result.increasePercent|string_format:"%.2f"}>%</td>
 <!-- 					<td><{$result.appealSuc}></td>
 					<td><{$result.appealFail}></td>
 					<td><{$result.appealNot}></td> -->
-					<td><{$result.cos}></td>
+					<td><{$result.cos|string_format:"%.2f"}></td>
 
 					<!-- <td><{$result.sp_code}></td> -->
-					<!-- <td><{$result.complaint_content}></td> -->
-					<!-- <td><{$result.suggestion}></td> -->
+					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_content}>" title="" data-original-title1="投诉内容">详情</a></td> -->
+					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.suggestion}>" title="" data-original-title1="">详情</a></td> -->
 
 					<!-- <td><{$result.problem_type}></td>
 					<td><{$result.complaint_level}></td> -->

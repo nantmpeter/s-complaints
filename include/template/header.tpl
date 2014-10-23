@@ -43,6 +43,8 @@
             color: #fff;
             font-weight: bold;
         }
+    .tooltip-inner{color: black;background-color: white;border: solid 1px #ddd;font-size: 14px;max-width: 300px !important}
+
     </style>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->

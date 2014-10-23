@@ -94,7 +94,7 @@
 					<!-- <td><{$result.buss_name}></td> -->
 					<td><{$result.num}></td>
 					<td><{$result.increase}></td>
-					<td><{$result.increasePercent}></td>
+					<td><{$result.increasePercent|string_format:"%.2f"}>%</td>
 					</tr>
 				<{/foreach}>
               </tbody>

@@ -105,10 +105,8 @@
 			   <!--- END -->
         </div>
     </div>
-
 <script>
 $(function() {
-
 	var date=$( "#start_date" );
 	date.datetimepicker({format: 'yyyy-mm',startView: 3,minView: 3,viewSelect:'year'});
 	// date.datepicker( "option", "firstDay", 1 );
