@@ -114,7 +114,7 @@
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
 					<td><{$result.id}></td>
-					<td><{$result.name}></td>
+					<td><{$data.province[$result.province_id]['name']}></td>
 					<td><{$result.part_code}></td>
 					<td><{$result.part_name}></td>
 					<td><{$data.bussLine[$result.buss_type]}></td>
