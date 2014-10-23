@@ -23,7 +23,7 @@
 		</div>
 		<div style="float:left;margin-right:5px">
 			<label> 统计时间 </label>
-			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="时间段" >
+			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="统计月份" >
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 具体业务名称</label>
@@ -127,7 +127,7 @@
     </div>
 
     <div>
-    	<h3>全网联通短彩信业务重点省份投诉量</h3>
+    	<h3>投诉量与收入比（万元）</h3>
     	<canvas id="province" width="900" height="400"></canvas>
     </div>
 

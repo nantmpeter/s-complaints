@@ -97,7 +97,6 @@
                <table class="table table-striped">
               <thead>
                 <tr>
-					<th style="width:30px">#</th>
 					<th style="width:50px">省市</th>
 					<th style="width:55px">工单时间</th>
 					<th style="width:35px">投诉号码</th>
@@ -117,7 +116,6 @@
               <tbody>							  
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
-					<td><{$result.id}></td>
 					<td><{$data.province[$result.province_id].name}></td>
 					<td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td>
 					<td><{$result.complaint_phone}></td>
