@@ -59,6 +59,7 @@
 </div>
 <div class="block">
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
+        <{if $data.result.0 neq ""}>
         <div id="page-stats" class="block-body collapse in">
                <table class="table table-striped">
               <thead>
@@ -113,6 +114,9 @@
                <{$page_html}>
 			   <!--- END -->
         </div>
+         <{else}>
+        	<h4>当月无数据！</h4>
+        <{/if}>
     </div>
 <script>
 $(function() {

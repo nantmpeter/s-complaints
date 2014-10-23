@@ -160,7 +160,6 @@ class Complaint extends Base {
 		foreach ($param as $key => $value) {
 			$condition["AND"][$key] = $value;
 		}
-
 		return $db->count('co_custom',$condition);
 	}
 
