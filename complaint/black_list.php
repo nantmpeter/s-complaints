@@ -7,11 +7,13 @@ $start_date = $end_date = $page_no = $province_id = $buss_name = $sp_name = $sp_
 extract ( $_GET, EXTR_IF_EXISTS );
 $user_info = UserSession::getSessionInfo();
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
-foreach ($arr as $key => $value) {
 
-	if($$value) {
-		$param[$value] = $$value;
-	}
+$http_query = '';
+foreach ($arr as $key => $value) {
+     $http_query .= $value.'='.$$value.'&';
+     if($$value) {
+          $param[$value] = $$value;
+     }
 }
 
 // if (Common::isPost ()) {
@@ -34,8 +36,9 @@ $data['questionType'][3] = Info::getQuestionType(3,'question_type',true);
 $data['complaintLevel'] = Info::getComplaintLevel('complaint_level',false);
 $data['bussLine'] = Info::getBussLine('buss_type',false);
 // var_dump($data['bussLine']);
+$page_html=Pagination::showPager("black_list.php?".$http_query,$page_no,PAGE_SIZE,$row_count);
 
-$page_html=Pagination::showPager("black_list.php?class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date",$page_no,PAGE_SIZE,$row_count);
+// $page_html=Pagination::showPager("black_list.php?class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date",$page_no,PAGE_SIZE,$row_count);
 
 Template::assign("error" ,$error);
 Template::assign("_POST" ,$_POST);

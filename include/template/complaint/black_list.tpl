@@ -22,7 +22,7 @@
 		</div>
 		<div style="float:left;margin-right:5px">
 			<label> 统计月份 </label>
-			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="时间段" >
+			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="统计月份" >
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 具体业务名称</label>
@@ -89,7 +89,7 @@
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
 					<td><{$result.complaint_phone}></td>
-					<td><{$data.province[$result.province_id].name}></td>
+					<td><{$data.province[$result.province_id]['name']}></td>
 					<td><{$result.sp_corp_code}></td>
 					<td><{$result.month|date_format:'%Y-%m'}></td>
 					<td><{$result.sp_corp_name}></td>

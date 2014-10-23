@@ -212,9 +212,9 @@ class Complaint extends Base {
 			foreach ($r as $key => $value) {
 				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
 				$valid = $db->count('co_custom',array('complaint_status'=>'有效'));
-				$r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
-				$r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));
-				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('appeal_status'=>'失败'));
+				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','province_id'=>$value['province_id'])));
+				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','province_id'=>$value['province_id'])));
+				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'失败','province_id'=>$value['province_id'])));
 				$r[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/1000000;
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
