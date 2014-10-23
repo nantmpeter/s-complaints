@@ -86,8 +86,8 @@ class Complaint extends Base {
 		$db=self::__instance();
 		if($param['start_date']) {
 			$s = $param['start_date'];
-			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			$condition["AND"]['month'] = strtotime($param['start_date'].'-01');
+			// $condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 		}
 		// $condition["AND"]['month[>=]'] = strtotime($param['start_date']);
 		// $condition["AND"]['month[<]'] = strtotime($param['end_date']);
@@ -104,12 +104,13 @@ class Complaint extends Base {
 	{
 		$condition = array();
 		$db=self::__instance();
-		$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
-		$condition["AND"]['month[<]'] = strtotime($param['end_date'].'-01 +1 month -1 day');
+		$condition["AND"]['month'] = strtotime($param['start_date'].'-01');
+		// $condition["AND"]['month[<]'] = strtotime($param['end_date'].'-01 +1 month -1 day');
 		unset($param['start_date'],$param['end_date']);
 		foreach ($param as $key => $value) {
 			$condition["AND"][$key] = $value;
 		}
+
 		return $db->count('co_base',$condition);
 	}
 
@@ -578,6 +579,7 @@ class Complaint extends Base {
 			$condition["AND"]['month[<]'] = strtotime($start.'-01 -1 day');
 			$r2 = $db->select('co_complaints','*,count(*) as num',$condition);
 
+			$r2 = $r2?$r2:array();
 			$tmp = array();
 			foreach ($r2 as $key => $value) {
 				$tmp[$value['buss_name']] = $value['num'];
@@ -904,7 +906,6 @@ class Complaint extends Base {
 		foreach ($param as $key => $value) {
 			$condition["AND"][$key] = $value;
 		}
-
 		return $db->count('co_complaints',$condition);
 	}
 

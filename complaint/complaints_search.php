@@ -23,7 +23,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	$start = ($page_no - 1) * $page_size;
 
 	$data['result'] = Complaint::complaintsSearch($param,$start,$page_size);
-
+exit;
 	$row_count = Complaint::complaintsSearchCount($param);
 // }
 $data['province'] = Info::getProvince(false);

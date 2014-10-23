@@ -22,7 +22,7 @@
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 具体业务名称</label>
-			<input type="text" name="buss_name" value="<{$_GET.buss_name}>" placeholder="具体业务名称" > 
+			<input type="text" name="buss_name_detail" value="<{$_GET.buss_name_detail}>" placeholder="具体业务名称" > 
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> SP公司名称</label>

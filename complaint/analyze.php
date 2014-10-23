@@ -1,8 +1,8 @@
 <?php 
 header("Content-Type:text/html;charset=utf-8");
 require ('../include/init.inc.php');
-$arr = array('start_date','end_date','province_id','buss_name','sp_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_type','sp_code');
-$start_date = $end_date = $page_no = $province_id = $buss_name = $sp_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_type = $sp_code =$start_date = $end_date ="";
+$arr = array('start_date','end_date','province_id','buss_name_detail','sp_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_type','sp_code');
+$start_date = $end_date = $page_no = $province_id = $buss_name_detail = $sp_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_type = $sp_code =$start_date = $end_date ="";
 
 extract ( $_GET, EXTR_IF_EXISTS );
 $user_info = UserSession::getSessionInfo();
