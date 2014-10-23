@@ -119,7 +119,7 @@
               </tbody>
             </table>
 				<!--- START 分页模板 -->
-               <{$page_html}>
+               <!-- <{$page_html}> -->
 			   <!--- END -->
         </div>
                 <{else}>

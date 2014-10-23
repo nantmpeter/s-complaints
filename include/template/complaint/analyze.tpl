@@ -23,7 +23,7 @@
 		</div>
 		<div style="float:left;margin-right:5px">
 			<label> 统计时间 </label>
-			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="时间段" >
+			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="统计月份" >
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 具体业务名称</label>
@@ -118,7 +118,7 @@
               </tbody>
             </table>
 				<!--- START 分页模板 -->
-               <{$page_html}>
+               <!-- <{$page_html}> -->
 			   <!--- END -->
         </div>
                 <{else}>
