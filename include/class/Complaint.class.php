@@ -95,7 +95,14 @@ class Complaint extends Base {
 		foreach ($param as $key => $value) {
 			$condition["AND"][$key] = $value;
 		}
-		$condition['LIMIT']=array($start,$page_size);
+		//如果$page_size为0表示获取所有满足条件的记录
+		if(0==$page_size)
+		{
+			$condition['LIMIT']=array($start);
+		}
+		else {
+			$condition['LIMIT']=array($start,$page_size);
+		}
 
 		return $db->select('co_base','*',$condition);
 	}
