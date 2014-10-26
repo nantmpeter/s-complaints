@@ -43,7 +43,7 @@ $("#verify_code").click(function(){
 	var hour = d.getHours(); 
 	var minute = d.getMinutes();
 	var sec = d.getSeconds();
-    $(this).attr("src","<{$smarty.const.ADMIN_URL}>/verify_code_cn.php?"+hour+minute+sec);
+    $(this).attr("src","<{$smarty.const.ADMIN_URL}>/panel/verify_code_cn.php?"+hour+minute+sec);
 });
 </script>
 
