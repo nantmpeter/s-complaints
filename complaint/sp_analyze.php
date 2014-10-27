@@ -26,10 +26,15 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	if($data['result']){
 		foreach ($data['result'] as $key => $value) {
 			$total += $value['num'];
-			$tmp['name'][] = $value['sp_name'];
+			$name = mb_substr($value['sp_name'],0,20);
+			$tmp['name'][] = $name;
 			$tmp['value'][] = $value['num'];
 			$tmp['wan'][] = $value['wan'];
+			$data['wanString'][$value['wan']] = $name;
 		}
+		rsort($tmp['wan']);
+		ksort($data['wanString']);
+		$data['wanString'] = implode(',', $data['wanString']);
 		$data['chartName'] = '"'.implode('","', $tmp['name']).'"';
 		$data['chartValue'] = implode(',', $tmp['value']);
 		$data['chartWan'] = implode(',', $tmp['wan']);
