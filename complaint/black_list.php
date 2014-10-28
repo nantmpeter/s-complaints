@@ -22,7 +22,15 @@ foreach ($arr as $key => $value) {
 	$page_no=$page_no<1?1:$page_no;
 	$start = ($page_no - 1) * $page_size;
 
-	$data['result'] = Complaint::getBlackList($param,$start,$page_size);
+	if($_GET['download']==1)
+	{
+		$data['result'] = Complaint::getBlackList($param,$start,0);
+	}
+	else 
+	{
+		$data['result'] = Complaint::getBlackList($param,$start,$page_size);
+	}
+	
 	$row_count = Complaint::getBlackListCount($param);
 
 
@@ -36,7 +44,17 @@ $data['questionType'][3] = Info::getQuestionType(3,'question_type',true);
 $data['complaintLevel'] = Info::getComplaintLevel('complaint_level',false);
 $data['bussLine'] = Info::getBussLine('buss_type',false);
 // var_dump($data['bussLine']);
+
+//导出excel下载
+if($_GET['download']==1)
+{
+	$downloadStr=array_to_string($data);
+	//var_dump($data);exit;
+	Common::exportExcel($downloadStr,'black_list') ;
+	exit;
+}
 $page_html=Pagination::showPager("black_list.php?".$http_query,$page_no,PAGE_SIZE,$row_count);
+$export_excel="black_list.php?download=1&".$http_query;
 
 // $page_html=Pagination::showPager("black_list.php?class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date",$page_no,PAGE_SIZE,$row_count);
 
@@ -46,5 +64,37 @@ Template::assign ( '_GET', $_GET );
 Template::assign("data" ,$data);
 Template::assign("param" ,$param);
 Template::assign ( 'page_html', $page_html );
+Template::assign ( 'export_excel', $export_excel );
 // Template::assign("output" ,$output);
 Template::display ('complaint/black_list.tpl');
+
+
+
+//列表数据转化为字符串
+function array_to_string($data) {
+	if(empty($data)||!isset($data['result'])||empty($data['result'])) {
+		$dataStr="没有符合您要求的数据！^_^";
+	}
+	else {
+ 		$dataStr = "投诉号码\t省\t公司sp代码\t录入时间\tsp公司\t投诉号码标签\t黑名单级别\t屏蔽时限\n ";
+
+ 		$size_result = count($data['result']);
+ 		
+		for($i = 0 ; $i < $size_result ; $i++) {
+
+					
+			$dataStr.=$data['result'][$i]['complaint_phone']."\t";
+			$dataStr.=$data['province'][$data['result'][$i]['province_id']]['name']."\t";
+
+			$dataStr.=$data['result'][$i]['sp_corp_code']."\t";
+			$dataStr.=date('Y-m',$data['result'][$i]['month'])."\t";
+			$dataStr.=$data['result'][$i]['sp_corp_name']."\t";
+			$dataStr.=$data['result'][$i]['complaint_phone_tag']."\t";
+			$dataStr.=$data['result'][$i]['level']."\t";
+			$dataStr.=$data['result'][$i]['time_limit']."\n";
+		}
+		
+	}
+	$dataStr = mb_convert_encoding($dataStr,"gb2312","UTF-8");
+	return $dataStr;
+}
