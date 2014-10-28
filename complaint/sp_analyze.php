@@ -33,8 +33,9 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 			$data['wanString'][$value['wan']] = $name;
 		}
 		rsort($tmp['wan']);
-		ksort($data['wanString']);
-		$data['wanString'] = implode(',', $data['wanString']);
+		krsort($data['wanString']);
+
+		$data['wanString'] = '"'.implode('","', $data['wanString']).'"';
 		$data['chartName'] = '"'.implode('","', $tmp['name']).'"';
 		$data['chartValue'] = implode(',', $tmp['value']);
 		$data['chartWan'] = implode(',', $tmp['wan']);

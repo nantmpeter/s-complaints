@@ -28,25 +28,36 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	$data['month'] = Complaint::baseAnalayzeMonth($param);
 
 	// $data['provinces'] = Complaint::baseAnalayzeArea($param);
-	$province = Info::getProvince();
+	$province = $strProvince = Info::getProvince();
 		foreach ($province as $key => $value) {
 			$tmpProvince[$value['id']] = $tmpProvince2[$value['id']] = 0;
 		}
 
 		foreach ($result['now'] as $key => $value) {
-				$tmpProvince[$value['province_id']] = $value['num'];
+				if ($value['province_id']) {
+					$tmpProvince[$value['province_id']] = $value['num'];
+					$rand = rand(0,100);
+					$tmp[(string)($value['num']+$rand/100)] = $province[$value['province_id']]['name'];
+					unset($strProvince[$value['province_id']]);
+				}
 		}
+		rsort($tmp);
+
 		foreach ($result['last'] as $key => $value) {
-				$tmpProvince2[$value['province_id']] = $value['num'];
+				if ($value['province_id']) {
+					$tmpProvince2[$value['province_id']] = $value['num'];
+				}
 		}
+		rsort($tmpProvince);
+		rsort($tmpProvince2);
 		$data['provinces'] = implode(',', $tmpProvince);
 		$data['provinces2'] = implode(',', $tmpProvince2);
 
 	// $province = Info::getProvince();
-	foreach ($province as $key => $value) {
+	foreach ($strProvince as $key => $value) {
 		$data['provinceMap'][$key] = $value['name'];
 	}
-	$data['provinceString'] = '"'.implode('","', $data['provinceMap']).'"';
+	$data['provinceString'] = '"'.implode('","', array_merge($tmp,$data['provinceMap'])).'"';
 
 	$baseTwoMonthWan = Complaint::baseTwoMonthWan($param);
 
