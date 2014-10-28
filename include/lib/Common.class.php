@@ -178,7 +178,7 @@ class Common {
 	
 	//导出excel方法
 	public static function exportExcel($DateStr,$filename) {
-		$filename = $filename==""?date('YmdHis').".xls":$filename;//文件名
+		$filename = $filename==""?date('YmdHis').".xls":$filename.date('YmdHis').".xls";//文件名
 		header("Content-type:application/vnd.ms-excel");
 		header("Content-Disposition:attachment;filename=".$filename);
 		header('Cache-Control:must-revalidate,post-check=0,pre-check=0');

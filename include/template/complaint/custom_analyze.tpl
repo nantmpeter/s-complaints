@@ -67,6 +67,7 @@
 </div>
 
 <div class="block">
+		<a style="float:right;padding:10px;" href="<{$export_excel}>" target="" >导出excel</a>
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
         <div id="page-stats" class="block-body collapse in">
                <table class="table table-striped">
