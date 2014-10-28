@@ -45,7 +45,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 				if ($value['province_id']) {
 					$tmpProvince2[$value['province_id']] = $value['wan'];
 				}
-		}
+		} 
 		rsort($tmpProvince);
 		rsort($tmpProvince2);
 		$data['provinces'] = implode(',', $tmpProvince);
