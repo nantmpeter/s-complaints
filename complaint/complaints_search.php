@@ -68,22 +68,27 @@ function array_to_string($data) {
 		$dataStr="没有符合您要求的数据！^_^";
 	}
 	else {
- 		$dataStr = "投诉号码\t省\t公司sp代码\t录入时间\tsp公司\t投诉号码标签\t黑名单级别\t屏蔽时限\n ";
+ 		$dataStr = "省市\t案件编号\t申诉日期\t投诉号码\t产品类别\t业务名称\tsp公司名称\tsp企业代码\tsp接入代码\t投诉内容\t申诉内容\t申诉核查情况\t投诉问题分类\t业务线\n ";
 
  		$size_result = count($data['result']);
  		
 		for($i = 0 ; $i < $size_result ; $i++) {
 
-					
-			$dataStr.=$data['result'][$i]['complaint_phone']."\t";
-			$dataStr.=$data['province'][$data['result'][$i]['province_id']]['name']."\t";
+			$dataStr.=$data['province'][$data['result'][$i]['corp_area']]['name']."\t";
+			$dataStr.=$data['result'][$i]['case_id']."\t";
+			$dataStr.=date('Y-m-d H:i:s',$data['result'][$i]['complaint_time'])."\t";
 
-			$dataStr.=$data['result'][$i]['sp_corp_code']."\t";
-			$dataStr.=date('Y-m',$data['result'][$i]['month'])."\t";
+			$dataStr.=$data['result'][$i]['phone']."\t";
+			$dataStr.=$data['result'][$i]['product_type']."\t";
+			$dataStr.=$data['result'][$i]['buss_name']."\t";
 			$dataStr.=$data['result'][$i]['sp_corp_name']."\t";
-			$dataStr.=$data['result'][$i]['complaint_phone_tag']."\t";
-			$dataStr.=$data['result'][$i]['level']."\t";
-			$dataStr.=$data['result'][$i]['time_limit']."\n";
+			$dataStr.=$data['result'][$i]['sp_corp_code']."\t";
+			$dataStr.=$data['result'][$i]['sp_code']."\t";
+			$dataStr.=preg_replace('/\s/iu', ' ', $data['result'][$i]['complaint_content'])."\t";
+			$dataStr.=preg_replace('/\s/iu', ' ', $data['result'][$i]['10010status'])."\t";
+			$dataStr.=preg_replace('/\s/iu', ' ', $data['result'][$i]['complaint_status'])."\t";
+			$dataStr.=$data['result'][$i]['problem_type']."\t";
+			$dataStr.=$data['result'][$i]['buss_type']."\n";
 		}
 		
 	}

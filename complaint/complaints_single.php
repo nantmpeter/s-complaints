@@ -89,22 +89,17 @@ function array_to_string($data) {
 		$dataStr="没有符合您要求的数据！^_^";
 	}
 	else {
- 		$dataStr = "投诉号码\t省\t公司sp代码\t录入时间\tsp公司\t投诉号码标签\t黑名单级别\t屏蔽时限\n ";
+ 		$dataStr = "产品名称\t公司名称\t月不规范定制件数<\t环比增长量\t环比增长率\n ";
 
  		$size_result = count($data['result']);
  		
 		for($i = 0 ; $i < $size_result ; $i++) {
 
-					
-			$dataStr.=$data['result'][$i]['complaint_phone']."\t";
-			$dataStr.=$data['province'][$data['result'][$i]['province_id']]['name']."\t";
-
-			$dataStr.=$data['result'][$i]['sp_corp_code']."\t";
-			$dataStr.=date('Y-m',$data['result'][$i]['month'])."\t";
+			$dataStr.=$data['result'][$i]['buss_name']."\t";
 			$dataStr.=$data['result'][$i]['sp_corp_name']."\t";
-			$dataStr.=$data['result'][$i]['complaint_phone_tag']."\t";
-			$dataStr.=$data['result'][$i]['level']."\t";
-			$dataStr.=$data['result'][$i]['time_limit']."\n";
+			$dataStr.=$data['result'][$i]['num']."\t";
+			$dataStr.=$data['result'][$i]['increase']."\t";
+			$dataStr.=sprintf("%.2f",$data['result'][$i]['increasePercent'])."\n";
 		}
 		
 	}
