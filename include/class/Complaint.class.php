@@ -341,18 +341,19 @@ class Complaint extends Base {
 		$condition['GROUP'] = 'part_name';
 		$condition['ORDER'] = 'num desc';
 		$condition['LIMIT'] = 20;
-		$r = $db->select('co_custom','*,count(*) as num',$condition);
+		$r = $db->select('co_custom','*,sum(complaint_total) as num',$condition);
 
 		if($r && $start) {
 			$condition["AND"]['order_time[>=]'] = strtotime($start.'-01 -1 month');
 			$condition["AND"]['order_time[<]'] = strtotime($start.'-01 -1 day');
-			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
+			$r2 = $db->select('co_custom','*,sum(complaint_total) as num',$condition);
 
 			$tmp = array();
 			foreach ($r2 as $key => $value) {
-				$tmp[$value['part_name']] = $value['num'];
+				$tmp[$value['part_name']] = round($value['num']);
 			}
 			foreach ($r as $key => $value) {
+				$r[$key]['num'] = $value['num'] = round($value['num']);
 				$t = isset($tmp[$value['part_name']])?$tmp[$value['part_name']]:0;
 				$valid = $db->count('co_custom',array('complaint_status'=>'有效'));
 				$r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
@@ -439,18 +440,19 @@ class Complaint extends Base {
 		$condition['GROUP'] = 'sp_corp_name';
 		$condition['ORDER'] = 'num desc';
 		$condition['LIMIT'] = 20;
-		$r = $db->select('co_complaints','*,count(*) as num',$condition);
+		$r = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
 
 		if($r && $start) {
 			$condition["AND"]['month[>=]'] = strtotime($start.'-01 -1 month');
 			$condition["AND"]['month[<]'] = strtotime($start.'-01 -1 day');
-			$r2 = $db->select('co_complaints','*,count(*) as num',$condition);
+			$r2 = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
 
 			$tmp = array();
 			foreach ($r2 as $key => $value) {
-				$tmp[$value['sp_corp_name']] = $value['num'];
+				$tmp[$value['sp_corp_name']] = round($value['num']);
 			}
 			foreach ($r as $key => $value) {
+				$value['num'] = $r[$key]['num'] = round($value['num']);
 				$t = isset($tmp[$value['part_name']])?$tmp[$value['part_name']]:0;
 				$valid = $db->count('co_complaints',array('complaint_status'=>'有效'));
 				// $r[$key]['appealSuc'] = $db->count('co_complaints',array('appeal_status'=>'申诉成功'));
@@ -486,18 +488,19 @@ class Complaint extends Base {
 		$condition['GROUP'] = 'buss_name';
 		$condition['ORDER'] = 'num desc';
 		$condition['LIMIT'] = 20;
-		$r = $db->select('co_custom','*,count(*) as num',$condition);
+		$r = $db->select('co_custom','*,sum(complaint_total) as num',$condition);
 		if($r && isset($start)) {
 			$condition["AND"]['order_time[>=]'] = strtotime($start.'-01 -1 month');
 			$condition["AND"]['order_time[<]'] = strtotime($start.'-01 -1 day');
-			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
+			$r2 = $db->select('co_custom','*,sum(complaint_total) as num',$condition);
 
 			$tmp = array();
 			$r2 = $r2?$r2:array();
 			foreach ($r2 as $key => $value) {
-				$tmp[$value['buss_name']] = $value['num'];
+				$tmp[$value['buss_name']] = round($value['num']);
 			}
 			foreach ($r as $key => $value) {
+				$r[$key]['num'] = round($value['num']);
 				$t = isset($tmp[$value['buss_name']])?$tmp[$value['buss_name']]:0;
 
 				$valid = $db->count('co_custom',array('complaint_status'=>'有效'));
@@ -572,19 +575,20 @@ class Complaint extends Base {
 		$condition['GROUP'] = 'buss_name';
 		$condition['ORDER'] = 'num desc';
 		$condition['LIMIT'] = 20;
-		$r = $db->select('co_complaints','*,count(*) as num',$condition);
+		$r = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
 
 		if($r && isset($start)) {
 			$condition["AND"]['month[>=]'] = strtotime($start.'-01 -1 month');
 			$condition["AND"]['month[<]'] = strtotime($start.'-01 -1 day');
-			$r2 = $db->select('co_complaints','*,count(*) as num',$condition);
+			$r2 = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
 
 			$r2 = $r2?$r2:array();
 			$tmp = array();
 			foreach ($r2 as $key => $value) {
-				$tmp[$value['buss_name']] = $value['num'];
+				$tmp[$value['buss_name']] = round($value['num']);
 			}
 			foreach ($r as $key => $value) {
+				$r[$key]['num'] = $value['num'] = round($value['num']);
 				$t = isset($tmp[$value['buss_name']])?$tmp[$value['buss_name']]:0;
 
 
@@ -619,7 +623,7 @@ class Complaint extends Base {
 			$condition["AND"][$key] = $value;
 		}
 		$condition['GROUP'] = 'm';
-		$r = $db->select('co_custom','count(*) as num,FROM_UNIXTIME(order_time,"%Y-%m") AS m',$condition);
+		$r = $db->select('co_custom','sum(complaint_total) as num,FROM_UNIXTIME(order_time,"%Y-%m") AS m',$condition);
 		for ($i = 1;$i<=12;$i++){
 			$tmp[substr($start, 0,4).'-'.sprintf('%02s',$i)] = 0;
 		}
@@ -627,7 +631,7 @@ class Complaint extends Base {
 		foreach ($r as $key => $value) {
 			if($value['m'] < substr($start, 0,4).'-01-01')
 				continue;
-			$tmp[$value['m']] = $value['num'];
+			$tmp[$value['m']] = round($value['num']);
 		}
 		return implode(',', $tmp);
 	}
@@ -752,7 +756,7 @@ class Complaint extends Base {
 			$condition["AND"][$key] = $value;
 		}
 		$condition['GROUP'] = 'm';
-		$r = $db->select('co_complaints','count(*) as num,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
+		$r = $db->select('co_complaints','sum(complaint_num) as num,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
 		for ($i = 1;$i<=12;$i++){
 			$tmp[substr($start, 0,4).'-'.sprintf('%02s',$i)] = 0;
 		}
@@ -760,7 +764,7 @@ class Complaint extends Base {
 		foreach ($r as $key => $value) {
 			if($value['m'] < substr($start, 0,4).'-01-01')
 				continue;
-			$tmp[$value['m']] = $value['num'];
+			$tmp[$value['m']] = round($value['num']);
 		}
 // var_dump($tmp);
 		return implode(',', $tmp);
@@ -785,7 +789,7 @@ class Complaint extends Base {
 			$condition["AND"][$key] = $value;
 		}
 		$condition['GROUP'] = 'province_id';
-		$r = $db->select('co_custom','count(*) as num,province_id',$condition);
+		$r = $db->select('co_custom','sum(complaint_total) as num,province_id',$condition);
 
 		$province = Info::getProvince();
 		foreach ($province as $key => $value) {
@@ -796,7 +800,7 @@ class Complaint extends Base {
 			if($flag)
 				$tmpProvince[$value['province_id']] = 0;
 			else
-				$tmpProvince[$value['province_id']] = $value['num'];
+				$tmpProvince[$value['province_id']] = round($value['num']);
 
 			$r[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/1000000;
 			if($r[$key]['cos'] && $flag)
@@ -825,7 +829,7 @@ class Complaint extends Base {
 			$condition["AND"][$key] = $value;
 		}
 		$condition['GROUP'] = 'province_id';
-		$r = $db->select('co_complaints','count(*) as num,corp_area as province_id',$condition);
+		$r = $db->select('co_complaints','sum(complaint_num) as num,corp_area as province_id',$condition);
 
 		$province = Info::getProvince();
 		foreach ($province as $key => $value) {
@@ -837,7 +841,7 @@ class Complaint extends Base {
 			// if($flag)
 			// 	$tmpProvince['province'][$value['province_id']] = 0;
 			// else
-				$tmpProvince['province'][$value['province_id']] = $value['num'];
+				$tmpProvince['province'][$value['province_id']] = round($value['num']);
 
 			$cos = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/1000000;
 			if($cos)
@@ -867,7 +871,7 @@ class Complaint extends Base {
 			$condition["AND"][$key] = $value;
 		}
 		$condition['GROUP'] = 'product_type';
-		$r = $db->select('co_complaints','count(*) as num,product_type',$condition);
+		$r = $db->select('co_complaints','sum(complaint_num) as num,product_type',$condition);
 
 		$province = Info::getProvince();
 		foreach ($province as $key => $value) {
@@ -881,7 +885,7 @@ class Complaint extends Base {
 			// else
 				// $tmpProvince['province'][$value['province_id']] = $value['num'];
 			$tmp['name'][$key] = $value['product_type'];
-			$tmp['num'][$key] = $value['num'];
+			$tmp['num'][$key] = round($value['num']);
 			// $cos = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/1000000;
 			// if($cos)
 			// 	$tmpProvince['complaints'][$value['province_id']] = $value['num']/$cos;
