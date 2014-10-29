@@ -1,2 +1,5 @@
 include/compiled/
 include/config/config.inc.php
+.buildpath
+.project
+.settings/org.eclipse.php.core.prefs

@@ -20,8 +20,14 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	$page_size = PAGE_SIZE;
 	$page_no=$page_no<1?1:$page_no;
 	$start = ($page_no - 1) * $page_size;
-
-	$data['result'] = Complaint::baseSingle($param,$start,$page_size);
+	if($_GET['download']==1)
+	{
+		$data['result'] = Complaint::baseSingle($param,$start,0);
+	}
+	else 
+	{
+		$data['result'] = Complaint::baseSingle($param,$start,$page_size);
+	}
 
 	if($data['result']) {
 		foreach ($data['result'] as $key => $value) {
@@ -57,8 +63,16 @@ $data['questionType'][3] = Info::getQuestionType(3,'question_type',true);
 $data['complaintLevel'] = Info::getComplaintLevel('complaint_level',false);
 $data['bussLine'] = Info::getBussLine('buss_type',false);
 // var_dump($data['bussLine']);
-
+//导出excel下载
+if($_GET['download']==1)
+{
+	$downloadStr=array_to_string($data);
+	//var_dump($data);exit;
+	Common::exportExcel($downloadStr,'black_list') ;
+	exit;
+}
 // $page_html=Pagination::showPager("custom_sp_analyze.php?class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date",$page_no,PAGE_SIZE,$row_count);
+$export_excel="single.php?download=1&class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date";
 
 Template::assign("error" ,$error);
 Template::assign("_POST" ,$_POST);
@@ -66,5 +80,37 @@ Template::assign ( '_GET', $_GET );
 Template::assign("data" ,$data);
 Template::assign("param" ,$param);
 Template::assign ( 'page_html', $page_html );
+Template::assign ( 'export_excel', $export_excel );
 // Template::assign("output" ,$output);
 Template::display ('complaint/single.tpl');
+
+
+//列表数据转化为字符串
+function array_to_string($data) {
+	if(empty($data)||!isset($data['result'])||empty($data['result'])) {
+		$dataStr="没有符合您要求的数据！^_^";
+	}
+	else {
+ 		$dataStr = "省\t业务名称\t公司名称\t公司sp代码\tsp接入号码\t统计时间\t月投诉件数\t环比增长量\t环比增长率\n ";
+
+ 		$size_result = count($data['result']);
+ 		
+		for($i = 0 ; $i < $size_result ; $i++) {
+
+					
+			$dataStr.=$data['province'][$data['result'][$i]['province_id']]['name']."\t";
+			$dataStr.=$data['result'][$i]['buss_name_detail']."\t";
+			$dataStr.=$data['result'][$i]['sp_name']."\t";
+			$dataStr.=$data['result'][$i]['sp_corp_code']."\t";
+			$dataStr.=$data['result'][$i]['sp_code']."\t";
+			$dataStr.=date('Y-m',$data['result'][$i]['month'])."\t";
+			$dataStr.=$data['result'][$i]['num']."\t";
+			$dataStr.=$data['result'][$i]['increase']."\t";
+			
+			$dataStr.=sprintf("%.2f",$data['result'][$i]['increasePercent'])."\n";
+		}
+		
+	}
+	$dataStr = mb_convert_encoding($dataStr,"gb2312","UTF-8");
+	return $dataStr;
+}

@@ -95,7 +95,14 @@ class Complaint extends Base {
 		foreach ($param as $key => $value) {
 			$condition["AND"][$key] = $value;
 		}
-		$condition['LIMIT']=array($start,$page_size);
+		//如果$page_size为0表示获取所有满足条件的记录
+		if(0==$page_size)
+		{
+			$condition['LIMIT']=array($start);
+		}
+		else {
+			$condition['LIMIT']=array($start,$page_size);
+		}
 
 		return $db->select('co_base','*',$condition);
 	}
@@ -134,7 +141,14 @@ class Complaint extends Base {
 		foreach ($param as $key => $value) {
 			$condition["AND"][$key] = $value;
 		}
-		$condition['LIMIT']=array($start,$page_size);
+		//如果$page_size为0表示获取所有满足条件的记录
+		if(0==$page_size)
+		{
+			$condition['LIMIT']=array($start);
+		}
+		else {
+			$condition['LIMIT']=array($start,$page_size);
+		}
 
 		return $db->select('co_custom','*',$condition);
 	}
@@ -176,7 +190,14 @@ class Complaint extends Base {
 		foreach ($param as $key => $value) {
 			$condition["AND"][$key] = $value;
 		}
-		$condition['LIMIT']=array($start,$page_size);
+		//如果$page_size为0表示获取所有满足条件的记录
+		if(0==$page_size)
+		{
+			$condition['LIMIT']=array($start);
+		}
+		else {
+			$condition['LIMIT']=array($start,$page_size);
+		}
 		$r = $db->select('co_complaints','*',$condition);
 		return $r;
 	}
@@ -197,7 +218,14 @@ class Complaint extends Base {
 			$condition["AND"][$key] = $value;
 		}
 		$condition['GROUP'] = 'province_id';
-		$condition['LIMIT']=array($start,$page_size);
+		//如果$page_size为0表示获取所有满足条件的记录
+		if(0==$page_size)
+		{
+			$condition['LIMIT']=array($start);
+		}
+		else {
+			$condition['LIMIT']=array($start,$page_size);
+		}
 		$r = $db->select('co_custom','*,count(*) as num',$condition);
 
 		if($r && isset($s)) {
@@ -245,7 +273,14 @@ class Complaint extends Base {
 			$condition["AND"][$key] = $value;
 		}
 		$condition['GROUP'] = 'province_id';
-		$condition['LIMIT']=array($start,$page_size);
+		//如果$page_size为0表示获取所有满足条件的记录
+		if(0==$page_size)
+		{
+			$condition['LIMIT']=array($start);
+		}
+		else {
+			$condition['LIMIT']=array($start,$page_size);
+		}
 		$r = $db->select('co_base','*,count(*) as num',$condition);
 
 		if($r && isset($s)) {
@@ -339,7 +374,14 @@ class Complaint extends Base {
 		}
 		$condition['GROUP'] = 'part_name';
 		$condition['ORDER'] = 'num desc';
-		$condition['LIMIT'] = 20;
+		//如果$page_size为0表示获取所有满足条件的记录
+		if(0==$page_size)
+		{
+			$condition['LIMIT']=array($start);
+		}
+		else {
+			$condition['LIMIT']=array($start,$page_size);
+		}
 		$r = $db->select('co_custom','*,count(*) as num',$condition);
 
 		if($r && $start) {
@@ -387,7 +429,14 @@ class Complaint extends Base {
 		}
 		$condition['GROUP'] = 'sp_name';
 		$condition['ORDER'] = 'num desc';
-		$condition['LIMIT'] = 20;
+		//如果$page_size为0表示获取所有满足条件的记录
+		if(0==$page_size)
+		{
+			$condition['LIMIT']=array($start);
+		}
+		else {
+			$condition['LIMIT']=array($start,$page_size);
+		}
 		$r = $db->select('co_base','*,count(*) as num',$condition);
 
 // var_dump($condition,$r);
@@ -437,7 +486,14 @@ class Complaint extends Base {
 		}
 		$condition['GROUP'] = 'sp_corp_name';
 		$condition['ORDER'] = 'num desc';
-		$condition['LIMIT'] = 20;
+		//如果$page_size为0表示获取所有满足条件的记录
+		if(0==$page_size)
+		{
+			$condition['LIMIT']=array($start);
+		}
+		else {
+			$condition['LIMIT']=array($start,$page_size);
+		}
 		$r = $db->select('co_complaints','*,count(*) as num',$condition);
 
 		if($r && $start) {
@@ -484,7 +540,14 @@ class Complaint extends Base {
 		}
 		$condition['GROUP'] = 'buss_name';
 		$condition['ORDER'] = 'num desc';
-		$condition['LIMIT'] = 20;
+		//如果$page_size为0表示获取所有满足条件的记录
+		if(0==$page_size)
+		{
+			$condition['LIMIT']=array($start);
+		}
+		else {
+			$condition['LIMIT']=array($start,$page_size);
+		}
 		$r = $db->select('co_custom','*,count(*) as num',$condition);
 		if($r && isset($start)) {
 			$condition["AND"]['order_time[>=]'] = strtotime($start.'-01 -1 month');
@@ -529,8 +592,14 @@ class Complaint extends Base {
 		}
 		$condition['GROUP'] = 'buss_name_detail';
 		$condition['ORDER'] = 'num desc';
-		$condition['LIMIT'] = 20;
-
+		//如果$page_size为0表示获取所有满足条件的记录
+		if(0==$page_size)
+		{
+			$condition['LIMIT']=array($start);
+		}
+		else {
+			$condition['LIMIT']=array($start,$page_size);
+		}
 		$r = $db->select('co_base','*,count(*) as num',$condition);
 // var_dump($condition,$r);
 		if($r && isset($s)) {
@@ -570,7 +639,14 @@ class Complaint extends Base {
 		}
 		$condition['GROUP'] = 'buss_name';
 		$condition['ORDER'] = 'num desc';
-		$condition['LIMIT'] = 20;
+		//如果$page_size为0表示获取所有满足条件的记录
+		if(0==$page_size)
+		{
+			$condition['LIMIT']=array($start);
+		}
+		else {
+			$condition['LIMIT']=array($start,$page_size);
+		}
 		$r = $db->select('co_complaints','*,count(*) as num',$condition);
 
 		if($r && isset($start)) {
@@ -1048,7 +1124,14 @@ class Complaint extends Base {
 		foreach ($param as $key => $value) {
 			$condition["AND"][$key] = $value;
 		}
-		$condition['LIMIT']=array($start,$page_size);
+		//如果$page_size为0表示获取所有满足条件的记录
+		if(0==$page_size)
+		{
+			$condition['LIMIT']=array($start);
+		}
+		else {
+			$condition['LIMIT']=array($start,$page_size);
+		}
 
 		return $db->select('co_black_list','*',$condition);
 	}
