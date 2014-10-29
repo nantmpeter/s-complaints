@@ -198,18 +198,19 @@ class Complaint extends Base {
 		}
 		$condition['GROUP'] = 'province_id';
 		$condition['LIMIT']=array($start,$page_size);
-		$r = $db->select('co_custom','*,count(*) as num',$condition);
+		$r = $db->select('co_custom','*,sum(complaint_total) as num',$condition);
 
 		if($r && isset($s)) {
 			$condition["AND"]['order_time[>=]'] = strtotime($s.'-01 -1 month');
 			$condition["AND"]['order_time[<]'] = strtotime($s.'-01 -1 day');
-			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
+			$r2 = $db->select('co_custom','*,sum(complaint_total) as num',$condition);
 
 			$tmp = array();
 			foreach ($r2 as $key => $value) {
-				$tmp[$value['province_id']] = $value['num'];
+				$tmp[$value['province_id']] = round($value['num']);
 			}
 			foreach ($r as $key => $value) {
+				$value['num'] = $r[$key]['num'] = round($value['num']);
 				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
 				$valid = $db->count('co_custom',array('complaint_status'=>'有效'));
 				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','province_id'=>$value['province_id'])));
@@ -927,20 +928,22 @@ class Complaint extends Base {
 		$condition['GROUP'] = 'corp_area';
 		// $condition['LIMIT']=array($start,$page_size);
 
-		$r = $db->select('co_complaints','*,count(*) as num',$condition);
+		$r = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
+
 		$start = $start?$start:date('Y-m');
 		if($r && isset($start)) {
 			$condition["AND"]['month[>=]'] = strtotime($start.'-01 -1 month');
 			$condition["AND"]['month[<]'] = strtotime($start.'-01 -1 day');
 
-			$r2 = $db->select('co_complaints','*,count(*) as num',$condition);
+			$r2 = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
 		// var_dump($start,$condition,$r2);
 
 			$tmp = array();
 			foreach ($r2 as $key => $value) {
-				$tmp[$value['corp_area']] = $value['num'];
+				$tmp[$value['corp_area']] = round($value['num']);
 			}
 			foreach ($r as $key => $value) {
+				$value['num'] = $r[$key]['num'] = round($value['num']);
 				$t = isset($tmp[$value['corp_area']])?$tmp[$value['corp_area']]:0;
 				$valid = $db->count('co_custom',array('complaint_status'=>'有效'));
 				// $r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
@@ -977,21 +980,22 @@ class Complaint extends Base {
 		$condition['GROUP'] = 'product_type';
 		// $condition['LIMIT']=array($start,$page_size);
 
-		$r = $db->select('co_complaints','*,count(*) as num',$condition);
+		$r = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
 		$start = $start?$start:date('Y-m');
 		if($r && isset($start)) {
 			$condition["AND"]['month[>=]'] = strtotime($start.'-01 -1 month');
 			$condition["AND"]['month[<]'] = strtotime($start.'-01 -1 day');
 
-			$r2 = $db->select('co_complaints','*,count(*) as num',$condition);
+			$r2 = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
 		// var_dump($start,$condition,$r2);
 
 			$tmp = array();
 			foreach ($r2 as $key => $value) {
-				$tmp[$value['corp_area']] = $value['num'];
+				$tmp[$value['corp_area']] = round($value['num']);
 			}
 			$total = 0;
 			foreach ($r as $key => $value) {
+				$value['num'] = $r[$key]['num'] = round($value['num']);
 				$total += $value['num'];
 				$t = isset($tmp[$value['corp_area']])?$tmp[$value['corp_area']]:0;
 				$valid = $db->count('co_custom',array('complaint_status'=>'有效'));

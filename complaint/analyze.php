@@ -33,6 +33,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 			$tmpProvince[$value['id']] = $tmpProvince2[$value['id']] = 0;
 		}
 
+		$tmp = array();
 		foreach ($result['now'] as $key => $value) {
 				if ($value['province_id']) {
 					$tmpProvince[$value['province_id']] = $value['num'];
