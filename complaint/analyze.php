@@ -42,7 +42,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 					unset($strProvince[$value['province_id']]);
 				}
 		}
-		rsort($tmp);
+		krsort($tmp);
 
 		foreach ($result['last'] as $key => $value) {
 				if ($value['province_id']) {
