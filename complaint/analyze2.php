@@ -32,7 +32,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		foreach ($province as $key => $value) {
 			$tmpProvince[$value['id']] = $tmpProvince2[$value['id']] = 0;
 		}
-
+		$tmp = array();
 		foreach ($result['now'] as $key => $value) {
 				if ($value['province_id']) {
 					$tmpProvince[$value['province_id']] = $value['wan'];
@@ -55,7 +55,13 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	foreach ($province as $key => $value) {
 		$data['provinceMap'][$key] = $value['name'];
 	}
-	$data['provinceString'] = '"'.implode('","', array_merge($tmp,$data['provinceMap'])).'"';
+
+	$tmpP = array();
+	foreach ($strProvince as $key => $value) {
+		$tmpP[$key] = $value['name'];
+	}
+
+	$data['provinceString'] = '"'.implode('","', array_merge($tmp,$tmpP)).'"';
 
 	$baseTwoMonthWan = Complaint::baseTwoMonthWan($param);
 	foreach ($baseTwoMonthWan as $key => $value) {

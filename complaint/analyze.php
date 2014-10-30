@@ -55,10 +55,16 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$data['provinces2'] = implode(',', $tmpProvince2);
 
 	// $province = Info::getProvince();
-	foreach ($strProvince as $key => $value) {
+	foreach ($province as $key => $value) {
 		$data['provinceMap'][$key] = $value['name'];
 	}
-	$data['provinceString'] = '"'.implode('","', array_merge($tmp,$data['provinceMap'])).'"';
+
+	$tmpP = array();
+	foreach ($strProvince as $key => $value) {
+		$tmpP[$key] = $value['name'];
+	}
+
+	$data['provinceString'] = '"'.implode('","', array_merge($tmp,$tmpP)).'"';
 
 	$baseTwoMonthWan = Complaint::baseTwoMonthWan($param);
 
