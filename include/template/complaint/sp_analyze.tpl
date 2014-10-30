@@ -105,9 +105,9 @@
 					<td><{$result.num}></td>
 					<td><{$result.increase}></td>
 					<td><{$result.increasePercent|string_format:"%.2f"}>%</td>
-					<td><{$result.num/$data.total * 100|string_format:'%.2f'}>%</td>
+					<td><{($result.num/$data.total * 100)|string_format:'%.2f'}>%</td>
 
-					<td><{$result.wan}></td>
+					<td><{$result.wan|string_format:'%.2f'}></td>
 
 					<!-- <td><{$result.sp_code}></td> -->
 					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_content}>" title="" data-original-title1="投诉内容">详情</a></td> -->
