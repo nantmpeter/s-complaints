@@ -24,6 +24,14 @@ foreach ($arr as $key => $value) {
 
 	if($data['result']) {
 		foreach ($data['result'] as $key => $value) {
+			if ($value['buss_name'] == '') {
+				unset($data['result'][$key]);
+				// var_dump(current($data['result']));
+				if($key == 0){
+					$data['result'][0] = current($data['result']);
+				}
+				continue;
+			}
 			$tmp['name'][] = $value['buss_name'];
 			$tmp['value'][] = $value['num'];
 		}
