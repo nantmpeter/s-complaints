@@ -32,6 +32,14 @@
 			<input type="text" name="case_id" value="<{$_GET.case_id}>" placeholder="案件编号" > 
 		</div>
 		<div style="float:left;margin-right:5px">
+		<label> 业务分类</label>
+			<select name="product_type"><option value="0">全部</option>
+			<{foreach name=product_type from=$data.product_type item=product_type}>
+				<option value="<{$product_type}>" <{if $param.product_type == $product_type}> selected='selected'<{/if}>><{$product_type}></option>
+			<{/foreach}>
+			</select>
+		</div>
+		<div style="float:left;margin-right:5px">
 		<label> 投诉号码</label>
 			<input type="text" name="dispute_phone" value="<{$_GET.dispute_phone}>" placeholder="投诉号码" > 
 		</div>
@@ -68,7 +76,7 @@
 					<th style="width:50px">案件编号</th>
 					<th style="width:55px">申诉日期</th>
 					<th style="width:35px">投诉号码</th>
-					<th style="width:35px">产品类别</th>
+					<!-- <th style="width:35px">产品类别</th> -->
 					<th style="width:35px">业务名称</th>
 					<th style="width:35px">sp公司名称</th>
 					<!-- <th style="width:55px">具体业务名称</th> -->
@@ -83,7 +91,7 @@
 					<!-- <th style="width:30px">投诉类型</th> -->
 					<th style="width:30px">投诉问题分类</th>
 					<!-- <th style="width:30px">投诉分级</th> -->
-					<th style="width:30px">业务线</th>
+					<th style="width:30px">业务分类</th>
                 </tr>
               </thead>
               <tbody>							  
@@ -93,7 +101,7 @@
 					<td><{$result.case_id}></td>
 					<td><{$result.complaint_time|date_format:'%Y-%m-%d'}></td>
 					<td><{$result.phone}></td>
-					<td><{$result.product_type}></td>
+					<!-- <td><{$result.product_type}></td> -->
 					<td><{$result.buss_name}></td>
 					<td><{$result.sp_corp_name}></td>
 					<!-- <td><{$result.sp_name}></td> -->
@@ -105,7 +113,7 @@
 					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.suggestion}>" title="" data-original-title1="">详情</a></td> -->
 					<!-- <td><{$result.complaint_type}></td> -->
 					<td><{$result.problem_type}></td>
-					<td><{$result.buss_type}></td>
+					<td><{$result.product_type}></td>
 					</tr>
 				<{/foreach}>
               </tbody>

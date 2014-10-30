@@ -116,4 +116,17 @@ class Info extends Base{
 			return $r['id'];
 		return '';
 	}
+
+	public static function getProductType()
+	{
+		$db=new Medoo(OSA_DB_ID);
+		$r = $db->query('SELECT `product_type` FROM `co_complaints` GROUP BY `product_type`')->fetchAll();
+		$result = array();
+		foreach ($r as $key => $value) {
+			$result[] = $value['product_type'];
+		}
+		return $result;
+		// $r = $db->select('co_complaints','product_type',array('group'=>'product_type'));
+		var_dump($r);exit;
+	}
 }
