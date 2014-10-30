@@ -8,9 +8,9 @@
 		<div style="float:left;margin-right:5px">
 
 			<label> 选择省份 </label>
-			<select name="province_id"><option value="0">全部</option>
+			<select name="corp_area"><option value="0">全部</option>
 			<{foreach name=province from=$data.province item=province}>
-				<option value="<{$province.id}>" <{if $param.province_id == $province.id}> selected='selected'<{/if}>><{$province.name}></option>
+				<option value="<{$province.id}>" <{if $param.corp_area == $province.id}> selected='selected'<{/if}>><{$province.name}></option>
 			<{/foreach}>
 			</select>
 			<!-- <{$data.province}> -->
