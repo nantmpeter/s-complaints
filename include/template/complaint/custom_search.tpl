@@ -98,7 +98,7 @@
 					<th style="width:50px">业务类型</th>
 					<th style="width:50px">业务名称</th>
 					<th style="width:50px">投诉类型名称</th>
-					<th style="width:55px">工单时间</th>
+					<th style="width:55px">统计月份</th>
 					<th style="width:55px">不规范定制投诉量</th>
 					<th style="width:35px">投诉号码</th>
 
@@ -120,7 +120,8 @@
 					<td><{$data.bussLine[$result.buss_type]}></td>
 					<td><{$result.buss_name}></td>
 					<td><{$result.complaint_type}></td>
-					<td><{if $result.order_time }><{$result.order_time|date_format:'%Y-%m'}><{/if}></td>
+					<!-- <td><{if $result.order_time }><{$result.order_time|date_format:'%Y-%m'}><{/if}></td> -->
+					<td><{$result.month|date_format:'%Y-%m'}></td>
 					<td><{$result.complaint_total}></td>
 					<td><{$result.complaint_phone}></td>
 
