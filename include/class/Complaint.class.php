@@ -355,10 +355,11 @@ class Complaint extends Base {
 			foreach ($r as $key => $value) {
 				$r[$key]['num'] = $value['num'] = round($value['num']);
 				$t = isset($tmp[$value['part_name']])?$tmp[$value['part_name']]:0;
-				$valid = $db->count('co_custom',array('complaint_status'=>'有效'));
-				$r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
-				$r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));
-				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('appeal_status'=>'失败'));
+				$valid = $db->count('co_custom',array('AND'=>array('complaint_status'=>'有效','part_name'=>$value['part_name'])));
+				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','part_name'=>$value['part_name'])));
+				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','part_name'=>$value['part_name'])));
+				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','part_name'=>$value['part_name'])));
+
 				$r[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('sp_name'=>$value['sp_corp_name']))['cos']/1000000;
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
@@ -503,10 +504,10 @@ class Complaint extends Base {
 				$r[$key]['num'] = round($value['num']);
 				$t = isset($tmp[$value['buss_name']])?$tmp[$value['buss_name']]:0;
 
-				$valid = $db->count('co_custom',array('complaint_status'=>'有效'));
-				$r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
-				$r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));
-				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('appeal_status'=>'失败'));
+				$valid = $db->count('co_custom',array('AND'=>array('complaint_status'=>'有效','buss_name'=>$value['buss_name'])));
+				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','buss_name'=>$value['buss_name'])));
+				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','buss_name'=>$value['buss_name'])));
+				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','buss_name'=>$value['buss_name'])));
 
 				$r[$key]['valid'] = $valid;
 				$r[$key]['increase'] = $value['num'] - $t;

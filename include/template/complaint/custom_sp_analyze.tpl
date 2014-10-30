@@ -63,6 +63,7 @@
 
 <div class="block">
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
+        <{if $data.result.0 neq ""}>
         <div id="page-stats" class="block-body collapse in">
                <table class="table table-striped">
               <thead>
@@ -121,8 +122,11 @@
                <!-- <{$page_html}> -->
 			   <!--- END -->
         </div>
+        <{else}>
+        	<h4>当月无数据！</h4>
+        <{/if}>
     </div>
-    <{if $data.result}>
+
     <div>
     	<h3>sp公司不规范定制TOP20</h3>
     	<canvas id="chart" width="700" height="400"></canvas>
@@ -131,7 +135,7 @@
     	<h3>sp公司不规范定制TOP20(万投比)</h3>
     	<canvas id="wanchart" width="700" height="400"></canvas>
     </div>
-    <{/if}>
+
 <script>
 $(function() {
 
