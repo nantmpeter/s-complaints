@@ -2,24 +2,28 @@
 if(!defined('ACCESS')) {exit('Access denied.');}
 class Complaint extends Base {
 
+	// public static $columns;
 	// 表名
 	// private static $table_name = 'co_base';
+	private static $base = "province_id,order_id,order_time,complaint_phone,complaint_content,sp_name,sp_corp_code,sp_code,suggestion,order_department,buss_department,buss_name,buss_name_detail,buss_rates,problem,reconciliations,charge_back,buss_type,buss_type_name,complaint_type,problem_type,problem_result,complaint_level,buss_line,work_id,month";
+	private static $custom = "order_id,sub_order_id,part_name,responsibility_code,responsibility_name,part_code,order_time,buss_type,buss_type_code,buss_name,buss_code,product_name,product_code,complaint_status,appeal_status,user_name,complaint_phone,complaint_type,custom,complaint_total,complaint_content,appeal_content,province_id,cooperative,all_net,order_end_time,complaint_id,deductions,buss_line,month";
+	private static $complaints = "complaints_id,case_id,user_name,phone,dispute_phone,address,about_corp,corp_area,type_one,type_two,type_three,buss_one,buss_two,buss_three,buss_four,complaint_source,comfirm_user,complaint_time,get_time,handle_time,complaint_content,complaint10010,10010status,complaint10015,10015status,complaint_status,problem,problem_type,contact_element,element,buss_type,product_type,problem_channel,service_need,buss_way,netproblem,phoneproblem,vipuser,partment,buss_class,complaint_num,sp_corp_name,sp_corp_code,sp_code,buss_name,complaint_class,buss_line,month";
+	private static $income = "province_id,sp_name,sp_code,buss_type,province_income,sp_income,owe,tuipei_cost,imbalance_cost,20_cost,diaozhang_cost,violate_cost,custom_cost,month,mastsp_code,mastsp_cost,mastsp_sleave";
+	private static $value_income = "month,buss_type,value,custom_cost";
+	private static $black_list = "complaint_phone,province_id,sp_corp_code,month,sp_corp_name,complaint_phone_tag,level,time_limit";
 
-	//状态定义
-	
 	public static function getTableName(){
 		return parent::$table_prefix.self::$table_name;
 	}
 
-	public static function save($param,$table){
-		$columns['base'] = "province_id,order_id,order_time,complaint_phone,complaint_content,sp_name,sp_corp_code,sp_code,suggestion,order_department,buss_department,buss_name,buss_name_detail,buss_rates,problem,reconciliations,charge_back,buss_type,buss_type_name,complaint_type,problem_type,problem_result,complaint_level,buss_line,work_id,month";
-		$columns['custom'] = "order_id,sub_order_id,part_name,responsibility_code,responsibility_name,part_code,order_time,buss_type,buss_type_code,buss_name,buss_code,product_name,product_code,complaint_status,appeal_status,user_name,complaint_phone,complaint_type,custom,complaint_total,complaint_content,appeal_content,province_id,cooperative,all_net,order_end_time,complaint_id,deductions,buss_line,month";
-		$columns['complaints'] = "complaints_id,case_id,user_name,phone,dispute_phone,address,about_corp,corp_area,type_one,type_two,type_three,buss_one,buss_two,buss_three,buss_four,complaint_source,comfirm_user,complaint_time,get_time,handle_time,complaint_content,complaint10010,10010status,complaint10015,10015status,complaint_status,problem,problem_type,contact_element,element,buss_type,product_type,problem_channel,service_need,buss_way,netproblem,phoneproblem,vipuser,partment,buss_class,complaint_num,sp_corp_name,sp_corp_code,sp_code,buss_name,complaint_class,buss_line,month";
-		$columns['income'] = "province_id,sp_name,sp_code,buss_type,province_income,sp_income,owe,tuipei_cost,imbalance_cost,20_cost,diaozhang_cost,violate_cost,custom_cost,month,mastsp_code,mastsp_cost,mastsp_sleave";
-		$columns['value_income'] = "month,buss_type,value,custom_cost";
-		$columns['black_list'] = "complaint_phone,province_id,sp_corp_code,month,sp_corp_name,complaint_phone_tag,level,time_limit";
+	public static function save($param,$table,$month){
+		$columns['base'] = self::$base;#"province_id,order_id,order_time,complaint_phone,complaint_content,sp_name,sp_corp_code,sp_code,suggestion,order_department,buss_department,buss_name,buss_name_detail,buss_rates,problem,reconciliations,charge_back,buss_type,buss_type_name,complaint_type,problem_type,problem_result,complaint_level,buss_line,work_id,month";
+		$columns['custom'] = self::$custom;#"order_id,sub_order_id,part_name,responsibility_code,responsibility_name,part_code,order_time,buss_type,buss_type_code,buss_name,buss_code,product_name,product_code,complaint_status,appeal_status,user_name,complaint_phone,complaint_type,custom,complaint_total,complaint_content,appeal_content,province_id,cooperative,all_net,order_end_time,complaint_id,deductions,buss_line,month";
+		$columns['complaints'] = self::$complaints;#"complaints_id,case_id,user_name,phone,dispute_phone,address,about_corp,corp_area,type_one,type_two,type_three,buss_one,buss_two,buss_three,buss_four,complaint_source,comfirm_user,complaint_time,get_time,handle_time,complaint_content,complaint10010,10010status,complaint10015,10015status,complaint_status,problem,problem_type,contact_element,element,buss_type,product_type,problem_channel,service_need,buss_way,netproblem,phoneproblem,vipuser,partment,buss_class,complaint_num,sp_corp_name,sp_corp_code,sp_code,buss_name,complaint_class,buss_line,month";
+		$columns['income'] = self::$income;#"province_id,sp_name,sp_code,buss_type,province_income,sp_income,owe,tuipei_cost,imbalance_cost,20_cost,diaozhang_cost,violate_cost,custom_cost,month,mastsp_code,mastsp_cost,mastsp_sleave";
+		$columns['value_income'] = self::$value_income;#"month,buss_type,value,custom_cost";
+		$columns['black_list'] = self::$black_list;#"complaint_phone,province_id,sp_corp_code,month,sp_corp_name,complaint_phone_tag,level,time_limit";
 		// unset($param[0]);
-
 		// var_dump(count(explode(',', $columns[$table])),count($param));exit;
 		$bussLine = array(
 				'联通在信' => 1,
@@ -30,7 +34,11 @@ class Complaint extends Base {
 		if($table == 'base') {
 			$param[0] = Info::getProvinceByName($param[0]);
 			// $param[6] = ExcelReader::xlsTime($param[6]);
+
+			if($month != $param[25])
+				return true;
 			$param[25] = strtotime($param[25].'01');
+
 			$tmp = array($param[3],$param[0],$param[6],$param[25],$param[5],'',1,'一年');
 			$num = $db->count('co_base',array('complaint_phone'=>$param[3]));
 			if($num > 0) {
@@ -42,6 +50,8 @@ class Complaint extends Base {
 				$db->query($sql);
 		}
 		if($table == 'custom') {
+			if($month != $param[29])
+				return true;
 			$param[25] = ExcelReader::xlsTime($param[25]);
 			$param[6] = ExcelReader::xlsTime($param[6]);
 			$param[29] = strtotime($param[29].'01');
@@ -63,6 +73,8 @@ class Complaint extends Base {
 			$param[18] = ExcelReader::xlsTime($param[18]);
 			$param[19] = ExcelReader::xlsTime($param[19]);
 			$param[7] = Info::getProvinceByName($param[7]);
+			if($month != $param[47])
+				return true;
 			$param[47] = strtotime($param[47].'01');
 			$tmp = array($param[4],$param[7],$param[42],$param[47],$param[41],'',3,'永久屏蔽');
 			$sql = 'insert into co_black_list ('.$columns['black_list'].') values ("'.implode('","', $tmp).'")';
@@ -80,6 +92,19 @@ class Complaint extends Base {
 		$sql = "insert into co_". $table ." (".$columns[$table].") values ('".implode("','", $param)."')";
 		// echo $sql.'<br>';exit;
 		return $db->query ($sql);
+	}
+
+
+	public static function checkFirstLine($arr,$table) {
+		$checkParams['base'] = 1;
+		$db=self::__instance();
+		$params = explode(',', self::$$table);
+
+		// var_dump(count($params),count($arr[1]),$arr[1]);exit;
+		$r = $db->select('co_'.$table,'*',array($params[$checkParams[$table]]=>$arr[1][$checkParams[$table]]));
+		if(count($r) > 0) {
+			return array('error'=>'该数据以导入过！');
+		}
 	}
 
 	public static function search($param,$start = 0,$page_size=20){
@@ -1159,6 +1184,14 @@ class Complaint extends Base {
 			$condition["AND"][$key] = $value;
 		}
 		return $db->count('co_black_list',$condition);
+	}
+
+	public static function delDataByMonth($table,$month)
+	{
+		$month = strtotime($month.'01');
+		// var_dump($table,$month);exit;
+		$db=self::__instance();
+		$r = $db->delete('co_'.$table,array('month'=>$month));
 	}
 
 }

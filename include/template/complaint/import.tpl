@@ -9,6 +9,7 @@
 	<form id="tab" method="post" action="" autocomplete="off" ENCTYPE="multipart/form-data">
 				<hr />
 				<h4>每月全国各省客户投诉工单</h4>
+				<input type="checkbox" name="cover" />数据覆盖导入（该选项会清除导入表格月分的数据）<br>
 				<input type="file" name="excel"  id="DropDownTimezone"  class="input-xlarge">
 				<input type="hidden" name="table" value="base">
 				 
@@ -30,6 +31,7 @@
 	<form id="tab" method="post" action="" autocomplete="off" ENCTYPE="multipart/form-data">
 				<hr />
 				<h4>每月全国31省不规范定制表</h4>
+				<input type="checkbox" name="cover" />数据覆盖导入（该选项会清除导入表格月分的数据）<br>
 				<input type="file" name="excel"  id="DropDownTimezone"  class="input-xlarge">
 				<input type="hidden" name="table" value="custom">
 				 
@@ -51,6 +53,7 @@
 	<form id="tab" method="post" action="" autocomplete="off" ENCTYPE="multipart/form-data">
 				<hr />
 				<h4>每月全国31省工信部投诉表</h4>
+				<input type="checkbox" name="cover" />数据覆盖导入（该选项会清除导入表格月分的数据）<br>
 				<input type="file" name="excel"  id="DropDownTimezone"  class="input-xlarge">
 				<input type="hidden" name="table" value="complaints">
 				 
@@ -73,6 +76,7 @@
 	<form id="tab" method="post" action="" autocomplete="off" ENCTYPE="multipart/form-data">
 				<hr />
 				<h4>每月全国31省联通在信业务收入</h4>
+				<input type="checkbox" name="cover" />数据覆盖导入（该选项会清除导入表格月分的数据）<br>
 				<input type="file" name="excel"  id="DropDownTimezone"  class="input-xlarge">
 				<input type="hidden" name="table" value="income">
 				 
@@ -95,6 +99,7 @@
 	<form id="tab" method="post" action="" autocomplete="off" ENCTYPE="multipart/form-data">
 				<hr />
 				<h4>每月所有增值业务收入</h4>
+				<input type="checkbox" name="cover" />数据覆盖导入（该选项会清除导入表格月分的数据）<br>
 				<input type="file" name="excel"  id="DropDownTimezone"  class="input-xlarge">
 				<input type="hidden" name="table" value="value_income">
 				 

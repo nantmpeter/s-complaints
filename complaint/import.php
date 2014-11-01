@@ -3,6 +3,8 @@ header("Content-Type:text/html;charset=utf-8");
 require ('../include/init.inc.php');
 $user_info = UserSession::getSessionInfo();
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
+$name_map = array('基础信息'=>'base','不规范定制'=>'custom','工信部投诉'=>'complaints','收入'=>'income','增值收入'=>'value_income');
+
 if (Common::isPost ()) {
 	if(empty($_FILES['excel'])) {
 		OSAdmin::alert("error","empty file");
@@ -11,24 +13,47 @@ if (Common::isPost ()) {
 			$message = 'ÉÏ´«ÎÄ¼þÊ§°Ü,error number('.$_FILES['excel']['error'].')';
 			OSAdmin::alert("error",$message);
 		}
-		$file = $_FILES['excel']['tmp_name'];
+		$file_name = $_FILES['excel']['name'];
+		$tmp = explode('-', $file_name);
+		if($name_map[$tmp[0]] !== $_POST['table']){
+			$error[$_POST['table']][] = '您所导入的表不是正确的表或命名有误！';
+		}elseif(isset($tmp[1]) && is_numeric($tmp[1])){
 
-		$excel_array = ExcelReader::readXLS($file);
-		if($excel_array) {
+			$file = $_FILES['excel']['tmp_name'];
 
-			unset($excel_array[0]);
-			$error[$_POST['table']] = array();
+			$excel_array = ExcelReader::readXLS($file);
 
-			foreach ($excel_array as $key => $value) {
-				$r = Complaint::save($value,$_POST['table']);
-				if(!$r)
-					$error[$_POST['table']][] = implode(",", $value);
+			if($_POST['cover'] == 'on'){
+				Complaint::delDataByMonth($_POST['table'],$tmp[1]);
+			}else{
+				$check = false;
+				$check = Complaint::checkFirstLine($excel_array,$_POST['table']);
 			}
-			if (empty($error[$_POST['table']])) {
-				$error[$_POST['table']][] = '导入成功！';
+
+			if($check){
+				$error[$_POST['table']][] = $check['error'];
+			}else{
+
+				// TODO check if imported
+				if($excel_array) {
+
+					unset($excel_array[0]);
+					$error[$_POST['table']] = array();
+
+					foreach ($excel_array as $key => $value) {
+						$r = Complaint::save($value,$_POST['table'],$tmp[1]);
+						if(!$r)
+							$error[$_POST['table']][] = implode(",", $value);
+					}
+					if (empty($error[$_POST['table']])) {
+						$error[$_POST['table']][] = '导入成功！';
+					}
+				}else{
+					$error[$_POST['table']][] = "导入文件有问题！";
+				}
 			}
 		}else{
-			$error[$_POST['table']][] = "导入文件有问题！";
+			$error[$_POST['table']][] = "导入文件命名有问题！";
 		}
 		// $output=print_r($excel_array,true);
 	}
