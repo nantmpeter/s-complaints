@@ -80,6 +80,7 @@
 					<th style="width:30px">环比增长量</th>
 					<th style="width:30px">环比增长率</th>
 					<th style="width:30px">全国投诉占比</th>
+					<th style="width:30px">sp应收</th>
 
 					<th style="width:30px">sp万投比</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
@@ -107,6 +108,7 @@
 					<td><{$result.increase}></td>
 					<td><{$result.increasePercent|string_format:"%.2f"}>%</td>
 					<td><{($result.num/$data.total * 100)|string_format:'%.2f'}>%</td>
+					<td><{$result.cos|string_format:'%.2f'}></td>
 
 					<td><{$result.wan|string_format:'%.2f'}></td>
 
