@@ -294,7 +294,7 @@ class Complaint extends Base {
 				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'失败','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
-				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01')))['cos']/1000000;
+				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01')))['cos']/10000;
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
@@ -810,7 +810,7 @@ class Complaint extends Base {
 	{
 		$condition = array();
 		$db=self::__instance();
-		unset($param['province_id']);
+		// unset($param['province_id']);
 
 		if($param['start_date']){
 			$s = $param['start_date'];
@@ -824,6 +824,7 @@ class Complaint extends Base {
 			$condition["AND"][$key] = $value;
 		}
 		$condition['GROUP'] = 'm';
+
 		$r = $db->select('co_custom','sum(complaint_total) as num,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
 
 		for ($i = 1;$i<=12;$i++){

@@ -83,7 +83,7 @@
 					<th style="width:30px">申诉成功</th>
 					<th style="width:30px">申诉失败</th>
 					<th style="width:30px">未申诉量</th>
-					<th style="width:30px">不规范定制/业务收入(百万)</th>
+					<th style="width:30px">不规范定制万投比</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
 					<!-- <th style="width:30px">处理意见</th> -->
@@ -133,7 +133,7 @@
     	<canvas id="month" width="600" height="300"></canvas>
     </div>
     <div>
-    	<h3>月各省不规范定制的柱状图</h3>
+    	<h3>月各省不规范定制柱状图</h3>
     	<canvas id="province" width="900" height="400"></canvas>
     </div>
 <script>

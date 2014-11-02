@@ -31,13 +31,29 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 
 	$row_count = Complaint::customAnalayzeCount($param);
 	$param['flag'] = 1;
-	$data['provinces'] = Complaint::customAnalayzeArea($param);
+	#$data['provinces'] = Complaint::customAnalayzeArea($param);
 	$province = Info::getProvince();
 	foreach ($province as $key => $value) {
+		$data['provinces'][$value['id']]['name'] = $value['name'];
+		$data['provinces'][$value['id']]['wan'] = 0;
 		$data['provinceMap'][$key] = $value['name'];
 	}
-	$data['provinceString'] = '"'.implode('","', $data['provinceMap']).'"';
+	foreach ($data['result'] as $key => $value) {
+		$data['provinces'][$value['province_id']]['wan'] = $value['wan'];
+	}
 
+	foreach ($data['provinces'] as $key => $row) { 
+		$volume[$key] = $row['wan']; 
+		$edition[$key] = $row['name']; 
+	}
+	array_multisort($volume, SORT_DESC, $edition, SORT_ASC, $data['provinces']); 
+	foreach ($data['provinces'] as $key => $value) {
+		$name[] = $value['name'];
+		$wan[] = $value['wan'];
+	}
+
+	$data['provinceString'] = '"'.implode('","', $name).'"';
+	$data['provinces'] = '"'.implode('","', $wan).'"';
 // }
 $data['province'] = Info::getProvince(false);
 $data['complaintType'] = Info::getComplaintType('complaint_type',false);

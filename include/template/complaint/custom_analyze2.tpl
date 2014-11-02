@@ -137,7 +137,7 @@
     	<canvas id="month" width="600" height="300"></canvas>
     </div> -->
     <div>
-    	<h3>月各省不规范定制的柱状图</h3>
+    	<h3>不规范定制万投比柱状图</h3>
     	<canvas id="province" width="900" height="400"></canvas>
     </div>
 <script>

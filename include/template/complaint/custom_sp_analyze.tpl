@@ -26,7 +26,7 @@
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> SP公司名称</label>
-				<input type="text" name="sp_name" value="<{$_GET.sp_name}>" placeholder="SP公司名称" > 
+				<input type="text" name="part_name" value="<{$_GET.part_name}>" placeholder="SP公司名称" > 
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 业务线</label>
@@ -64,7 +64,7 @@
 <div class="block">
 		<a style="float:right;padding:10px;" href="<{$export_excel}>" target="" >导出excel</a>
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
-        <{if $data.result.0 neq ""}>
+        <{if $data.result|@count > 0}>
         <div id="page-stats" class="block-body collapse in">
                <table class="table table-striped">
               <thead>
