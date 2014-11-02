@@ -8,8 +8,8 @@ class Complaint extends Base {
 	private static $base = "province_id,order_id,order_time,complaint_phone,complaint_content,sp_name,sp_corp_code,sp_code,suggestion,order_department,buss_department,buss_name,buss_name_detail,buss_rates,problem,reconciliations,charge_back,buss_type,buss_type_name,complaint_type,problem_type,problem_result,complaint_level,buss_line,work_id,month";
 	private static $custom = "order_id,sub_order_id,part_name,responsibility_code,responsibility_name,part_code,order_time,buss_type,buss_type_code,buss_name,buss_code,product_name,product_code,complaint_status,appeal_status,user_name,complaint_phone,complaint_type,custom,complaint_total,complaint_content,appeal_content,province_id,cooperative,all_net,order_end_time,complaint_id,deductions,buss_line,month";
 	private static $complaints = "complaints_id,case_id,user_name,phone,dispute_phone,address,about_corp,corp_area,type_one,type_two,type_three,buss_one,buss_two,buss_three,buss_four,complaint_source,comfirm_user,complaint_time,get_time,handle_time,complaint_content,complaint10010,10010status,complaint10015,10015status,complaint_status,problem,problem_type,contact_element,element,buss_type,product_type,problem_channel,service_need,buss_way,netproblem,phoneproblem,vipuser,partment,buss_class,complaint_num,sp_corp_name,sp_corp_code,sp_code,buss_name,complaint_class,buss_line,month";
-	private static $income = "province_id,sp_name,sp_code,buss_type,province_income,sp_income,owe,tuipei_cost,imbalance_cost,20_cost,diaozhang_cost,violate_cost,custom_cost,month,mastsp_code,mastsp_cost,mastsp_sleave";
-	private static $value_income = "month,buss_type,value,custom_cost";
+	private static $income = "province_id,sp_name,sp_code,buss_type,province_income,sp_income,owe,tuipei_cost,imbalance_cost,20_cost,diaozhang_cost,violate_cost,province_income,month,mastsp_code,mastsp_cost,mastsp_sleave";
+	private static $value_income = "month,buss_type,value,province_income";
 	private static $black_list = "complaint_phone,province_id,sp_corp_code,month,sp_corp_name,complaint_phone_tag,level,time_limit";
 
 	public static function getTableName(){
@@ -20,8 +20,8 @@ class Complaint extends Base {
 		$columns['base'] = self::$base;#"province_id,order_id,order_time,complaint_phone,complaint_content,sp_name,sp_corp_code,sp_code,suggestion,order_department,buss_department,buss_name,buss_name_detail,buss_rates,problem,reconciliations,charge_back,buss_type,buss_type_name,complaint_type,problem_type,problem_result,complaint_level,buss_line,work_id,month";
 		$columns['custom'] = self::$custom;#"order_id,sub_order_id,part_name,responsibility_code,responsibility_name,part_code,order_time,buss_type,buss_type_code,buss_name,buss_code,product_name,product_code,complaint_status,appeal_status,user_name,complaint_phone,complaint_type,custom,complaint_total,complaint_content,appeal_content,province_id,cooperative,all_net,order_end_time,complaint_id,deductions,buss_line,month";
 		$columns['complaints'] = self::$complaints;#"complaints_id,case_id,user_name,phone,dispute_phone,address,about_corp,corp_area,type_one,type_two,type_three,buss_one,buss_two,buss_three,buss_four,complaint_source,comfirm_user,complaint_time,get_time,handle_time,complaint_content,complaint10010,10010status,complaint10015,10015status,complaint_status,problem,problem_type,contact_element,element,buss_type,product_type,problem_channel,service_need,buss_way,netproblem,phoneproblem,vipuser,partment,buss_class,complaint_num,sp_corp_name,sp_corp_code,sp_code,buss_name,complaint_class,buss_line,month";
-		$columns['income'] = self::$income;#"province_id,sp_name,sp_code,buss_type,province_income,sp_income,owe,tuipei_cost,imbalance_cost,20_cost,diaozhang_cost,violate_cost,custom_cost,month,mastsp_code,mastsp_cost,mastsp_sleave";
-		$columns['value_income'] = self::$value_income;#"month,buss_type,value,custom_cost";
+		$columns['income'] = self::$income;#"province_id,sp_name,sp_code,buss_type,province_income,sp_income,owe,tuipei_cost,imbalance_cost,20_cost,diaozhang_cost,violate_cost,province_income,month,mastsp_code,mastsp_cost,mastsp_sleave";
+		$columns['value_income'] = self::$value_income;#"month,buss_type,value,province_income";
 		$columns['black_list'] = self::$black_list;#"complaint_phone,province_id,sp_corp_code,month,sp_corp_name,complaint_phone_tag,level,time_limit";
 		// unset($param[0]);
 		// var_dump(count(explode(',', $columns[$table])),count($param));exit;
@@ -263,7 +263,7 @@ class Complaint extends Base {
 				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','province_id'=>$value['province_id'])));
 				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','province_id'=>$value['province_id'])));
 				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'失败','province_id'=>$value['province_id'])));
-				$r[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/1000000;
+				$r[$key]['cos'] = $db->get('co_income','sum(province_income) as cos',array('province_id'=>$value['province_id']))['cos']/1000000;
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
@@ -312,7 +312,7 @@ class Complaint extends Base {
 			$tmp = $lastMonth = array();
 			foreach ($r2 as $key => $value) {
 				$tmp[$value['province_id']] = $lastMonth[$value['province_id']] = $value['num'];
-				$r2[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/10000;
+				$r2[$key]['cos'] = $db->get('co_income','sum(province_income) as cos',array('province_id'=>$value['province_id']))['cos']/10000;
 				if($r[$key]['cos'])
 					$r2[$key]['wan'] = $value['num']/$r2[$key]['cos'];
 				else
@@ -323,7 +323,7 @@ class Complaint extends Base {
 			foreach ($r as $key => $value) {
 				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
 
-				$r[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/10000;
+				$r[$key]['cos'] = $db->get('co_income','sum(province_income) as cos',array('province_id'=>$value['province_id']))['cos']/10000;
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
@@ -423,7 +423,7 @@ class Complaint extends Base {
 				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','part_name'=>$value['part_name'])));
 				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','part_name'=>$value['part_name'])));
 
-				$r[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('sp_name'=>$value['sp_corp_name']))['cos']/1000000;
+				$r[$key]['cos'] = $db->get('co_income','sum(province_income) as cos',array('sp_name'=>$value['sp_corp_name']))['cos']/1000000;
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
@@ -477,7 +477,7 @@ class Complaint extends Base {
 			foreach ($r as $key => $value) {
 				$t = isset($tmp[$value['sp_name']])?$tmp[$value['sp_name']]:0;
 
-				$r[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('sp_name'=>$value['sp_name']))['cos']/10000;
+				$r[$key]['cos'] = $db->get('co_income','sum(province_income) as cos',array('sp_name'=>$value['sp_name']))['cos']/10000;
 
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
@@ -537,7 +537,7 @@ class Complaint extends Base {
 				// $r[$key]['appealSuc'] = $db->count('co_complaints',array('appeal_status'=>'申诉成功'));
 				// $r[$key]['appealFail'] = $db->count('co_complaints',array('appeal_status'=>'申诉失败'));
 				// $r[$key]['appealNot'] = $valid-$db->count('co_complaints',array('appeal_status'=>'失败'));
-				// $r[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('sp_name'=>$value['sp_corp_name']))['cos']/1000000;
+				// $r[$key]['cos'] = $db->get('co_income','sum(province_income) as cos',array('sp_name'=>$value['sp_corp_name']))['cos']/1000000;
 				// if($r[$key]['cos'])
 				// 	$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				// else
@@ -765,7 +765,7 @@ class Complaint extends Base {
 		// 	$tmp = $lastMonth = array();
 		// 	foreach ($r2 as $key => $value) {
 		// 		$tmp[$value['province_id']] = $lastMonth[$value['province_id']] = $value['num'];
-		// 		$r2[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/10000;
+		// 		$r2[$key]['cos'] = $db->get('co_income','sum(province_income) as cos',array('province_id'=>$value['province_id']))['cos']/10000;
 		// 		if($r[$key]['cos'])
 		// 			$r2[$key]['wan'] = $value['num']/$r2[$key]['cos'];
 		// 		else
@@ -808,7 +808,7 @@ class Complaint extends Base {
 
 		$r = $db->get(
 			'co_income',
-			'sum(custom_cost) as cos',
+			'sum(province_income) as cos',
 			array(
 					'AND'=>array(
 						'month[<]'=>strtotime($start.'-01 +1 month -1 day'),
@@ -821,7 +821,7 @@ class Complaint extends Base {
 
 		$lastMonth = $db->get(
 			'co_income',
-			'sum(custom_cost) as cos',
+			'sum(province_income) as cos',
 			array(
 				'AND'=>array(
 				'month[>=]'=>strtotime($start.'-01 -1 month'),
@@ -903,7 +903,7 @@ class Complaint extends Base {
 			else
 				$tmpProvince[$value['province_id']] = round($value['num']);
 
-			$r[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/1000000;
+			$r[$key]['cos'] = $db->get('co_income','sum(province_income) as cos',array('province_id'=>$value['province_id']))['cos']/1000000;
 			if($r[$key]['cos'] && $flag)
 				$tmpProvince[$value['province_id']] = $value['num']/$r[$key]['cos'];
 		}
@@ -944,7 +944,7 @@ class Complaint extends Base {
 			// else
 				$tmpProvince['province'][$value['province_id']] = round($value['num']);
 
-			$cos = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/1000000;
+			$cos = $db->get('co_income','sum(province_income) as cos',array('province_id'=>$value['province_id']))['cos']/1000000;
 			if($cos)
 				$tmpProvince['complaints'][$value['province_id']] = $value['num']/$cos;
 			// if($r[$key]['cos'] && $flag)
@@ -987,7 +987,7 @@ class Complaint extends Base {
 				// $tmpProvince['province'][$value['province_id']] = $value['num'];
 			$tmp['name'][$key] = $value['product_type'];
 			$tmp['num'][$key] = round($value['num']);
-			// $cos = $db->get('co_income','sum(custom_cost) as cos',array('province_id'=>$value['province_id']))['cos']/1000000;
+			// $cos = $db->get('co_income','sum(province_income) as cos',array('province_id'=>$value['province_id']))['cos']/1000000;
 			// if($cos)
 			// 	$tmpProvince['complaints'][$value['province_id']] = $value['num']/$cos;
 			// if($r[$key]['cos'] && $flag)
@@ -1054,7 +1054,7 @@ class Complaint extends Base {
 				// $r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
 				// $r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));
 				// $r[$key]['appealNot'] = $valid-$db->count('co_custom',array('appeal_status'=>'失败'));
-				$r[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('corp_area'=>$value['corp_area']))['cos']/1000000;
+				$r[$key]['cos'] = $db->get('co_income','sum(province_income) as cos',array('corp_area'=>$value['corp_area']))['cos']/1000000;
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
@@ -1107,7 +1107,7 @@ class Complaint extends Base {
 				// $r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
 				// $r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));
 				// $r[$key]['appealNot'] = $valid-$db->count('co_custom',array('appeal_status'=>'失败'));
-				$r[$key]['cos'] = $db->get('co_income','sum(custom_cost) as cos',array('corp_area'=>$value['corp_area']))['cos']/1000000;
+				$r[$key]['cos'] = $db->get('co_income','sum(province_income) as cos',array('corp_area'=>$value['corp_area']))['cos']/1000000;
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
