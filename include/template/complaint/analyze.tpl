@@ -83,6 +83,7 @@
 					<th >环比增长量</th>
 					<th >环比增长率</th>
 
+					<th >业务收入(万)</th>
 					<th >投诉量/业务收入(万)</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
@@ -103,6 +104,7 @@
 					<td><{$result.increasePercent|string_format:"%.2f"}>%</td>
 
 					<td><{$result.cos|string_format:"%.2f"}></td>
+					<td><{$result.wan|string_format:"%.2f"}></td>
 
 					<!-- <td><{$result.sp_code}></td> -->
 					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_content}>" title="" data-original-title1="投诉内容">详情</a></td> -->
