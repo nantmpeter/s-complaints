@@ -149,9 +149,9 @@ class Complaint extends Base {
 	public static function customSearch($param,$start = 0,$page_size=20){
 
 		$db=self::__instance();
-		if($param['start_date'] && $param['end_date']){
-			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date']);
-			$condition["AND"]['order_time[<]'] = strtotime($param['end_date']);
+		if($param['start_date']){
+			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 
@@ -181,7 +181,6 @@ class Complaint extends Base {
 		else {
 			$condition['LIMIT']=array($start,$page_size);
 		}
-
 		return $db->select('co_custom','*',$condition);
 	}
 
@@ -189,9 +188,9 @@ class Complaint extends Base {
 	{
 		$condition = array();
 		$db=self::__instance();
-		if($param['start_date'] && $param['end_date']){
-			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date']);
-			$condition["AND"]['order_time[<]'] = strtotime($param['end_date']);
+		if($param['start_date']){
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 
@@ -246,8 +245,8 @@ class Complaint extends Base {
 		$db=self::__instance();
 		if($param['start_date']){
 			$s = $param['start_date'];
-			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 
@@ -812,29 +811,31 @@ class Complaint extends Base {
 		$condition = array();
 		$db=self::__instance();
 		unset($param['province_id']);
+
 		if($param['start_date']){
-			$start = $param['start_date'];
-			$condition["AND"]['order_time[>=]'] = strtotime(substr($param['start_date'], 0,4).'-01-01');
-			$condition["AND"]['order_time[<]'] = strtotime(substr($param['start_date'], 0,4).'-12-31');
+			$s = $param['start_date'];
+			$condition["AND"]['month[>=]'] = strtotime(substr($param['start_date'], 0,4).'-01-01');
+			$condition["AND"]['month[<]'] = strtotime(substr($param['start_date'], 0,4).'-12-31');
 			unset($param['start_date'],$param['end_date']);	
 		}
-		$start = isset($start)?$start:date('Y');
 		if(empty($param))
 			$param = array();
 		foreach ($param as $key => $value) {
 			$condition["AND"][$key] = $value;
 		}
 		$condition['GROUP'] = 'm';
-		$r = $db->select('co_custom','sum(complaint_total) as num,FROM_UNIXTIME(order_time,"%Y-%m") AS m',$condition);
+		$r = $db->select('co_custom','sum(complaint_total) as num,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
+
 		for ($i = 1;$i<=12;$i++){
-			$tmp[substr($start, 0,4).'-'.sprintf('%02s',$i)] = 0;
+			$tmp[substr($s, 0,4).'-'.sprintf('%02s',$i)] = 0;
 		}
 
 		foreach ($r as $key => $value) {
-			if($value['m'] < substr($start, 0,4).'-01-01')
+			if($value['m'] < substr($s, 0,4).'-01-01')
 				continue;
 			$tmp[$value['m']] = round($value['num']);
 		}
+
 		return implode(',', $tmp);
 	}
 
@@ -1005,12 +1006,12 @@ class Complaint extends Base {
 		$condition = array();
 		$db=self::__instance();
 		if($param['start_date']){
-			$start = $param['start_date'];
-			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			$s = $param['start_date'];
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
-		$start = isset($start)?$start:date('Y');
+
 		if(empty($param))
 			$param = array();
 		foreach ($param as $key => $value) {
@@ -1045,12 +1046,12 @@ class Complaint extends Base {
 		$condition = array();
 		$db=self::__instance();
 		if($param['start_date']){
-			$start = $param['start_date'];
+			$s = $param['start_date'];
 			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
-		$start = isset($start)?$start:date('Y');
+
 		if(empty($param))
 			$param = array();
 		foreach ($param as $key => $value) {

@@ -36,7 +36,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 			$tmp['name'][] = $name;
 			$tmp['value'][] = $value['num'];
 			$tmp['wan'][] = $value['wan'];
-			$data['wanString'][$value['wan']] = $name;
+			$data['wanString'][(string)$value['wan']] = $name;
 		}
 		rsort($tmp['wan']);
 		krsort($data['wanString']);

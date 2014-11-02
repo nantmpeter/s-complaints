@@ -15,7 +15,7 @@ foreach ($arr as $key => $value) {
           $param[$value] = $$value;
      }
 }
-$start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$_GET['start_date']:date('Y-m');
+$start_date = $param['month'] = $_GET['month'] = $_GET['month']?$_GET['month']:date('Y-m');
 
 // if (Common::isPost ()) {
 // if($start_date != '' && $end_date !=''){
