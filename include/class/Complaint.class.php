@@ -917,7 +917,12 @@ class Complaint extends Base {
 						)
 					)
 				)['cos']/10000;
-
+		$rNum = $db->get('co_base','count(*) as num',array(
+							'AND'=>array(
+								'month[<]'=>strtotime($start.'-01 +1 month -1 day'),
+								'month[>=]'=>strtotime($start.'-01'),
+								)
+							))['num'];
 		$lastMonth = array();
 
 		$lastMonth = $db->get(
@@ -930,6 +935,17 @@ class Complaint extends Base {
 				)
 				)
 			)['cos']/10000;
+		$lastMonthNum = $db->get(
+			'co_base',
+			'count(*) as num',
+			array(
+				'AND'=>array(
+				'month[>=]'=>strtotime($start.'-01 -1 month'),
+				'month[<]'=>strtotime($start.'-01 -1 day')
+				)
+				)
+			)['num'];
+
 		// for ($i = 1;$i<=12;$i++){
 		// 	$tmp[substr($start, 0,4).'-'.sprintf('%02s',$i)] = 0;
 		// }
@@ -939,7 +955,17 @@ class Complaint extends Base {
 		// 		continue;
 		// 	$tmp[$value['m']] = $value['num'];
 		// }
-		return array($start=>$r,date('Y-m',strtotime($start.'-01 -1 month'))=>$lastMonth);
+		if(!$rNum || !$r)
+			$rn = 0;
+		else
+			$rn = $rNum/$r;
+
+		if(!$lastMonthNum || !$lastMonth)
+			$lastN = 0;
+		else
+			$lastN = $lastMonthNum/$lastMonth;
+
+		return array($start=>$rn,date('Y-m',strtotime($start.'-01 -1 month'))=>$lastN);
 
 		// retrun array($start=>$r,date(strtotime($start.'-01 -1 month'),'Y-m')=>$lastMonth);
 		// return implode(',', $tmp);
