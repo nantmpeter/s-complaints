@@ -13,6 +13,7 @@ foreach ($arr as $key => $value) {
 		$param[$value] = $$value;
 	}
 }
+$start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$_GET['start_date']:date('Y-m');
 
 // if (Common::isPost ()) {
 // if($start_date != '' && $end_date !=''){
@@ -40,9 +41,9 @@ foreach ($arr as $key => $value) {
 			}
 			$tmp['name'][] = $value['buss_name'];
 			$tmp['value'][] = $value['num'];
+			$data['chartName'] = '"'.implode('","', $tmp['name']).'"';
+			$data['chartValue'] = implode(',', $tmp['value']);
 		}
-		$data['chartName'] = '"'.implode('","', $tmp['name']).'"';
-		$data['chartValue'] = implode(',', $tmp['value']);
 	}
 	// rsort($tmp['wan']);
 

@@ -257,13 +257,17 @@ class Complaint extends Base {
 				$tmp[$value['province_id']] = round($value['num']);
 			}
 			foreach ($r as $key => $value) {
+				if(!$value['province_id']){
+					unset($r[$key]);
+					continue;
+				}
 				$value['num'] = $r[$key]['num'] = round($value['num']);
 				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
-				$valid = $db->count('co_custom',array('AND'=>array('complaint_status'=>'有效','province_id'=>$value['province_id'])));
-				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','province_id'=>$value['province_id'])));
-				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','province_id'=>$value['province_id'])));
-				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'失败','province_id'=>$value['province_id'])));
-				$r[$key]['cos'] = $db->get('co_income','sum(province_income) as cos',array('province_id'=>$value['province_id']))['cos']/1000000;
+				$valid = $db->count('co_custom',array('AND'=>array('complaint_status'=>'有效','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
+				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
+				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
+				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'失败','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
+				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01')))['cos']/1000000;
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
@@ -273,11 +277,17 @@ class Complaint extends Base {
 				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
 			}
 		}
-
 		return $r;
 	}
 
-		public static function baseAnalayze($param,$start = 0,$page_size=20){
+	public static function getCos($params)
+	{
+		$db=self::__instance();
+		$r = $db->get('co_income','sum(province_income) as cos',array('AND'=>$params));
+		return $r;
+	}
+
+	public static function baseAnalayze($param,$start = 0,$page_size=20){
 
 		$db=self::__instance();
 		if($param['start_date']){
@@ -312,7 +322,7 @@ class Complaint extends Base {
 			$tmp = $lastMonth = array();
 			foreach ($r2 as $key => $value) {
 				$tmp[$value['province_id']] = $lastMonth[$value['province_id']] = $value['num'];
-				$r2[$key]['cos'] = $db->get('co_income','sum(province_income) as cos',array('province_id'=>$value['province_id']))['cos']/10000;
+				$r2[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01 -1 month')))['cos']/10000;
 				if($r[$key]['cos'])
 					$r2[$key]['wan'] = $value['num']/$r2[$key]['cos'];
 				else
@@ -323,7 +333,7 @@ class Complaint extends Base {
 			foreach ($r as $key => $value) {
 				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
 
-				$r[$key]['cos'] = $db->get('co_income','sum(province_income) as cos',array('province_id'=>$value['province_id']))['cos']/10000;
+				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01')))['cos']/10000;
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
@@ -382,7 +392,7 @@ class Complaint extends Base {
 
 		$db=self::__instance();
 		if($param['start_date']){
-			$start = $param['start_date'];
+			$s = $param['start_date'];
 			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
@@ -406,9 +416,9 @@ class Complaint extends Base {
 		$r = $db->select('co_custom','*,count(*) as num',$condition);
 
 
-		if($r && $start) {
-			$condition["AND"]['order_time[>=]'] = strtotime($start.'-01 -1 month');
-			$condition["AND"]['order_time[<]'] = strtotime($start.'-01 -1 day');
+		if($r && $s) {
+			$condition["AND"]['order_time[>=]'] = strtotime($s.'-01 -1 month');
+			$condition["AND"]['order_time[<]'] = strtotime($s.'-01 -1 day');
 			$r2 = $db->select('co_custom','*,sum(complaint_total) as num',$condition);
 
 			$tmp = array();
@@ -423,7 +433,12 @@ class Complaint extends Base {
 				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','part_name'=>$value['part_name'])));
 				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','part_name'=>$value['part_name'])));
 
-				$r[$key]['cos'] = $db->get('co_income','sum(province_income) as cos',array('sp_name'=>$value['sp_corp_name']))['cos']/1000000;
+				$cosCondition = array('sp_name'=>$value['part_name'],'month'=>strtotime($s.'-01'));
+				if(isset($param['province_id']))
+					$condition['province_id']=$value['province_id'];
+
+				$r[$key]['cos'] = self::getCos($cosCondition)['cos']/10000;
+
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
@@ -442,7 +457,7 @@ class Complaint extends Base {
 		if(!$param['start_date']){
 			$param['start_date'] = date('Y-m');
 		}
-		$start = $param['start_date'];
+		$s = $param['start_date'];
 		$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['month[<=]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
@@ -454,6 +469,7 @@ class Complaint extends Base {
 		$condition['GROUP'] = 'sp_name';
 		$condition['ORDER'] = 'num desc';
 		//如果$page_size为0表示获取所有满足条件的记录
+
 		if(0==$page_size)
 		{
 			$condition['LIMIT']=array($start);
@@ -461,12 +477,12 @@ class Complaint extends Base {
 		else {
 			$condition['LIMIT']=array($start,$page_size);
 		}
+
 		$r = $db->select('co_base','*,count(*) as num',$condition);
 
-// var_dump($condition,$r);
-		if($r && $start) {
-			$condition["AND"]['month[>=]'] = strtotime($start.'-01 -1 month');
-			$condition["AND"]['month[<]'] = strtotime($start.'-01 -1 day');
+		if($r && $s) {
+			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
+			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
 			$r2 = $db->select('co_base','*,count(*) as num',$condition);
 
 
@@ -478,7 +494,12 @@ class Complaint extends Base {
 			foreach ($r as $key => $value) {
 				$t = isset($tmp[$value['sp_name']])?$tmp[$value['sp_name']]:0;
 
-				$r[$key]['cos'] = $db->get('co_income','sum(province_income) as cos',array('AND'=>array('sp_name'=>$value['sp_name'],'province_id'=>$param['province_id'])))['cos']/10000;
+				$cosCondition = array('sp_name'=>$value['sp_name']);
+
+				if(isset($param['province_id']) && $param['province_id']){
+					$cosCondition['province_id']=$param['province_id'];
+				}
+				$r[$key]['cos'] = self::getCos($cosCondition)['cos']/10000;
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
@@ -495,7 +516,7 @@ class Complaint extends Base {
 
 		$db=self::__instance();
 		if($param['start_date']){
-			$start = $param['start_date'];
+			$s = $param['start_date'];
 
 			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['month[<=]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
@@ -521,9 +542,9 @@ class Complaint extends Base {
 		}
 		$r = $db->select('co_complaints','*,count(*) as num',$condition);
 
-		if($r && $start) {
-			$condition["AND"]['month[>=]'] = strtotime($start.'-01 -1 month');
-			$condition["AND"]['month[<]'] = strtotime($start.'-01 -1 day');
+		if($r && $s) {
+			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
+			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
 			$r2 = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
 
 			$tmp = array();
@@ -533,7 +554,7 @@ class Complaint extends Base {
 			foreach ($r as $key => $value) {
 				$value['num'] = $r[$key]['num'] = round($value['num']);
 				$t = isset($tmp[$value['part_name']])?$tmp[$value['part_name']]:0;
-				$valid = $db->count('co_complaints',array('complaint_status'=>'有效'));
+				// $valid = $db->count('co_complaints',array('complaint_status'=>'有效'));
 				// $r[$key]['appealSuc'] = $db->count('co_complaints',array('appeal_status'=>'申诉成功'));
 				// $r[$key]['appealFail'] = $db->count('co_complaints',array('appeal_status'=>'申诉失败'));
 				// $r[$key]['appealNot'] = $valid-$db->count('co_complaints',array('appeal_status'=>'失败'));
@@ -551,10 +572,9 @@ class Complaint extends Base {
 	}
 
 	public static function customSingle($param,$start = 0,$page_size=20){
-
 		$db=self::__instance();
 		if($param['start_date']){
-			$start = $param['start_date'];
+			$s = $param['start_date'];
 			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
@@ -575,10 +595,12 @@ class Complaint extends Base {
 		else {
 			$condition['LIMIT']=array($start,$page_size);
 		}
+
 		$r = $db->select('co_custom','*,count(*) as num',$condition);
-		if($r && isset($start)) {
-			$condition["AND"]['order_time[>=]'] = strtotime($start.'-01 -1 month');
-			$condition["AND"]['order_time[<]'] = strtotime($start.'-01 -1 day');
+
+		if($r && isset($s)) {
+			$condition["AND"]['order_time[>=]'] = strtotime($s.'-01 -1 month');
+			$condition["AND"]['order_time[<]'] = strtotime($s.'-01 -1 day');
 			$r2 = $db->select('co_custom','*,sum(complaint_total) as num',$condition);
 
 			$tmp = array();
@@ -586,14 +608,15 @@ class Complaint extends Base {
 			foreach ($r2 as $key => $value) {
 				$tmp[$value['buss_name']] = round($value['num']);
 			}
+
 			foreach ($r as $key => $value) {
 				$r[$key]['num'] = round($value['num']);
 				$t = isset($tmp[$value['buss_name']])?$tmp[$value['buss_name']]:0;
 
-				$valid = $db->count('co_custom',array('AND'=>array('complaint_status'=>'有效','buss_name'=>$value['buss_name'])));
-				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','buss_name'=>$value['buss_name'])));
-				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','buss_name'=>$value['buss_name'])));
-				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','buss_name'=>$value['buss_name'])));
+				$valid = $db->count('co_custom',array('AND'=>array('complaint_status'=>'有效','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
+				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
+				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
+				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
 
 				$r[$key]['valid'] = $valid;
 				$r[$key]['increase'] = $value['num'] - $t;
@@ -655,9 +678,9 @@ class Complaint extends Base {
 
 		$db=self::__instance();
 		if($param['start_date']){
-			$start = $param['start_date'];
-			$condition["AND"]['month[>=]'] = strtotime($param['month'].'-01');
-			$condition["AND"]['month[<]'] = strtotime($param['month'].'-01 +1 month -1 day');
+			$s = $param['start_date'];
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 		if(empty($param))
@@ -677,10 +700,11 @@ class Complaint extends Base {
 			$condition['LIMIT']=array($start,$page_size);
 		}
 		$r = $db->select('co_complaints','*,count(*) as num',$condition);
+		// var_dump($r,$condition);
 
-		if($r && isset($start)) {
-			$condition["AND"]['month[>=]'] = strtotime($start.'-01 -1 month');
-			$condition["AND"]['month[<]'] = strtotime($start.'-01 -1 day');
+		if($r && isset($s)) {
+			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
+			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
 			$r2 = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
 
 			$r2 = $r2?$r2:array();
@@ -1019,7 +1043,7 @@ class Complaint extends Base {
 	public static function complaintsAnalayze($param,$start = 0,$page_size=20){
 		$db=self::__instance();
 		if($param['start_date']){
-			$start = $param['start_date'];
+			$s = $param['start_date'];
 			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
@@ -1035,10 +1059,10 @@ class Complaint extends Base {
 
 		$r = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
 
-		$start = $start?$start:date('Y-m');
-		if($r && isset($start)) {
-			$condition["AND"]['month[>=]'] = strtotime($start.'-01 -1 month');
-			$condition["AND"]['month[<]'] = strtotime($start.'-01 -1 day');
+
+		if($r && isset($s)) {
+			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
+			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
 
 			$r2 = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
 		// var_dump($start,$condition,$r2);
@@ -1048,13 +1072,19 @@ class Complaint extends Base {
 				$tmp[$value['corp_area']] = round($value['num']);
 			}
 			foreach ($r as $key => $value) {
+				if(!$value['corp_area']){
+					unset($r[$key]);
+					continue;
+				}
 				$value['num'] = $r[$key]['num'] = round($value['num']);
 				$t = isset($tmp[$value['corp_area']])?$tmp[$value['corp_area']]:0;
 				$valid = $db->count('co_custom',array('complaint_status'=>'有效'));
 				// $r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
 				// $r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));
 				// $r[$key]['appealNot'] = $valid-$db->count('co_custom',array('appeal_status'=>'失败'));
-				$r[$key]['cos'] = $db->get('co_income','sum(province_income) as cos',array('corp_area'=>$value['corp_area']))['cos']/1000000;
+
+				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['corp_area'],'month'=>strtotime($s.'-01')))['cos']/1000000;
+
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
@@ -1071,7 +1101,7 @@ class Complaint extends Base {
 	public static function complaintsAnalayze2($param,$start = 0,$page_size=20){
 		$db=self::__instance();
 		if($param['start_date']){
-			$start = $param['start_date'];
+			$s = $param['start_date'];
 			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
@@ -1082,14 +1112,14 @@ class Complaint extends Base {
 		foreach ($param as $key => $value) {
 			$condition["AND"][$key] = $value;
 		}
-		$condition['GROUP'] = 'product_type';
+		$condition['GROUP'] = 'buss_class,corp_area';
 		// $condition['LIMIT']=array($start,$page_size);
 
 		$r = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
-		$start = $start?$start:date('Y-m');
-		if($r && isset($start)) {
-			$condition["AND"]['month[>=]'] = strtotime($start.'-01 -1 month');
-			$condition["AND"]['month[<]'] = strtotime($start.'-01 -1 day');
+
+		if($r && isset($s)) {
+			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
+			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
 
 			$r2 = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
 		// var_dump($start,$condition,$r2);
@@ -1100,6 +1130,10 @@ class Complaint extends Base {
 			}
 			$total = 0;
 			foreach ($r as $key => $value) {
+				if(!$value['corp_area']){
+					unset($r[$key]);
+					continue;
+				}
 				$value['num'] = $r[$key]['num'] = round($value['num']);
 				$total += $value['num'];
 				$t = isset($tmp[$value['corp_area']])?$tmp[$value['corp_area']]:0;

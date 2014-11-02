@@ -47,7 +47,7 @@ define ( 'OSA_TABLE_PREFIX' ,'osa_');
 
 //页面设置
 define ( 'DEBUG' ,false);
-define ( 'PAGE_SIZE', 25 );
+define ( 'PAGE_SIZE', 20 );
 
 $OSA_TEMPLATES=array(
 	'default'=>"默认模板",

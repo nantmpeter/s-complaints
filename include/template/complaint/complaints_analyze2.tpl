@@ -106,7 +106,7 @@
               <tbody>
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
-					<td><{$result.product_type}></td>
+					<td><{$result.buss_class}></td>
 					<td><{$data.provinceMap[$result.corp_area]}></td>
 					<td><{$result.month|date_format:'%Y-%m'}></td>
 					<!-- <td><{$result.complaint_phone}></td> -->
