@@ -92,7 +92,7 @@
 			<!-- 		<th style="width:30px">申诉成功</th>
 					<th style="width:30px">申诉失败</th>
 					<th style="width:30px">未申诉量</th> -->
-					<th style="width:30px">不规范定制/业务收入(千万)</th>
+					<!-- <th style="width:30px">不规范定制/业务收入(千万)</th> -->
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
 					<!-- <th style="width:30px">处理意见</th> -->
@@ -115,7 +115,7 @@
 <!-- 					<td><{$result.appealSuc}></td>
 					<td><{$result.appealFail}></td>
 					<td><{$result.appealNot}></td> -->
-					<td><{$result.wan|string_format:"%.2f"}></td>
+					<!-- <td><{$result.wan|string_format:"%.2f"}></td> -->
 
 					<!-- <td><{$result.sp_code}></td> -->
 					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_content}>" title="" data-original-title1="投诉内容">详情</a></td> -->

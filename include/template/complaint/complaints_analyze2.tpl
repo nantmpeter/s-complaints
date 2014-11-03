@@ -81,8 +81,8 @@
                <table class="table table-striped">
               <thead>
                 <tr>
-					<th style="width:50px">产品类别</th>
-					<th style="width:50px">省市</th>
+					<th style="width:50px">业务分类</th>
+					<!-- <th style="width:50px">省市</th> -->
 					<th style="width:50px">统计月份</th>
 					<!-- <th style="width:55px">工单时间</th> -->
 					<!-- <th style="width:35px">投诉号码</th> -->
@@ -93,7 +93,7 @@
 			<!-- 		<th style="width:30px">申诉成功</th>
 					<th style="width:30px">申诉失败</th>
 					<th style="width:30px">未申诉量</th> -->
-					<th style="width:30px">不规范定制/业务收入(百万)</th>
+					<th style="width:30px">万投比(千万)</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
 					<!-- <th style="width:30px">处理意见</th> -->
@@ -107,7 +107,7 @@
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
 					<td><{$result.buss_class}></td>
-					<td><{$data.provinceMap[$result.corp_area]}></td>
+					<!-- <td><{$data.provinceMap[$result.corp_area]}></td> -->
 					<td><{$result.month|date_format:'%Y-%m'}></td>
 					<!-- <td><{$result.complaint_phone}></td> -->
 					<!-- <td><{$result.buss_name}></td> -->
@@ -117,7 +117,7 @@
 <!-- 					<td><{$result.appealSuc}></td>
 					<td><{$result.appealFail}></td>
 					<td><{$result.appealNot}></td> -->
-					<td><{$result.cos|string_format:"%.2f"}></td>
+					<td><{$result.wan|string_format:"%.2f"}></td>
 
 					<!-- <td><{$result.sp_code}></td> -->
 					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_content}>" title="" data-original-title1="投诉内容">详情</a></td> -->

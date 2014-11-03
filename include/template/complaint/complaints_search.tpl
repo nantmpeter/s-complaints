@@ -68,7 +68,7 @@
 <div class="block">
 		<a style="float:right;padding:10px;" href="<{$export_excel}>" target="" >导出excel</a>
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
-        <{if $data.result.0 neq ""}>
+        <{if $data.result|@count > 0}>
         <div id="page-stats" class="block-body collapse in">
                <table class="table table-striped">
               <thead>
@@ -78,13 +78,13 @@
 					<th style="width:55px">申诉日期</th>
 					<th style="width:35px">投诉号码</th>
 					<!-- <th style="width:35px">产品类别</th> -->
-					<th style="width:35px">业务名称</th>
-					<th style="width:35px">sp公司名称</th>
+					<!-- <th style="width:35px">业务名称</th>
+					<th style="width:35px">sp公司名称</th> -->
 					<!-- <th style="width:55px">具体业务名称</th> -->
 					<!-- <th style="width:30px">业务资费</th> -->
 					<!-- <th style="width:30px">sp公司名称</th> -->
-					<th style="width:30px">sp企业代码</th>
-					<th style="width:30px">sp接入代码</th>
+					<!-- <th style="width:30px">sp企业代码</th>
+					<th style="width:30px">sp接入代码</th> -->
 					<th style="width:30px">投诉内容</th>
 					<th style="width:30px">申诉内容</th>
 					<th style="width:30px">申诉核查情况</th>
@@ -103,11 +103,11 @@
 					<td><{$result.complaint_time|date_format:'%Y-%m-%d'}></td>
 					<td><{$result.phone}></td>
 					<!-- <td><{$result.product_type}></td> -->
-					<td><{$result.buss_name}></td>
-					<td><{$result.sp_corp_name}></td>
+					<!-- <td><{$result.buss_name}></td>
+					<td><{$result.sp_corp_name}></td> -->
 					<!-- <td><{$result.sp_name}></td> -->
-					<td><{$result.sp_corp_code}></td>
-					<td><{$result.sp_code}></td>
+				<!-- 	<td><{$result.sp_corp_code}></td>
+					<td><{$result.sp_code}></td> -->
 					<td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_content}>" title="" data-original-title1="投诉内容">详情</a></td>
 					<td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.10010status}>" title="" data-original-title1="投诉内容">详情</a></td>
 					<td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_status}>" title="" data-original-title1="投诉内容">详情</a></td>

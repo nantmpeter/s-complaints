@@ -1241,7 +1241,7 @@ class Complaint extends Base {
 				$condition["AND"][$key] = $value;
 			}
 		}
-		$condition['GROUP'] = 'buss_class,corp_area';
+		$condition['GROUP'] = 'buss_class';
 		$condition['LIMIT']=array($start,$page_size);
 
 		$r = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
@@ -1270,7 +1270,7 @@ class Complaint extends Base {
 				// $r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
 				// $r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));
 				// $r[$key]['appealNot'] = $valid-$db->count('co_custom',array('appeal_status'=>'失败'));
-				$r[$key]['cos'] = $db->get('co_income','sum(province_income) as cos',array('corp_area'=>$value['corp_area']))['cos']/1000000;
+				$r[$key]['cos'] = $db->get('co_value_income','sum(custom_cost) as cos',array('AND'=>array('buss_type'=>$value['buss_class'],'month'=>strtotime($s.'-01'))))['cos']/10000000;
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
@@ -1308,8 +1308,8 @@ class Complaint extends Base {
 				$where .= ' and '.$key.'='.$value;
 			}
 		}
-		$where .= ' group by buss_class,corp_area';
-		$condition['GROUP'] = 'buss_class,corp_area';
+		$where .= ' group by buss_class';
+		$condition['GROUP'] = 'buss_class';
 		// $condition['LIMIT']=array($start,$page_size);
 		// var_dump($condition);
 

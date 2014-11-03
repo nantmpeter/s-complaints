@@ -41,6 +41,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	$complaintsData = $tmp['complaints'];
 	$province = Info::getProvince();
 	foreach ($province as $key => $value) {
+		$data['provinceMap'][$key] = $value['name'];
 		$province[$key] = $data['provinces'][$key]['name'] = $data['complaints'][$key]['name'] = $value['name'];
 		$data['provinces'][$key]['score'] = $provincesData[$key];
 		$data['complaints'][$key]['score'] = $complaintsData[$key];
@@ -57,6 +58,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$comName[] = $value['name'];
 		$comScore[] = $value['score'];
 	}
+
 	$data['provinces'] = '"'.implode('","', $proScore).'"';
 	$data['complaints'] = '"'.implode('","', $comScore).'"';
 	// foreach ($province as $key => $value) {
