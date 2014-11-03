@@ -549,11 +549,12 @@ class Complaint extends Base {
 			foreach ($r as $key => $value) {
 				$t = isset($tmp[$value['sp_name']])?$tmp[$value['sp_name']]:0;
 
-				$cosCondition = array('sp_name'=>$value['sp_name']);
+				$cosCondition = array('sp_name'=>$value['sp_name'],'month'=>strtotime($s.'-01'));
 
 				if(isset($param['province_id']) && $param['province_id']){
 					$cosCondition['province_id']=$param['province_id'];
 				}
+
 				$r[$key]['cos'] = self::getCos($cosCondition)['cos']/10000;
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
