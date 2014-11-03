@@ -473,6 +473,7 @@ class Complaint extends Base {
 				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','part_name'=>$value['part_name'])));
 				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','part_name'=>$value['part_name'])));
 				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','part_name'=>$value['part_name'])));
+				$r[$key]['customCost'] = $db->get('co_income','sum(custom_cost) as cos',array('AND'=>array('sp_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))))['cos'];
 
 				$cosCondition = array('sp_name'=>$value['part_name'],'month'=>strtotime($s.'-01'));
 				if(isset($param['province_id']))

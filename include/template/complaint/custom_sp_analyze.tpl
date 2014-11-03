@@ -82,6 +82,8 @@
 					<th style="width:30px">投诉类型</th>
 					<th style="width:30px">业务线</th>
 					<th style="width:30px">认定有效量</th>
+					<th style="width:30px">不规范定制扣款</th>
+
                 </tr>
               </thead>
               <tbody>
@@ -100,6 +102,7 @@
 
 					<td><{$data.bussLine[$result.buss_type]}></td>
 					<td><{$result.valid}></td>
+					<td><{$result.customCost}></td>
 					</tr>
 				<{/foreach}>
               </tbody>
