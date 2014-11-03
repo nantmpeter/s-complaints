@@ -367,6 +367,10 @@ class Complaint extends Base {
 			}
 
 			foreach ($r as $key => $value) {
+				if(!$value['province_id']){
+					unset($r[$key]);
+					continue;
+				}
 				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
 
 				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01')))['cos']/10000;
@@ -380,7 +384,7 @@ class Complaint extends Base {
 			}
 		}
 		$r2 = $r2?$r2:array();
-		// var_dump($r);
+
 		return array('now' => $r,'last'=>$r2);
 	}
 
