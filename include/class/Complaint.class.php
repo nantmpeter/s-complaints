@@ -295,6 +295,8 @@ class Complaint extends Base {
 				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'失败','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01')))['cos']/10000;
+				$r[$key]['customCost'] = $db->get('co_income','sum(custom_cost) as cos',array('AND'=>array('sp_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))))['cos'];
+
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else

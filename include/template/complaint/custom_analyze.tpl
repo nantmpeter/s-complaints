@@ -92,6 +92,7 @@
 					<th style="width:30px">投诉分级</th> -->
 					<th style="width:30px">业务线</th>
 					<th style="width:30px">认定有效量</th>
+					<th style="width:30px">不规范定制扣款</th>
                 </tr>
               </thead>
               <tbody>
@@ -117,6 +118,7 @@
 					<td><{$result.complaint_level}></td> -->
 					<td><{$data.bussLine[$result.buss_type]}></td>
 					<td><{$result.valid}></td>
+					<td><{$result.customCost}></td>
 					<!-- <td style = "word-break: break-all; word-wrap:break-word;"><{$result.result}></td> -->
 					<!-- <td><{$result.op_time}></td> -->
 					</tr>
