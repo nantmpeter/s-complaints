@@ -1036,6 +1036,7 @@ class Complaint extends Base {
 			if($r[$key]['cos'] && $flag)
 				$tmpProvince[$value['province_id']] = $value['num']/$r[$key]['cos'];
 		}
+		return $tmpProvince;
 		return implode(',', $tmpProvince);
 	}
 
@@ -1071,6 +1072,8 @@ class Complaint extends Base {
 			// if($flag)
 			// 	$tmpProvince['province'][$value['province_id']] = 0;
 			// else
+				if(!$value['province_id'])
+					continue;
 				$tmpProvince['province'][$value['province_id']] = round($value['num']);
 
 			$cos = $db->get('co_income','sum(province_income) as cos',array('province_id'=>$value['province_id']))['cos']/1000000;
@@ -1195,7 +1198,7 @@ class Complaint extends Base {
 				// $r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));
 				// $r[$key]['appealNot'] = $valid-$db->count('co_custom',array('appeal_status'=>'失败'));
 
-				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['corp_area'],'month'=>strtotime($s.'-01')))['cos']/1000000;
+				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['corp_area'],'month'=>strtotime($s.'-01')))['cos']/10000000;
 
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
@@ -1232,7 +1235,7 @@ class Complaint extends Base {
 			}
 		}
 		$condition['GROUP'] = 'buss_class,corp_area';
-		// $condition['LIMIT']=array($start,$page_size);
+		$condition['LIMIT']=array($start,$page_size);
 
 		$r = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
 
@@ -1276,8 +1279,9 @@ class Complaint extends Base {
 
 	public static function complaintsAnalayze2Count($param){
 		$db=self::__instance();
+		$where = ' where 1=1 ';
 		if($param['start_date']){
-			$start = $param['start_date'];
+			$where .= ' and month >= '.strtotime($param['start_date'].'-01').' and month < '.strtotime($param['start_date'].'-01 +1 month -1 day');
 			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
@@ -1286,11 +1290,25 @@ class Complaint extends Base {
 		if(empty($param))
 			$param = array();
 		foreach ($param as $key => $value) {
-			$condition["AND"][$key] = $value;
+			if($key=='case_id'||$key=='buss_name'||$key=='sp_name'||$key=='dispute_phone')
+			{
+				$condition["LIKE"]["AND"][$key] = $value;
+				$where .= ' and '.$key.' "%'.$value.'%" ';
+			}
+			else
+			{
+				$condition["AND"][$key] = $value;
+				$where .= ' and '.$key.'='.$value;
+			}
 		}
-		$condition['GROUP'] = 'product_type';
+		$where .= ' group by buss_class,corp_area';
+		$condition['GROUP'] = 'buss_class,corp_area';
 		// $condition['LIMIT']=array($start,$page_size);
-		$r = $db->count('co_complaints',$condition);
+		// var_dump($condition);
+
+		$r = count($db->query('select id from co_complaints'.$where)->fetchAll());
+		// $r = $db->count('co_complaints',$condition);
+		// var_dump($r);
 		// $start = $start?$start:date('Y-m');
 
 

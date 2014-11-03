@@ -92,7 +92,7 @@
 			<!-- 		<th style="width:30px">申诉成功</th>
 					<th style="width:30px">申诉失败</th>
 					<th style="width:30px">未申诉量</th> -->
-					<th style="width:30px">不规范定制/业务收入(百万)</th>
+					<th style="width:30px">不规范定制/业务收入(千万)</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
 					<!-- <th style="width:30px">处理意见</th> -->
@@ -183,7 +183,7 @@ $(function() {
 	new Chart(ctx).Bar(provinceData);
 
 	var complaintsData = {
-		labels : [<{$data.provinceString}>],
+		labels : [<{$data.provinceString2}>],
 		datasets : [
 			{
 				fillColor : "rgba(151,187,205,0.5)",
