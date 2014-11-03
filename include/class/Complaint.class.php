@@ -898,7 +898,7 @@ class Complaint extends Base {
 		return implode(',', $tmp);
 	}
 
-	public static function baseTwoMonthWan($param)
+	public static function baseTwoMonthWan($param,$resultProvince)
 	{
 		$db=self::__instance();
 
@@ -924,6 +924,7 @@ class Complaint extends Base {
 					'AND'=>array(
 						'month[<]'=>strtotime($start.'-01 +1 month -1 day'),
 						'month[>=]'=>strtotime($start.'-01'),
+						'province_id'=>$resultProvince
 						)
 					)
 				)['cos']/10000;
@@ -941,7 +942,8 @@ class Complaint extends Base {
 			array(
 				'AND'=>array(
 				'month[>=]'=>strtotime($start.'-01 -1 month'),
-				'month[<]'=>strtotime($start.'-01 -1 day')
+				'month[<]'=>strtotime($start.'-01 -1 day'),
+				'province_id'=>$resultProvince
 				)
 				)
 			)['cos']/10000;

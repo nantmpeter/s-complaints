@@ -31,6 +31,10 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	
 
 	$data['result'] = $result['now'];
+	foreach ($result['now'] as $key => $value) {
+		$resultProvince[] = $value['province_id'];
+	}
+
 	$row_count = Complaint::baseAnalayzeCount($param);
 
 	$data['month'] = Complaint::baseAnalayzeMonth($param);
@@ -74,7 +78,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 
 	$data['provinceString'] = '"'.implode('","', array_merge($tmp,$tmpP)).'"';
 
-	$baseTwoMonthWan = Complaint::baseTwoMonthWan($param);
+	$baseTwoMonthWan = Complaint::baseTwoMonthWan($param,$resultProvince);
 
 	foreach ($baseTwoMonthWan as $key => $value) {
 		$baseTwoMonthWanString[] = $key;
