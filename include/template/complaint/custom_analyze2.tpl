@@ -69,6 +69,7 @@
 <div class="block">
 		<a style="float:right;padding:10px;" href="<{$export_excel}>" target="" >导出excel</a>
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
+        <{if $data.result|@count > 0}>
         <div id="page-stats" class="block-body collapse in">
                <table class="table table-striped">
               <thead>
@@ -107,7 +108,7 @@
 					<td><{$result.appealSuc}></td>
 					<td><{$result.appealFail}></td>
 					<td><{$result.appealNot}></td>
-					<td><{$result.cos|string_format:"%.2f"}></td>
+					<td><{$result.wan|string_format:"%.2f"}></td>
 
 					<!-- <td><{$result.sp_code}></td> -->
 					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_content}>" title="" data-original-title1="投诉内容">详情</a></td> -->
@@ -127,13 +128,16 @@
                <!-- <{$page_html}> -->
 			   <!--- END -->
         </div>
+        <{else}>
+        	<h4>当月无数据！</h4>
+        <{/if}>
     </div>
 <!--     <div>
     	<h3>全国不规范定制发展趋势图</h3>
     	<canvas id="month" width="600" height="300"></canvas>
     </div> -->
     <div>
-    	<h3>月各省不规范定制的柱状图</h3>
+    	<h3>不规范定制万投比柱状图</h3>
     	<canvas id="province" width="900" height="400"></canvas>
     </div>
 <script>

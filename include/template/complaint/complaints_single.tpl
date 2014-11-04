@@ -73,7 +73,7 @@
 					<!-- <th style="width:55px">工单时间</th> -->
 					<!-- <th style="width:35px">投诉号码</th> -->
 					<!-- <th style="width:55px">具体业务名称</th> -->
-					<th style="width:30px">月不规范定制件数</th>
+					<th style="width:30px">投诉件数</th>
 					<th style="width:30px">环比增长量</th>
 					<th style="width:30px">环比增长率</th>
 				<!-- 	<th style="width:30px">申诉成功</th>
@@ -125,12 +125,13 @@
 			   <!--- END -->
         </div>
     </div>
-    <{if $data.result}>
+
     <div>
     	<h3>单产品投诉情况TOP20</h3>
     	<canvas id="chart" width="700" height="400"></canvas>
     </div>
-    <{/if}>
+
+
 
 <script>
 $(function() {

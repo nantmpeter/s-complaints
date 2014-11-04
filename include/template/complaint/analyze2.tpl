@@ -70,7 +70,7 @@
 <div class="block">
 		<a style="float:right;padding:10px;" href="<{$export_excel}>" target="" >导出excel</a>
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
-        <{if $data.result.0 neq ""}>
+        <{if $data.result|@count > 0}>
         <div id="page-stats" class="block-body collapse in">
                <table class="table table-striped">
               <thead>
@@ -83,6 +83,7 @@
 					<th >月投诉件数</th>
 					<th >环比增长量</th>
 					<th >环比增长率</th>
+					<th >省分应收</th>
 
 					<th >投诉量/业务收入(万)</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
@@ -104,6 +105,7 @@
 					<td><{$result.increasePercent|string_format:"%.2f"}>%</td>
 
 					<td><{$result.cos|string_format:"%.2f"}></td>
+					<td><{$result.wan|string_format:"%.2f"}></td>
 
 					<!-- <td><{$result.sp_code}></td> -->
 					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_content}>" title="" data-original-title1="投诉内容">详情</a></td> -->

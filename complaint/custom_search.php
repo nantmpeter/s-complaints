@@ -15,6 +15,8 @@ foreach ($arr as $key => $value) {
           $param[$value] = $$value;
      }
 }
+$start_date = $param['month'] = $_GET['month'] = $_GET['month']?$_GET['month']:date('Y-m');
+
 // if (Common::isPost ()) {
 // if($start_date != '' && $end_date !=''){
 	$page_size = PAGE_SIZE;

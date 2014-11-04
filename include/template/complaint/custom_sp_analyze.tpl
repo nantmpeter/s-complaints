@@ -26,7 +26,7 @@
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> SP公司名称</label>
-				<input type="text" name="sp_name" value="<{$_GET.sp_name}>" placeholder="SP公司名称" > 
+				<input type="text" name="part_name" value="<{$_GET.part_name}>" placeholder="SP公司名称" > 
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 业务线</label>
@@ -64,57 +64,45 @@
 <div class="block">
 		<a style="float:right;padding:10px;" href="<{$export_excel}>" target="" >导出excel</a>
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
-        <{if $data.result.0 neq ""}>
+        <{if $data.result|@count > 0}>
         <div id="page-stats" class="block-body collapse in">
                <table class="table table-striped">
               <thead>
                 <tr>
 					<th style="width:50px">公司名称</th>
-					<!-- <th style="width:55px">工单时间</th> -->
-					<!-- <th style="width:35px">投诉号码</th> -->
-					<!-- <th style="width:55px">具体业务名称</th> -->
+
 					<th style="width:30px">月不规范定制件数</th>
 					<th style="width:30px">环比增长量</th>
 					<th style="width:30px">环比增长率</th>
 					<th style="width:30px">申诉成功</th>
 					<th style="width:30px">申诉失败</th>
 					<th style="width:30px">未申诉量</th>
-					<th style="width:30px">不规范定制/业务收入(百万)</th>
-					<!-- <th style="width:30px">sp接入代码</th> -->
-					<!-- <th style="width:30px">投诉内容</th> -->
-					<!-- <th style="width:30px">处理意见</th> -->
+					<th style="width:30px">不规范定制/业务收入(万)</th>
+
 					<th style="width:30px">投诉类型</th>
-				<!-- 	<th style="width:30px">投诉问题分类</th>
-					<th style="width:30px">投诉分级</th> -->
 					<th style="width:30px">业务线</th>
 					<th style="width:30px">认定有效量</th>
+					<th style="width:30px">不规范定制扣款</th>
+
                 </tr>
               </thead>
               <tbody>
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
 					<td><{$result.part_name}></td>
-					<!-- <td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td> -->
-					<!-- <td><{$result.complaint_phone}></td> -->
-					<!-- <td><{$result.buss_name}></td> -->
 					<td><{$result.num}></td>
 					<td><{$result.increase}></td>
 					<td><{$result.increasePercent|string_format:"%.2f"}>%</td>
 					<td><{$result.appealSuc}></td>
 					<td><{$result.appealFail}></td>
 					<td><{$result.appealNot}></td>
-					<td><{$result.cos|string_format:"%.2f"}></td>
+					<td><{$result.wan|string_format:"%.2f"}></td>
 
-					<!-- <td><{$result.sp_code}></td> -->
-					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_content}>" title="" data-original-title1="投诉内容">详情</a></td> -->
-					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.suggestion}>" title="" data-original-title1="">详情</a></td> -->
 					<td><{$result.complaint_type}></td>
-					<!-- <td><{$result.problem_type}></td>
-					<td><{$result.complaint_level}></td> -->
+
 					<td><{$data.bussLine[$result.buss_type]}></td>
 					<td><{$result.valid}></td>
-					<!-- <td style = "word-break: break-all; word-wrap:break-word;"><{$result.result}></td> -->
-					<!-- <td><{$result.op_time}></td> -->
+					<td><{$result.customCost}></td>
 					</tr>
 				<{/foreach}>
               </tbody>

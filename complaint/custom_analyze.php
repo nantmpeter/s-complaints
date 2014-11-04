@@ -34,11 +34,34 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	$data['month'] = Complaint::customAnalayzeMonth($param);
 
 	$data['provinces'] = Complaint::customAnalayzeArea($param);
+	// $tmp = explode(',', $data['provinces']);
 	$province = Info::getProvince();
+
+	foreach ($data['provinces'] as $key => $value) {
+		$tmp[$key]['score'] = $value;
+		$tmp[$key]['name'] = $province[$key]['name'];
+	}
+
+	foreach ($tmp as $key => $row) { 
+	$volume[$key] = $row['score']; 
+	$edition[$key] = $row['name']; 
+	} 
+
+	// 将数据根据 volume 降序排列，根据 edition 升序排列 
+	// 把 $data 作为最后一个参数，以通用键排序 
+	array_multisort($volume, SORT_DESC, $edition, SORT_ASC, $tmp);
+	foreach ($tmp as $key => $value) {
+		if (!$value['name'])
+			continue;
+		$name[] = $value['name'];
+		$score[] = $value['score'];
+	}
+
 	foreach ($province as $key => $value) {
 		$data['provinceMap'][$key] = $value['name'];
 	}
-	$data['provinceString'] = '"'.implode('","', $data['provinceMap']).'"';
+	$data['provinceString'] = '"'.implode('","', $name).'"';
+	$data['provinces'] = '"'.implode('","', $score).'"';
 
 // }
 $data['province'] = Info::getProvince(false);

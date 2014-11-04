@@ -245,7 +245,6 @@ class Medoo{
 				$where_clause .= ' ' . $where;
 			}
 		}
-
 		return $where_clause;
 	}
 		

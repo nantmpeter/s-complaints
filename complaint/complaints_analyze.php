@@ -13,6 +13,7 @@ foreach ($arr as $key => $value) {
 		$param[$value] = $$value;
 	}
 }
+$start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$_GET['start_date']:date('Y-m');
 
 // if (Common::isPost ()) {
 // if($start_date != '' && $end_date !=''){
@@ -33,14 +34,38 @@ foreach ($arr as $key => $value) {
 
 	$data['month'] = Complaint::complaintsAnalayzeMonth($param);
 
-	$data['provinces'] = implode(',',Complaint::complaintsAnalayzeProvince($param)['province']);
-	$data['complaints'] = implode(',',Complaint::complaintsAnalayzeProvince($param)['complaints']);
-
+	// $data['provinces'] = implode(',',Complaint::complaintsAnalayzeProvince($param)['province']);
+	// $data['complaints'] = implode(',',Complaint::complaintsAnalayzeProvince($param)['complaints']);
+	$tmp = Complaint::complaintsAnalayzeProvince($param);
+	$provincesData = $tmp['province'];
+	$complaintsData = $tmp['complaints'];
 	$province = Info::getProvince();
 	foreach ($province as $key => $value) {
 		$data['provinceMap'][$key] = $value['name'];
+		$province[$key] = $data['provinces'][$key]['name'] = $data['complaints'][$key]['name'] = $value['name'];
+		$data['provinces'][$key]['score'] = $provincesData[$key];
+		$data['complaints'][$key]['score'] = $complaintsData[$key];
+		// $data['provinces']['name'] = $provincesData[$key];
 	}
-	$data['provinceString'] = '"'.implode('","', $data['provinceMap']).'"';
+
+	array_multisort($provincesData, SORT_DESC, $province, SORT_ASC, $data['provinces']); 
+	array_multisort($complaintsData, SORT_DESC, $province, SORT_ASC, $data['complaints']); 
+	foreach ($data['provinces'] as $key => $value) {
+		$proName[] = $value['name'];
+		$proScore[] = $value['score'];
+	}
+	foreach ($data['complaints'] as $key => $value) {
+		$comName[] = $value['name'];
+		$comScore[] = $value['score'];
+	}
+
+	$data['provinces'] = '"'.implode('","', $proScore).'"';
+	$data['complaints'] = '"'.implode('","', $comScore).'"';
+	// foreach ($province as $key => $value) {
+	// 	$data['provinceMap'][$key] = $value['name'];
+	// }
+	$data['provinceString'] = '"'.implode('","', $proName).'"';
+	$data['provinceString2'] = '"'.implode('","', $comName).'"';
 
 // }
 $data['province'] = Info::getProvince(false);

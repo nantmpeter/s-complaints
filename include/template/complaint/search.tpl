@@ -94,7 +94,7 @@
 </div>
 <div class="block">
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
-        <{if $data.result.0 neq ""}>
+        <{if $data.result|@count > 0}>
         <div id="page-stats" class="block-body collapse in">
                <table class="table table-striped">
               <thead>

@@ -107,7 +107,7 @@
 					<th style="width:30px">申诉内容</th>
 					<th style="width:30px">投诉状态</th>
 					<th style="width:30px">申诉状态</th>
-					<th style="width:30px">扣款金额</th>
+					<!-- <th style="width:30px">扣款金额</th> -->
 					<th style="width:30px">业务线</th>
                 </tr>
               </thead>
@@ -130,7 +130,7 @@
 					<td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.appeal_content}>" title="" data-original-title1="投诉内容">详情</a></td>
 					<td><{$result.complaint_status}></td>
 					<td><{$result.appeal_status}></td>
-					<td></td>
+					<!-- <td></td> -->
 					<td><{$result.buss_line}></td>
 					</tr>
 				<{/foreach}>

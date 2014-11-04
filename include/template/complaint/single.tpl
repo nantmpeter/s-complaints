@@ -69,7 +69,9 @@
                <table class="table table-striped">
               <thead>
                 <tr>
+       				<{if $smarty.get.province_id}>
 					<th style="width:50px">省</th>
+					<{/if}>
 					<th style="width:50px">业务名称</th>
 					<th style="width:50px">公司名称</th>
 					<th style="width:50px">公司sp代码</th>
@@ -84,7 +86,9 @@
               <tbody>
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
+       				<{if $smarty.get.province_id}>
 					<td><{$data.province[$result.province_id]['name']}></td>
+					<{/if}>
 					<td><{$result.buss_name_detail}></td>
 					<td><{$result.sp_name}></td>
 					<td><{$result.sp_corp_code}></td>
