@@ -44,6 +44,14 @@
 						</ul>
 					</ul>
 					<li><a href="/complaint/black_list.php">黑名单</a></li>
+					<li><a href="/complaint/sp_search.php">全网SP信息查询</a></li>
+					<li><a href="/complaint/complaints_sp_search.php">全网SP公司投诉查询</a></li>
+					<li>数据字典</li>
+					<ul>
+						<li><a href="/complaint/unicom_business_sp_list.php">全网联通在信业务-sp名单</a></li>
+						<li><a href="/complaint/unicom_business_list.php">全网联通在信业务-业务信息</a></li>
+							
+					</ul>
 				</ul>
 				<{else}>
 			<a href="#sidebar_menu_<{$module.module_id}>" class="nav-header collapsed" data-toggle="collapse"><i class="<{$module.module_icon}>"></i><{$module.module_name}> <i class="icon-chevron-up"></i></a>

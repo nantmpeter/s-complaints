@@ -41,6 +41,7 @@ class Common {
 				$page_title="嗯!";
 				break;
 		}
+		//var_dump($forward_url);exit;
 		$temp = explode('?',$forward_url);
 		$file_url = $temp[0];
 		if($file_url{0} !=="/"){
@@ -48,6 +49,7 @@ class Common {
 			$forward_url ='/'.$forward_url;
 		}
 		$menu = MenuUrl::getMenuByUrl($file_url);
+		//var_dump($temp,$menu,$file_url);exit;
 		$forward_title = "首页";
 		if(sizeof($menu)>0){
 			$forward_title = $menu['menu_name'];

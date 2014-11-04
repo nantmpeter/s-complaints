@@ -209,7 +209,39 @@ class Complaint extends Base {
 		return $db->count('co_custom',$condition);
 	}
 
-		public static function complaintsSearch($param,$start = 0,$page_size=20){
+	public static function complaintsSearch($param,$start = 0,$page_size=20){
+		$db=self::__instance();
+		if($param['start_date']){
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			unset($param['start_date'],$param['end_date']);	
+		}
+
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			if($key=='case_id'||$key=='buss_name'||$key=='sp_name'||$key=='dispute_phone')
+			{
+				$condition["LIKE"]["AND"][$key] = $value;
+			}
+			else
+			{
+				$condition["AND"][$key] = $value;
+			}
+		}
+		//如果$page_size为0表示获取所有满足条件的记录
+		if(0==$page_size)
+		{
+			$condition['LIMIT']=array($start);
+		}
+		else {
+			$condition['LIMIT']=array($start,$page_size);
+		}
+		$r = $db->select('co_complaints','*',$condition);
+		return $r;
+	}
+	
+	public static function complaintsSpSearch($param,$start = 0,$page_size=20){
 		$db=self::__instance();
 		if($param['start_date']){
 			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
@@ -1092,6 +1124,24 @@ class Complaint extends Base {
 		return $db->count('co_complaints',$condition);
 	}
 
+	public static function complaintsSpSearchCount($param)
+	{
+		$condition = array();
+		$db=self::__instance();
+
+		if($param['start_date']){
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			unset($param['start_date'],$param['end_date']);	
+		}
+
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			$condition["AND"][$key] = $value;
+		}
+		return $db->count('co_complaints',$condition);
+	}
 
 	public static function complaintsAnalayze($param,$start = 0,$page_size=20){
 		$db=self::__instance();
@@ -1266,6 +1316,8 @@ class Complaint extends Base {
 
 		return $db->select('co_black_list','*',$condition);
 	}
+	
+	
 
 	public static function getBlackListCount($param)
 	{
@@ -1283,7 +1335,219 @@ class Complaint extends Base {
 		}
 		return $db->count('co_black_list',$condition);
 	}
+	
+	
 
+	public static function getUnicomBusiness($id)
+	{
+		$db=self::__instance();
+		$sql="select * from dic_unicom_business g where g.id = $id and del_flag=0";
+		$list = $db->query ($sql)->fetchAll();
+		if ($list) {
+			return $list;
+		}
+		return array ();
+		
+	}
+	
+	public static function delUnicomBusiness($id) {
+		if (! $id || ! is_numeric ( $id )) {
+			return false;
+		}
+		$db=self::__instance();
+		$condition = array("id" => $id);
+		$ret = $db->update ('dic_unicom_business', array('del_flag'=>1),$condition );
+		return $ret;
+	}
+	
+	public static function getUnicomBusinessWithSpList($param,$start = 0,$page_size = 20)
+	{
+		
+		$db=self::__instance();
+		if(empty($param))
+			$param = array();
+		$where="";
+		foreach ($param as $key => $value) {
+			if($key=='company_name'||$key=='sp_company_code'||$key=='business_name')
+			{
+				$where.=" and dub.".$key." like '%".$value."%' ";
+			}
+			if($key=='sp_access_number')
+			{
+				$where.=" and dubs.".$key." like '%".$value."%' ";
+			}
+		}
+		//如果$page_size为0表示获取所有满足条件的记录
+		if(0==$page_size)
+		{
+			$limit="";
+		}
+		else {
+			$limit=" limit $start,$page_size ";
+		}
+		$sql="select dub.*,dubs.sp_access_number from dic_unicom_business dub,dic_unicom_business_sp dubs
+		where dub.sp_company_code=dubs.sp_company_code and dub.del_flag=0 and dubs.del_flag=0 ".$where." order by dub.id ".$limit;
+		//var_dump($sql);exit;
+		$query=$db->query($sql);
+		return $query ? $query->fetchAll(PDO::FETCH_ASSOC)
+		 : false;
+	}
+	
+	
+
+	public static function getUnicomBusinessWithSpListCount($param)
+	{
+		$db=self::__instance();
+		if(empty($param))
+			$param = array();
+		$where="";
+		foreach ($param as $key => $value) {
+			if($key=='company_name'||$key=='sp_company_code'||$key=='business_name')
+			{
+				$where.=" and dub.".$key." like '%".$value."%' ";
+			}
+			if($key=='sp_access_number')
+			{
+				$where.=" and dubs.".$key." like '%".$value."%' ";
+			}
+		}
+
+		$sql="select count(1) as c from dic_unicom_business dub,dic_unicom_business_sp dubs
+		where dub.sp_company_code=dubs.sp_company_code and dub.del_flag=0 and dubs.del_flag=0 ".$where;
+		
+		$query=$db->query($sql);
+		return $query ? $query->fetchAll(PDO::FETCH_ASSOC)
+		 : false;
+		
+	}
+	
+	public static function getUnicomBusinessList($param,$start = 0,$page_size = 20)
+	{
+		
+		$db=self::__instance();
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			if($key=='company_name'||$key=='sp_company_code'||$key=='business_code')
+			{
+				$condition["LIKE"]["AND"][$key] = $value;
+			}
+			else
+			{
+				$condition["AND"][$key] = $value;
+			}
+		}
+		//如果$page_size为0表示获取所有满足条件的记录
+		if(0==$page_size)
+		{
+			$condition['LIMIT']=array($start);
+		}
+		else {
+			$condition['LIMIT']=array($start,$page_size);
+		}
+		$condition["AND"]["del_flag"] = 0;
+
+		return $db->select('dic_unicom_business','*',$condition);
+	}
+	
+	
+
+	public static function getUnicomBusinessListCount($param)
+	{
+
+		$db=self::__instance();
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			if($key=='company_name'||$key=='sp_company_code'||$key=='business_code')
+			{
+				$condition["LIKE"]["AND"][$key] = $value;
+			}
+			else
+			{
+				$condition["AND"][$key] = $value;
+			}
+		}
+		
+		$condition["AND"]["del_flag"] = 0;
+		return $db->count('dic_unicom_business',$condition);
+	}
+	
+
+	public static function getUnicomBusinessSp($id)
+	{
+		$db=self::__instance();
+		$sql="select * from dic_unicom_business_sp g where g.id = $id and del_flag=0";
+		$list = $db->query ($sql)->fetchAll();
+		if ($list) {
+			return $list;
+		}
+		return array ();
+		
+	}
+	
+	public static function delUnicomBusinessSp($id) {
+		if (! $id || ! is_numeric ( $id )) {
+			return false;
+		}
+		$db=self::__instance();
+		$condition = array("id" => $id);
+		$ret = $db->update ('dic_unicom_business_sp', array('del_flag'=>1),$condition );
+		return $ret;
+	}
+	
+	public static function getUnicomBusinessSpList($param,$start = 0,$page_size = 20)
+	{
+		
+		$db=self::__instance();
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			if($key=='company_name'||$key=='sp_company_code'||$key=='sp_access_number')
+			{
+				$condition["LIKE"]["AND"][$key] = $value;
+			}
+			else
+			{
+				$condition["AND"][$key] = $value;
+			}
+		}
+		//如果$page_size为0表示获取所有满足条件的记录
+		if(0==$page_size)
+		{
+			$condition['LIMIT']=array($start);
+		}
+		else {
+			$condition['LIMIT']=array($start,$page_size);
+		}
+		$condition["AND"]["del_flag"] = 0;
+
+		return $db->select('dic_unicom_business_sp','*',$condition);
+	}
+	
+	
+
+	public static function getUnicomBusinessSpListCount($param)
+	{
+
+		$db=self::__instance();
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			if($key=='company_name'||$key=='sp_company_code'||$key=='sp_access_number')
+			{
+				$condition["LIKE"]["AND"][$key] = $value;
+			}
+			else
+			{
+				$condition["AND"][$key] = $value;
+			}
+		}
+		
+		$condition["AND"]["del_flag"] = 0;
+		return $db->count('dic_unicom_business_sp',$condition);
+	}
+	
 	public static function delDataByMonth($table,$month)
 	{
 		$month = strtotime($month.'01');
