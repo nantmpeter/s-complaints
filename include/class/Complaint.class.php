@@ -1646,4 +1646,14 @@ class Complaint extends Base {
 		$r = $db->delete('co_'.$table,array('month'=>$month));
 	}
 
+
+	public static function getProMonthTotal($province_id,$month)
+	{
+		$month = strtotime($month.'-01');
+
+		$db=self::__instance();
+		$r = $db->count('co_base',array('AND'=>array('province_id'=>$province_id,'month'=>$month)));
+		return $r;
+	}
+
 }

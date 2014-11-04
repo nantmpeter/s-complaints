@@ -28,10 +28,10 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	{
 		$data['result'] = Complaint::baseSpAnalayze($param,$start,$page_size);
 	}
-	$total = 0;
+	$total = Complaint::getProMonthTotal($province_id,$start_date);
 	if($data['result']){
 		foreach ($data['result'] as $key => $value) {
-			$total += $value['num'];
+			// $total += $value['num'];
 			$name = mb_substr($value['sp_name'],0,20);
 			$tmp['name'][] = $name;
 			$tmp['value'][] = $value['num'];
