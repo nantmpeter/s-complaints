@@ -131,7 +131,7 @@
         </div>
     </div>
     <div>
-    	<h3>全国不规范定制发展趋势图</h3>
+    	<h3><{if $smarty.get.province_id == 0}>全国<{else}><{$data.provinceMap[$smarty.get.province_id]}><{/if}>不规范定制发展趋势图</h3>
     	<canvas id="month" width="600" height="300"></canvas>
     </div>
     <div>
