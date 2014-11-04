@@ -1244,7 +1244,6 @@ class Complaint extends Base {
 			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
 
 			$r2 = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
-		// var_dump($start,$condition,$r2);
 
 			$tmp = array();
 			foreach ($r2 as $key => $value) {
@@ -1306,7 +1305,7 @@ class Complaint extends Base {
 		if($r && isset($s)) {
 			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
 			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
-
+			unset($condition['LIMIT']);
 			$r2 = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
 		// var_dump($start,$condition,$r2);
 
