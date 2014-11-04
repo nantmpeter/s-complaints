@@ -507,16 +507,19 @@ class Complaint extends Base {
 			foreach ($r as $key => $value) {
 				$r[$key]['num'] = $value['num'] = round($value['num']);
 				$t = isset($tmp[$value['part_name']])?$tmp[$value['part_name']]:0;
-				$valid = $db->count('co_custom',array('AND'=>array('complaint_status'=>'有效','part_name'=>$value['part_name'])));
-				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','part_name'=>$value['part_name'])));
-				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','part_name'=>$value['part_name'])));
-				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','part_name'=>$value['part_name'])));
-				$r[$key]['customCost'] = $db->get('co_income','sum(custom_cost) as cos',array('AND'=>array('sp_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))))['cos'];
+				$tmpProCondition = array();
+				if(isset($param['province_id'])){
+					$condition['province_id']= $tmpProCondition['province_id'] = $value['province_id'];
+				}
+
+				$valid = $db->count('co_custom',array('AND'=>array('complaint_status'=>'有效','part_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))+$tmpProCondition));
+				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','part_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))+$tmpProCondition));
+				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','part_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))+$tmpProCondition));
+				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','part_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))));
+				$r[$key]['customCost'] = $db->get('co_income','sum(custom_cost) as cos',array('AND'=>array('sp_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))+$tmpProCondition))['cos'];
 
 				$cosCondition = array('sp_name'=>$value['part_name'],'month'=>strtotime($s.'-01'));
-				if(isset($param['province_id']))
-					$condition['province_id']=$value['province_id'];
-
+				
 				$r[$key]['cos'] = self::getCos($cosCondition)['cos']/10000;
 
 				if($r[$key]['cos'])
