@@ -305,7 +305,7 @@ class Complaint extends Base {
 		else {
 			$condition['LIMIT']=array($start,$page_size);
 		}
-		$r = $db->select('co_custom','*,count(*) as num',$condition);
+		$r = $db->select('co_custom','*,sum(complaint_total) as num',$condition);
 
 		if($r && isset($s)) {
 			$condition["AND"]['order_time[>=]'] = strtotime($s.'-01 -1 month');
