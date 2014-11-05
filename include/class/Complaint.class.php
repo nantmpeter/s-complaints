@@ -592,22 +592,26 @@ class Complaint extends Base {
 				}else{
 					$province = $db->select('co_base','province_id',array('AND'=>array('month'=>strtotime($s.'-01')),'GROUP'=>'province_id'));
 					// $a = $db->query('SELECT `province_id` FROM `co_base` GROUP BY `province_id`')->fetchAll();
-					foreach ($province as $key => $value) {
-						$cosCondition['province_id'][] = $value['province_id'];
+					foreach ($province as $k => $v) {
+						$cosCondition['province_id'][] = $v['province_id'];
 					}
 					// $cosCondition['province_id'] = implode(',', $cosCondition['province_id']);
 				}
-				// var_dump($cosCondition);
+
 				$r[$key]['cos'] = self::getCos($cosCondition)['cos']/10000;
-				if($r[$key]['cos'])
+
+				if($r[$key]['cos']){
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
-				else
+				}
+				else{
 					$r[$key]['wan'] = 0;
+				}
 
 				$r[$key]['increase'] = $value['num'] - $t;
 				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
 			}
 		}
+
 		return $r;
 	}
 
