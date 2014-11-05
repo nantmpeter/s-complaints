@@ -1694,7 +1694,7 @@ class Complaint extends Base {
 		$condition = array('AND'=>array('month'=>$month));
 		if($province_id)
 			$condition['AND']['corp_area']=$province_id;
-		$r = $db->count('co_complaints',$condition);
+		$r = $db->sum('co_complaints','complaint_num',$condition);
 
 		return $r;
 	}
