@@ -1668,9 +1668,11 @@ class Complaint extends Base {
 	public static function getProMonthTotal($province_id,$month)
 	{
 		$month = strtotime($month.'-01');
-
+		$condition = array('AND'=>array('month'=>$month));
+		if($province_id)
+			$condition['AND']['province_id']=$province_id;
 		$db=self::__instance();
-		$r = $db->count('co_base',array('AND'=>array('province_id'=>$province_id,'month'=>$month)));
+		$r = $db->count('co_base',$condition);
 		return $r;
 	}
 
