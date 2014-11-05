@@ -126,10 +126,10 @@
 					<td><{$data.total.month}></td>
 					<td><{$data.total.num}></td>
 					<td><{$data.total.increase}></td>
-					<td></td>
+					<td><{if ($data.total.num-$data.total.increase)}><{($data.total.increase/($data.total.num-$data.total.increase))|string_format:"%.2f"}><{else}>0.00<{/if}>%</td>
 
 					<td><{$data.total.cos|string_format:"%.2f"}></td>
-					<td><{$data.total.wan|string_format:"%.2f"}></td>
+					<td><{($data.total.num/$data.total.cos)|string_format:"%.2f"}></td>
 					</tr>
               </tbody>
             </table>
