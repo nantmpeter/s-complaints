@@ -30,7 +30,6 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	}
 	
 
-	$data['result'] = $result['now'];
 	foreach ($result['now'] as $key => $value) {
 		$resultProvince[] = $value['province_id'];
 	}
@@ -46,14 +45,29 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		}
 
 		$tmp = array();
+		$total = array('province_id'=>'总计','num'=>0,'cos'=>0,'wan'=>0,'increase');
 		foreach ($result['now'] as $key => $value) {
 				if ($value['province_id']) {
+					$total['num'] += $value['num'];
+					$total['cos'] += $value['cos'];
+					$total['wan'] += $value['wan'];
+					$total['month'] = date('Y-m',$value['month']);
+					$total['increase'] += $value['increase'];
 					$tmpProvince[$value['province_id']] = $value['num'];
 					$rand = rand(0,100);
 					$tmp[(string)($value['num']+$rand/100)] = $province[$value['province_id']]['name'];
 					unset($strProvince[$value['province_id']]);
+
 				}
+
 		}
+		$data['total'] = $total;
+		// var_dump($total);
+		// $result['now'] = $result['now']+array($total);
+		$data['result'] = $result['now'];
+
+		// var_dump($result['now']);
+		// var_dump($total);
 		krsort($tmp);
 
 		foreach ($result['last'] as $key => $value) {

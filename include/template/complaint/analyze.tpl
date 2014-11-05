@@ -118,6 +118,19 @@
 					<!-- <td><{$result.op_time}></td> -->
 					</tr>
 				<{/foreach}>
+					<tr>
+					<td>总计</td>
+					<!-- <td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td> -->
+					<!-- <td><{$result.complaint_phone}></td> -->
+					<!-- <td><{$result.buss_name}></td> -->
+					<td><{$data.total.month}></td>
+					<td><{$data.total.num}></td>
+					<td><{$data.total.increase}></td>
+					<td></td>
+
+					<td><{$data.total.cos|string_format:"%.2f"}></td>
+					<td><{$data.total.wan|string_format:"%.2f"}></td>
+					</tr>
               </tbody>
             </table>
 				<!--- START 分页模板 -->

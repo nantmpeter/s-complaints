@@ -595,8 +595,9 @@ class Complaint extends Base {
 					foreach ($province as $key => $value) {
 						$cosCondition['province_id'][] = $value['province_id'];
 					}
+					// $cosCondition['province_id'] = implode(',', $cosCondition['province_id']);
 				}
-
+				// var_dump($cosCondition);
 				$r[$key]['cos'] = self::getCos($cosCondition)['cos']/10000;
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
