@@ -52,7 +52,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 					$total['cos'] += $value['cos'];
 					$total['wan'] += $value['wan'];
 					$total['month'] = date('Y-m',$value['month']);
-					$total['increase'] += $value['increase'];
+					// $total['increase'] += $value['increase'];
 					$tmpProvince[$value['province_id']] = $value['num'];
 					$rand = rand(0,100);
 					$tmp[(string)($value['num']+$rand/100)] = $province[$value['province_id']]['name'];
@@ -61,6 +61,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 				}
 
 		}
+		$total['increase'] = Complaint::getBaseTotal($value['month'],$province_id);
 		$data['total'] = $total;
 		// var_dump($total);
 		// $result['now'] = $result['now']+array($total);

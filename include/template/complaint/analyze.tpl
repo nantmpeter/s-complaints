@@ -129,7 +129,7 @@
 					<td><{if ($data.total.num-$data.total.increase)}><{($data.total.increase/($data.total.num-$data.total.increase))|string_format:"%.2f"}><{else}>0.00<{/if}>%</td>
 
 					<td><{$data.total.cos|string_format:"%.2f"}></td>
-					<td><{($data.total.num/$data.total.cos)|string_format:"%.2f"}></td>
+					<td><{($data.total.num/$data.total.cos*100)|string_format:"%.2f"}></td>
 					</tr>
               </tbody>
             </table>

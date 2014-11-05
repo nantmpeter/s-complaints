@@ -1670,4 +1670,14 @@ class Complaint extends Base {
 		return $r;
 	}
 
+	public static function getBaseTotal($month,$province_id)
+	{
+		$db=self::__instance();
+		$condition = array('AND'=>array('month'=>$month));
+		if($province_id)
+			$condition['AND']['province_id']=$province_id;
+		$r = $db->count('co_base',$condition);
+		return $r;
+	}
+
 }
