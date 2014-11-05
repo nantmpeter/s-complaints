@@ -1681,11 +1681,19 @@ class Complaint extends Base {
 		if($province_id)
 			$condition['AND']['province_id']=$province_id;
 		$r = $db->count('co_base',$condition);
-		// $sql = 'select count(*) as num from co_base where not isnull(province_id) and month='.$month;
-		// if($province_id)
-		// 	$sql .= ' and province_id='.$province_id;
-		// $r = $db->query($sql)->fetchAll();
-		// var_dump($r,$sql);
+
+		return $r;
+	}
+
+	
+	public static function getComplaintTotal($month,$province_id)
+	{
+		$db=self::__instance();
+		$condition = array('AND'=>array('month'=>$month));
+		if($province_id)
+			$condition['AND']['corp_area']=$province_id;
+		$r = $db->count('co_complaints',$condition);
+
 		return $r;
 	}
 

@@ -28,7 +28,16 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	else 
 	{
 		$data['result'] = Complaint::complaintsAnalayze($param,$start,$page_size);
+		foreach ($data['result'] as $key => $value) {
+			$total['num'] += $value['num'];
+			$total['cos'] += $value['cos'];
+			$total['wan'] += $value['wan'];
+			$total['month'] = date('Y-m',$value['month']);
+		}
 	}
+	$total['increase'] = $total['num'] - Complaint::getComplaintTotal(strtotime(date('Y-m-d',$value['month'])." -1 month"),$province_id);
+
+	$data['total'] = $total;
 
 	$row_count = Complaint::customAnalayzeCount($param);
 
