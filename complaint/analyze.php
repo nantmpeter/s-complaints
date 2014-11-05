@@ -61,7 +61,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 				}
 
 		}
-		$total['increase'] = Complaint::getBaseTotal($value['month'],$province_id);
+		$total['increase'] = $total['num'] - Complaint::getBaseTotal(strtotime(date('Y-m-d',$value['month'])." -1 month"),$province_id);
 		$data['total'] = $total;
 		// var_dump($total);
 		// $result['now'] = $result['now']+array($total);
