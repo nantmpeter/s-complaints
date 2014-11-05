@@ -95,7 +95,10 @@ class Complaint extends Base {
 		// var_dump($param);exit;
 		$sql = "insert into co_". $table ." (".$columns[$table].") values ('".implode("','", $param)."')";
 		// echo $sql.'<br>';exit;
-		return $db->query ($sql);
+		$r = $db->query ($sql);
+		// if(!$r)
+			// echo $sql;
+		return $r;
 	}
 
 
@@ -924,7 +927,7 @@ class Complaint extends Base {
 		}
 		$condition['GROUP'] = 'm';
 
-		$r = $db->select('co_custom','sum(complaint_total) as num,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
+		$r = $db->select('co_custom','count(*) as num,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
 
 		for ($i = 1;$i<=12;$i++){
 			$tmp[substr($s, 0,4).'-'.sprintf('%02s',$i)] = 0;
