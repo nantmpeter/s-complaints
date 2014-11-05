@@ -893,9 +893,12 @@ class Complaint extends Base {
 			$tmp['score'][$key] = $data[$key]['score'] = $cos?($value['num']/$cos):0;
 			// var_dump($cos,$value['num']);
 		}
-		array_multisort($tmp['score'], SORT_DESC, $tmp['name'], SORT_ASC, $data);
-		array_splice($data, 20);
-		return $data;
+		if($r){
+			array_multisort($tmp['score'], SORT_DESC, $tmp['name'], SORT_ASC, $data);
+			array_splice($data, 20);
+			return $data;
+		}
+		return array();
 	}
 
 	public static function customAnalayzeMonth($param)

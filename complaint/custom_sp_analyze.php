@@ -35,8 +35,8 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$name[] = $value['name'];
 		$score[] = $value['score'];
 	}
-	$data['wanName']  = '"'.implode('","', $name).'"';
-	$data['chartWan'] = '"'.implode('","', $score).'"';
+	$data['wanName']  = $name?('"'.implode('","', $name).'"'):'';
+	$data['chartWan'] = $score?('"'.implode('","', $score).'"'):'';
 
 	if($data['result']){
 		foreach ($data['result'] as $key => $value) {
