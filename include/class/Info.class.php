@@ -120,10 +120,10 @@ class Info extends Base{
 	public static function getProductType()
 	{
 		$db=new Medoo(OSA_DB_ID);
-		$r = $db->query('SELECT `product_type` FROM `co_complaints` GROUP BY `product_type`')->fetchAll();
+		$r = $db->query('SELECT `buss_class` FROM `co_complaints` GROUP BY `buss_class`')->fetchAll();
 		$result = array();
 		foreach ($r as $key => $value) {
-			$result[] = $value['product_type'];
+			$result[] = $value['buss_class'];
 		}
 		return $result;
 		// $r = $db->select('co_complaints','product_type',array('group'=>'product_type'));
