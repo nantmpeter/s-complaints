@@ -1255,7 +1255,6 @@ class Complaint extends Base {
 			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
 
 			$r2 = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
-
 			$tmp = array();
 			foreach ($r2 as $key => $value) {
 				$tmp[$value['corp_area']] = round($value['num']);
@@ -1271,9 +1270,13 @@ class Complaint extends Base {
 				// $r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
 				// $r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));
 				// $r[$key]['appealNot'] = $valid-$db->count('co_custom',array('appeal_status'=>'失败'));
-
-				$r[$key]['cos'] = $db->sum('co_value_income','custom_cost',array('AND'=>array('province_id'=>$value['corp_area'],'month'=>strtotime($s.'-01'))))/10000000;
-				// $r[$key]['cos'] = self::getCos(array('province_id'=>$value['corp_area'],'month'=>strtotime($s.'-01')))['cos']/10000000;
+				// $r2 = $db->select('co_value_income','sum(value) as num',$condition);
+				// var_dump($r2);exit;
+				// echo 'select sum(custom_cost) as num where month='.strtotime($s.'-01').' and province_id='.$value['corp_area'];
+				// $r = $db->query('select sum(custom_cost) as num where month='.strtotime($s.'-01').' and province_id='.$value['corp_area'].' ')->fetchAll();
+				// var_dump($r);exit;
+				// $r[$key]['cos'] = $db->sum('co_value_income','value',array('AND'=>array('month'=>strtotime($s.'-01'))))/10000000;
+				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['corp_area'],'month'=>strtotime($s.'-01')))['cos']/10000000;
 
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
@@ -1338,7 +1341,7 @@ class Complaint extends Base {
 				// $r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
 				// $r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));
 				// $r[$key]['appealNot'] = $valid-$db->count('co_custom',array('appeal_status'=>'失败'));
-				$r[$key]['cos'] = $db->get('co_value_income','sum(custom_cost) as cos',array('AND'=>array('buss_type'=>$value['buss_class'],'month'=>strtotime($s.'-01'))))['cos']/10000000;
+				$r[$key]['cos'] = $db->get('co_value_income','sum(value) as cos',array('AND'=>array('buss_type'=>$value['buss_class'],'month'=>strtotime($s.'-01'))))['cos']/10000000;
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
