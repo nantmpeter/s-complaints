@@ -60,6 +60,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$data['zhuString'] = '"'.implode('","', $tmp['typeName']).'"';
 		$data['zhuData'] = '"'.implode('","', $tmp['value']).'"';
 	}
+
 	$data['pie'] = json_encode($data['pie']);
 
 
