@@ -17,6 +17,9 @@ class Complaint extends Base {
 	}
 
 	public static function save($param,$table,$month){
+		foreach ($param as $key => $value) {
+			$param[$key] = addslashes($value);
+		}
 		$columns['base'] = self::$base;
 		$columns['custom'] = self::$custom;
 		$columns['complaints'] = self::$complaints;
@@ -98,6 +101,7 @@ class Complaint extends Base {
 
 	public static function checkFirstLine($arr,$table) {
 		$checkParams['base'] = 1;
+		$checkParams['custom'] = 20;
 		$db=self::__instance();
 		$params = explode(',', self::$$table);
 

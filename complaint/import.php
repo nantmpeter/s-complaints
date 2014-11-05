@@ -43,7 +43,7 @@ if (Common::isPost ()) {
 					foreach ($excel_array as $key => $value) {
 						$r = Complaint::save($value,$_POST['table'],$tmp[1]);
 						if(!$r)
-							$error[$_POST['table']][] = implode(",", $value);
+							$error[$_POST['table']][] = implode("','", $value);
 					}
 					if (empty($error[$_POST['table']])) {
 						$error[$_POST['table']][] = '导入成功！';
