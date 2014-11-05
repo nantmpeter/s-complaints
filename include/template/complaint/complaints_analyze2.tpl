@@ -137,10 +137,10 @@
 			   <!--- END -->
         </div>
     </div>
-    <div>
+ <!--    <div>
     	<h3>全网业务申诉量变化趋势分析</h3>
     	<canvas id="line" width="600" height="300"></canvas>
-    </div>
+    </div> -->
     <div>
     	<h3>全网业务申诉量/业务收入（千万元）</h3>
     	<canvas id="zhuData" width="600" height="300"></canvas>
@@ -152,9 +152,9 @@
 <script>
 $(function() {
 
-	var lineData = {
-		labels : ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],
-		datasets : [
+	// var lineData = {
+	// 	labels : ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],
+	// 	datasets : [
 			// {
 			// 	fillColor : "rgba(255,255,255,0.5)",
 			// 	// fillColor : "rgba(220,220,220,0.5)",
@@ -170,11 +170,11 @@ $(function() {
 			// 	pointStrokeColor : "#fff",
 			// 	data : [28,48,40,19,96,27,100]
 			// }
-			<{$lineData}>
-		]
-	}
-	var ctx = document.getElementById("line").getContext("2d");
-	new Chart(ctx).Line(lineData);
+	// 		<{$lineData}>
+	// 	]
+	// }
+	// var ctx = document.getElementById("line").getContext("2d");
+	// new Chart(ctx).Line(lineData);
 
 	var zhuData = {
 		labels : [<{$data.zhuString}>],
