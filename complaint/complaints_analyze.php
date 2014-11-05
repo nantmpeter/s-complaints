@@ -35,7 +35,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 			$total['month'] = date('Y-m',$value['month']);
 		}
 	}
-	$total['increase'] = $total['num'] - Complaint::getComplaintTotal(strtotime(date('Y-m-d',$value['month'])." -1 month"),$province_id);
+	$total['increase'] = $total['num'] - Complaint::getComplaintTotal(strtotime($start_date."-01 -1 month"),$province_id);
 
 	$data['total'] = $total;
 
