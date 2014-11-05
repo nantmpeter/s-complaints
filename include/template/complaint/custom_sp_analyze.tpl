@@ -28,10 +28,10 @@
 		<label> SP公司名称</label>
 				<input type="text" name="part_name" value="<{$_GET.part_name}>" placeholder="SP公司名称" > 
 		</div>
-		<!-- <div style="float:left;margin-right:5px"> -->
-		<!-- <label> SP代码查询</label>
-				<input type="text" name="sp_code" value="<{$_GET.sp_code}>" placeholder="SP代码查询" > 
-		</div> -->
+		<div style="float:left;margin-right:5px">
+		<label> SP企业代码查询</label>
+				<input type="text" name="sp_corp_code" value="<{$_GET.sp_corp_code}>" placeholder="SP企业代码查询" > 
+		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 业务线</label>
 			<select name="buss_type"><option value="0">全部</option>
