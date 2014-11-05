@@ -1326,8 +1326,9 @@ class Complaint extends Base {
 
 			$tmp = array();
 			foreach ($r2 as $key => $value) {
-				$tmp[$value['corp_area']] = round($value['num']);
+				$tmp[$value['buss_class']] = round($value['num']);
 			}
+			// var_dump($tmp);
 			$total = 0;
 			foreach ($r as $key => $value) {
 				if(!$value['corp_area']){
@@ -1336,7 +1337,7 @@ class Complaint extends Base {
 				}
 				$value['num'] = $r[$key]['num'] = round($value['num']);
 				$total += $value['num'];
-				$t = isset($tmp[$value['corp_area']])?$tmp[$value['corp_area']]:0;
+				$t = isset($tmp[$value['buss_class']])?$tmp[$value['buss_class']]:0;
 				$valid = $db->count('co_custom',array('complaint_status'=>'有效'));
 				// $r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
 				// $r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));
@@ -1694,7 +1695,7 @@ class Complaint extends Base {
 		$condition = array('AND'=>array('month'=>$month));
 		if($province_id)
 			$condition['AND']['corp_area']=$province_id;
-		$r = $db->sum('co_complaints','complaint_num',$condition);
+		$r = ceil($db->sum('co_complaints','complaint_num',$condition));
 
 		return $r;
 	}
