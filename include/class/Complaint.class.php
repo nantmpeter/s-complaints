@@ -856,9 +856,46 @@ class Complaint extends Base {
 		return $r;
 	}
 
-	public static function customSpAnalayzeChart()
+	public static function customSpAnalayzeWan($param)
 	{
+		$db=self::__instance();
+		if($param['start_date']){
+			$s = $param['start_date'];
+			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			unset($param['start_date'],$param['end_date']);	
+		}
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			if($key=='buss_name'||$key=='sp_name'||$key=='part_name')
+			{
+				$condition["LIKE"]["AND"][$key] = $value;
+			}
+			else
+			{
+				$condition["AND"][$key] = $value;
+			}
+		}
+		$condition['GROUP'] = 'part_name';
+		// $condition['ORDER'] = 'num desc';
 
+		$r = $db->select('co_custom','*,count(*) as num',$condition);
+		$tmp = $data = array();
+		foreach ($r as $key => $value) {
+			// var_dump($value);exit;
+			$tmp['name'][$key] = $data[$key]['name'] = $value['part_name'];
+			$cosCondition = array('sp_name'=>$value['part_name'],'month'=>strtotime($s.'-01'));
+				
+			$cos = self::getCos($cosCondition)['cos']/10000;
+
+			// $cos = $db->get('co_income','sum(province_income) as cos',array('province_id'=>$value['province_id']))['cos']/10000;
+			$tmp['score'][$key] = $data[$key]['score'] = $cos?($value['num']/$cos):0;
+			// var_dump($cos,$value['num']);
+		}
+		array_multisort($tmp['score'], SORT_DESC, $tmp['name'], SORT_ASC, $data);
+		array_splice($data, 20);
+		return $data;
 	}
 
 	public static function customAnalayzeMonth($param)

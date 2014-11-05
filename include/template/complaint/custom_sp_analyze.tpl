@@ -151,7 +151,7 @@ $(function() {
 	new Chart(ctx).Bar(Data);
 
 	var wanData = {
-		labels : [<{$data.chartName}>],
+		labels : [<{$data.wanName}>],
 		datasets : [
 			{
 				fillColor : "rgba(151,187,205,0.5)",
