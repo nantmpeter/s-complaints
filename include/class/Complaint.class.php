@@ -1272,7 +1272,8 @@ class Complaint extends Base {
 				// $r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));
 				// $r[$key]['appealNot'] = $valid-$db->count('co_custom',array('appeal_status'=>'失败'));
 
-				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['corp_area'],'month'=>strtotime($s.'-01')))['cos']/10000000;
+				$r[$key]['cos'] = $db->sum('co_value_income','custom_cost',array('AND'=>array('province_id'=>$value['corp_area'],'month'=>strtotime($s.'-01'))));
+				// $r[$key]['cos'] = self::getCos(array('province_id'=>$value['corp_area'],'month'=>strtotime($s.'-01')))['cos']/10000000;
 
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
