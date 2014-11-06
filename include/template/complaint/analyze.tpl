@@ -128,6 +128,8 @@
         	<h4>当月无数据！</h4>
         <{/if}>
     </div>
+    <!--
+    
     <div>
     	<h3>全年短彩信业务发展趋势图</h3>
     	<canvas id="month" width="600" height="300"></canvas>
@@ -140,9 +142,295 @@
     	<h3>最近两月投诉量与收入比</h3>
     	<canvas id="baseTwoMonthWan" width="300" height="200"></canvas>
     </div>
-<script>
-$(function() {
+    
+    -->
+    <script src="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/js/esl/esl.js"></script>
+    <script src="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/js/codemirror.js"></script>
+	<script src="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/js/javascript.js"></script>
+	<!-- Fixed navbar -->
+    <link href="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/css/codemirror.css" rel="stylesheet">
+    <link href="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/css/monokai.css" rel="stylesheet">
+   
+    <style type="text/css">
+        .test-head {padding-left: 20px;margin-top:0;background-color:#eee;}
+        .CodeMirror pre{color: #f8f8f2;}
+        .sidebar-nav {
+            padding: 9px 0;
+            margin-bottom: 0;
+        }
+        .icon-resize-full, .icon-resize-small {
+            float: right;
+            opacity: .3;
+        }
+        .span4.ani {
+            transition: width 1s;
+            -moz-transition: width 1s; /* Firefox 4 */
+            -webkit-transition: width 1s; /* Safari and Chrome */
+            -o-transition: width 1s; /* Opera */
+        }
+        .span12.ani {
+            transition: width 1s;
+            -moz-transition: width 1s; /* Firefox 4 */
+            -webkit-transition: width 1s; /* Safari and Chrome */
+            -o-transition: width 1s; /* Opera */
+        }
+        .main {
+            height: 400px;
+            overflow: hidden;
+            padding : 10px;
+            margin-bottom: 10px;
+            border: 1px solid #e3e3e3;
+            -webkit-border-radius: 4px;
+               -moz-border-radius: 4px;
+                    border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+               -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+                    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+        }
 
+    </style>
+
+    
+    <div class="container-fluid" idx='0'>
+        <div class="row-fluid">
+            <div md="sidebar-code" class="span4" style="display:none;">
+                <div class="well sidebar-nav">
+                    <div class="nav-header"><a href="#" onclick="autoResize()" class="icon-resize-full" md ="icon-resize" ></a>option</div>
+                    <textarea md="code" name="code">
+option = {
+    title : {
+        text: '全年短彩信业务发展趋势图',
+        //subtext: '纯属虚构'
+    },
+    tooltip : {
+        trigger: 'axis'
+    },
+    legend: {
+        data:['短彩信数']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            magicType : {show: true, type: ['line', 'bar']},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            data : ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : [
+        {
+            name:'短彩信数',
+            type:'bar',
+            data:[<{$data.month}>],
+            markPoint : {
+                data : [
+                    {type : 'max', name: '最大值'},
+                    {type : 'min', name: '最小值'}
+                ]
+            },
+            markLine : {
+                data : [
+                    {type : 'average', name: '平均值'}
+                ]
+            }
+        }
+    ]
+};
+                    </textarea>
+              </div><!--/.well -->
+            </div><!--/span-->
+            <div md="graphic" class="span12">
+                <div md="main" class="main"></div>
+                <div>
+                    <button class="btn btn-sm btn-success" onclick="refresh(true,0)" type="button">刷 新</button>
+                    <span md='wrong-message' style="color:red"></span>
+                </div>
+            </div><!--/span-->
+        </div><!--/row-->
+    </div><!--/.fluid-container-->
+    <!--------1:bar--------->
+    <div class="container-fluid" idx="1">
+        <div class="row-fluid">
+            <div md="sidebar-code" class="span4" style="display:none;">
+                <div class="well sidebar-nav">
+                    <div class="nav-header"><a href="#" onclick="autoResize()" class="icon-resize-full" md ="icon-resize"></a>option</div>
+                    <textarea md="code" name="code">
+option = {
+    title : {
+        text: '全网联通短彩信业务重点省份投诉量',
+        //subtext: '纯属虚构'
+    },
+    tooltip : {
+        trigger: 'axis'
+    },
+    legend: {
+        data:['投诉量']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            magicType : {show: true, type: ['line', 'bar']},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            data : [<{$data.provinceString}>]
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : [
+        {
+            name:'投诉量',
+            type:'bar',
+            data:[<{$data.provinces}>],
+            markPoint : {
+                data : [
+                    {type : 'max', name: '最大值'},
+                    {type : 'min', name: '最小值'}
+                ]
+            },
+            markLine : {
+                data : [
+                    {type : 'average', name: '平均值'}
+                ]
+            }
+        },
+        {
+            name:'投诉量',
+            type:'bar',
+            data:[<{$data.provinces2}>],
+            markPoint : {
+                data : [
+                    {type : 'max', name: '最大值'},
+                    {type : 'min', name: '最小值'}
+                ]
+            },
+            markLine : {
+                data : [
+                    {type : 'average', name: '平均值'}
+                ]
+            }
+        }
+    ]
+};
+                    </textarea>
+              </div><!--/.well -->
+            </div><!--/span-->
+            <div md="graphic" class="span12">
+                <div md="main" class="main"></div>
+                <div>
+                	<button class="btn btn-sm btn-success" onclick="refresh(true,1)" type="button">刷 新</button>
+                    <span md='wrong-message' style="color:red"></span>
+                </div>
+            </div><!--/span-->
+        </div><!--/row-->
+    </div><!--/.fluid-container-->
+    <!--------2:scatter--------->
+    <div class="container-fluid" idx="2">
+        <div class="row-fluid">
+            <div md="sidebar-code" class="span4" style="display:none;">
+                <div class="well sidebar-nav">
+                    <div class="nav-header"><a href="#" onclick="autoResize()" class="icon-resize-full" md ="icon-resize" ></a>option</div>
+                    <textarea md="code" name="code">
+option = {
+    title : {
+        text: '最近两月投诉量与收入比',
+        //subtext: '纯属虚构'
+    },
+    tooltip : {
+        trigger: 'axis'
+    },
+    legend: {
+        data:['投诉量']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            magicType : {show: true, type: ['line', 'bar']},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            data : [<{$data.baseTwoMonthWanString}>]
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : [
+        {
+            name:'投诉量',
+            type:'bar',
+            data:[<{$data.baseTwoMonthWanVal}>],
+            markPoint : {
+                data : [
+                    {type : 'max', name: '最大值'},
+                    {type : 'min', name: '最小值'}
+                ]
+            },
+            markLine : {
+                data : [
+                    {type : 'average', name: '平均值'}
+                ]
+            }
+        }
+    ]
+};
+                    </textarea>
+              </div><!--/.well -->
+            </div><!--/span-->
+            <div md="graphic" class="span12">
+                <div md="main" class="main"></div>
+                <div>
+                    <button class="btn btn-sm btn-success" onclick="refresh(true,2)" type="button">刷 新</button>
+                    <span md='wrong-message' style="color:red"></span>
+                </div>
+            </div><!--/span-->
+        </div><!--/row-->
+    </div><!--/.fluid-container-->
+    <!--------3:k--------->
+    
+    
+    <script src="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/js/all.js"></script>
+         
+<script><!--
+
+
+		
+
+$(function() {
+	/*
 	var monthData = {
 		labels : ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],
 		datasets : [
@@ -195,7 +483,7 @@ $(function() {
 
 	var ctx = document.getElementById("baseTwoMonthWan").getContext("2d");
 	new Chart(ctx).Bar(baseTwoMonthWan);
-
+	*/
 	var date=$( "#start_date" );
 	date.datetimepicker({format: 'yyyy-mm',startView: 3,minView: 3,viewSelect:'year'});
 	// date.datepicker( "option", "firstDay", 1 );
