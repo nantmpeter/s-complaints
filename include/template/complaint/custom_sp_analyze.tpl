@@ -29,6 +29,10 @@
 				<input type="text" name="part_name" value="<{$_GET.part_name}>" placeholder="SP公司名称" > 
 		</div>
 		<div style="float:left;margin-right:5px">
+		<label> SP企业代码查询</label>
+				<input type="text" name="sp_corp_code" value="<{$_GET.sp_corp_code}>" placeholder="SP企业代码查询" > 
+		</div>
+		<div style="float:left;margin-right:5px">
 		<label> 业务线</label>
 			<select name="buss_type"><option value="0">全部</option>
 			<{foreach name=bussLine from=$data.bussLine item=bussLine key=key}>
@@ -70,6 +74,7 @@
               <thead>
                 <tr>
 					<th style="width:50px">公司名称</th>
+					<!-- <th style="width:50px">sp代码</th> -->
 
 					<th style="width:30px">月不规范定制件数</th>
 					<th style="width:30px">环比增长量</th>
@@ -90,6 +95,7 @@
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
 					<td><{$result.part_name}></td>
+					<!-- <td><{$result.sp_code}></td> -->
 					<td><{$result.num}></td>
 					<td><{$result.increase}></td>
 					<td><{$result.increasePercent|string_format:"%.2f"}>%</td>
@@ -102,7 +108,7 @@
 
 					<td><{$data.bussLine[$result.buss_type]}></td>
 					<td><{$result.valid}></td>
-					<td><{$result.customCost}></td>
+					<td><{$result.customCost|string_format:"%.2f"}></td>
 					</tr>
 				<{/foreach}>
               </tbody>
@@ -145,7 +151,7 @@ $(function() {
 	new Chart(ctx).Bar(Data);
 
 	var wanData = {
-		labels : [<{$data.chartName}>],
+		labels : [<{$data.wanName}>],
 		datasets : [
 			{
 				fillColor : "rgba(151,187,205,0.5)",

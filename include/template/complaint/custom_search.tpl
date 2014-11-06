@@ -92,7 +92,7 @@
                <table class="table table-striped">
               <thead>
                 <tr>
-					<th style="width:30px">#</th>
+					<!-- <th style="width:30px">#</th> -->
 					<th style="width:50px">省市</th>
 					<th style="width:50px">合作伙伴代码</th>
 					<th style="width:50px">公司名称</th>
@@ -114,7 +114,7 @@
               <tbody>							  
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
-					<td><{$result.id}></td>
+					<!-- <td><{$result.id}></td> -->
 					<td><{$data.province[$result.province_id]['name']}></td>
 					<td><{$result.part_code}></td>
 					<td><{$result.part_name}></td>

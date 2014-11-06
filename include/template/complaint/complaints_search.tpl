@@ -33,9 +33,9 @@
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 业务分类</label>
-			<select name="product_type"><option value="0">全部</option>
-			<{foreach name=product_type from=$data.product_type item=product_type}>
-				<option value="<{$product_type}>" <{if $param.product_type == $product_type}> selected='selected'<{/if}>><{$product_type}></option>
+			<select name="buss_class"><option value="0">全部</option>
+			<{foreach name=buss_class from=$data.buss_class item=buss_class}>
+				<option value="<{$buss_class}>" <{if $param.buss_class == $buss_class}> selected='selected'<{/if}>><{$buss_class}></option>
 			<{/foreach}>
 			</select>
 		</div>
@@ -100,7 +100,7 @@
 					<tr>
 					<td><{$data.province[$result.corp_area]['name']}></td>
 					<td><{$result.case_id}></td>
-					<td><{$result.complaint_time|date_format:'%Y-%m-%d'}></td>
+					<td><{$result.complaint_time}></td>
 					<td><{$result.phone}></td>
 					<!-- <td><{$result.product_type}></td> -->
 					<!-- <td><{$result.buss_name}></td>
@@ -114,7 +114,7 @@
 					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.suggestion}>" title="" data-original-title1="">详情</a></td> -->
 					<!-- <td><{$result.complaint_type}></td> -->
 					<td><{$result.problem_type}></td>
-					<td><{$result.product_type}></td>
+					<td><{$result.buss_class}></td>
 					</tr>
 				<{/foreach}>
               </tbody>

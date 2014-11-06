@@ -128,6 +128,19 @@
 					<!-- <td><{$result.op_time}></td> -->
 					</tr>
 				<{/foreach}>
+				<tr>
+					<td>总计</td>
+					<!-- <td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td> -->
+					<!-- <td><{$result.complaint_phone}></td> -->
+					<!-- <td><{$result.buss_name}></td> -->
+					<td><{$data.total.month}></td>
+					<td><{$data.total.num}></td>
+					<td><{$data.total.increase}></td>
+					<td><{if ($data.total.num-$data.total.increase)}><{($data.total.increase/($data.total.num-$data.total.increase)*100)|string_format:"%.2f"}><{else}>0.00<{/if}>%</td>
+
+					<!-- <td><{$data.total.cos|string_format:"%.2f"}></td> -->
+					<!-- <td><{($data.total.num/$data.total.cos*100)|string_format:"%.2f"}></td> -->
+					</tr>
               </tbody>
             </table>
 				<!--- START 分页模板 -->
@@ -143,10 +156,10 @@
     	<h3>月各省工信部投诉分布</h3>
     	<canvas id="province" width="900" height="400"></canvas>
     </div>
-    <div>
+ <!--    <div>
     	<h3>各省月申诉量与收入比</h3>
     	<canvas id="complaints" width="900" height="400"></canvas>
-    </div>
+    </div> -->
 <script>
 $(function() {
 
@@ -182,21 +195,21 @@ $(function() {
 	var ctx = document.getElementById("province").getContext("2d");
 	new Chart(ctx).Bar(provinceData);
 
-	var complaintsData = {
-		labels : [<{$data.provinceString2}>],
-		datasets : [
-			{
-				fillColor : "rgba(151,187,205,0.5)",
-				strokeColor : "rgba(151,187,205,1)",
-				pointColor : "rgba(151,187,205,1)",
-				pointStrokeColor : "#fff",
-				data : [<{$data.complaints}>]
-			}
-		]
-	}
+	// var complaintsData = {
+	// 	labels : [<{$data.provinceString2}>],
+	// 	datasets : [
+	// 		{
+	// 			fillColor : "rgba(151,187,205,0.5)",
+	// 			strokeColor : "rgba(151,187,205,1)",
+	// 			pointColor : "rgba(151,187,205,1)",
+	// 			pointStrokeColor : "#fff",
+	// 			data : [<{$data.complaints}>]
+	// 		}
+	// 	]
+	// }
 
-	var ctx = document.getElementById("complaints").getContext("2d");
-	new Chart(ctx).Bar(complaintsData);
+	// var ctx = document.getElementById("complaints").getContext("2d");
+	// new Chart(ctx).Bar(complaintsData);
 
 	var date=$( "#start_date" );
 	date.datetimepicker({format: 'yyyy-mm',startView: 3,minView: 3,viewSelect:'year'});

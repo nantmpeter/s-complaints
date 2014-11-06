@@ -30,6 +30,14 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$data['result'] = Complaint::customSpAnalayze($param,$start,$page_size);
 	}
 
+	$wan = Complaint::customSpAnalayzeWan($param);
+	foreach ($wan as $key => $value) {
+		$name[] = $value['name'];
+		$score[] = $value['score'];
+	}
+	$data['wanName']  = $name?('"'.implode('","', $name).'"'):'';
+	$data['chartWan'] = $score?('"'.implode('","', $score).'"'):'';
+
 	if($data['result']){
 		foreach ($data['result'] as $key => $value) {
 			$tmp['name'][] = $value['part_name'];
@@ -38,7 +46,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		}
 		$data['chartName'] = '"'.implode('","', $tmp['name']).'"';
 		$data['chartValue'] = implode(',', $tmp['value']);
-		$data['chartWan'] = implode(',', $tmp['wan']);
+		// $data['chartWan'] = implode(',', $tmp['wan']);
 	}
 	$row_count = 20;
 

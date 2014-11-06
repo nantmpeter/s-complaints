@@ -36,6 +36,7 @@
 					<li>工信部投诉分析</li>
 					<ul>
 						<li><a href="/complaint/complaints_search.php">工信部投诉查询</a></li>
+						<li><a href="/complaint/complaints_sp_search.php">全网SP公司投诉查询</a></li>
 						<li>工信部投诉分析</li>
 						<ul>
 							<li><a href="/complaint/complaints_analyze.php">全国工信部投诉分析</a></li>
@@ -45,7 +46,6 @@
 					</ul>
 					<li><a href="/complaint/black_list.php">黑名单</a></li>
 					<li><a href="/complaint/sp_search.php">全网SP信息查询</a></li>
-					<li><a href="/complaint/complaints_sp_search.php">全网SP公司投诉查询</a></li>
 					<li>数据字典</li>
 					<ul>
 						<li><a href="/complaint/unicom_business_sp_list.php">全网联通在信业务-sp名单</a></li>

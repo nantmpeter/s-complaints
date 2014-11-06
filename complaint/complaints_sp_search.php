@@ -1,8 +1,8 @@
 <?php 
 header("Content-Type:text/html;charset=utf-8");
 require ('../include/init.inc.php');
-$arr = array('start_date','end_date','corp_area','buss_name','sp_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_type','sp_code','case_id','complaint_time','dispute_phone','sp_corp_name','product_type');
-$start_date = $end_date = $page_no = $corp_area = $buss_name = $sp_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_type = $sp_code =$start_date = $end_date = $case_id = $complaint_time = $dispute_phone = $sp_corp_name = $product_type = "";
+$arr = array('start_date','end_date','corp_area','buss_name','sp_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_type','sp_code','case_id','complaint_time','dispute_phone','sp_corp_name','buss_class');
+$start_date = $end_date = $page_no = $corp_area = $buss_name = $sp_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_type = $sp_code =$start_date = $end_date = $case_id = $complaint_time = $dispute_phone = $sp_corp_name = $buss_class = "";
 
 extract ( $_GET, EXTR_IF_EXISTS );
 $user_info = UserSession::getSessionInfo();
@@ -32,7 +32,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 
 	$row_count = Complaint::complaintsSpSearchCount($param);
 // }
-$data['product_type'] = Info::getProductType();
+$data['buss_class'] = Info::getProductType();
 $data['province'] = Info::getProvince(false);
 $data['complaintType'] = Info::getComplaintType('complaint_type',false);
 $data['questionType'][1] = Info::getQuestionType(1,'question_type',true);
