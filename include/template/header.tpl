@@ -16,12 +16,24 @@
   <link rel="stylesheet" href="<{$smarty.const.ADMIN_URL}>/assets/css/jquery-ui.css" />
 	<link rel="stylesheet" href="<{$smarty.const.ADMIN_URL}>/assets/css/bootstrap-datetimepicker.min.css" />
 	
+    <link href="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/css/carousel.css" rel="stylesheet">
+    <link href="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/css/echartsHome.css" rel="stylesheet">
+    
+    <link href="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/css/codemirror.css" rel="stylesheet">
+    <link href="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/css/monokai.css" rel="stylesheet">
+    
     <script src="<{$smarty.const.ADMIN_URL}>/assets/lib/jquery-1.8.1.min.js" ></script>
 	<script src="<{$smarty.const.ADMIN_URL}>/assets/lib/jquery.cookie.js" ></script>
 	<script src="<{$smarty.const.ADMIN_URL}>/assets/lib/bootstrap/js/bootbox.min.js"></script>
 	<script src="<{$smarty.const.ADMIN_URL}>/assets/lib/bootstrap/js/bootstrap-modal.js"></script>
-  <script src="<{$smarty.const.ADMIN_URL}>/assets/js/other.js"></script>
+  	<script src="<{$smarty.const.ADMIN_URL}>/assets/js/other.js"></script>
 	<script src="<{$smarty.const.ADMIN_URL}>/assets/js/Chart.min.js"></script>
+
+	    <script src="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/js/esl/esl.js"></script>
+    <script src="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/js/codemirror.js"></script>
+    <script src="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/js/javascript.js"></script>
+
+    
 	<script src="<{$smarty.const.ADMIN_URL}>/assets/js/jquery-ui.js"></script>
     <script src="<{$smarty.const.ADMIN_URL}>/assets/js/bootstrap-datetimepicker.js" ></script>
     
