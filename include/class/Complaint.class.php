@@ -172,7 +172,7 @@ class Complaint extends Base {
 		if(empty($param))
 			$param = array();
 		foreach ($param as $key => $value) {
-			if($key=='buss_name'||$key=='sp_name'||$key=='complaint_phone')
+			if($key=='buss_name'||$key=='sp_name'||$key=='complaint_phone'||$key='part_name')
 			{
 				$condition["LIKE"]["AND"][$key] = $value;
 			}
