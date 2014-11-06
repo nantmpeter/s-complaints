@@ -118,18 +118,21 @@
 					<td><{$result.appealFail}></td>
 					<td><{$result.appealNot}></td> -->
 					<td><{$result.wan|string_format:"%.2f"}></td>
-
-					<!-- <td><{$result.sp_code}></td> -->
-					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_content}>" title="" data-original-title1="投诉内容">详情</a></td> -->
-					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.suggestion}>" title="" data-original-title1="">详情</a></td> -->
-
-					<!-- <td><{$result.problem_type}></td>
-					<td><{$result.complaint_level}></td> -->
-
-					<!-- <td style = "word-break: break-all; word-wrap:break-word;"><{$result.result}></td> -->
-					<!-- <td><{$result.op_time}></td> -->
 					</tr>
 				<{/foreach}>
+				<tr>
+					<td>总计</td>
+					<!-- <td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td> -->
+					<!-- <td><{$result.complaint_phone}></td> -->
+					<!-- <td><{$result.buss_name}></td> -->
+					<td><{$data.total.month}></td>
+					<td><{$data.total.num}></td>
+					<td><{$data.total.increase}></td>
+					<td><{if ($data.total.num-$data.total.increase)}><{($data.total.increase/($data.total.num-$data.total.increase)*100)|string_format:"%.2f"}><{else}>0.00<{/if}>%</td>
+
+					<!-- <td><{$data.total.cos|string_format:"%.2f"}></td> -->
+					<td><{if $data.total.cos}><{($data.total.num/$data.total.cos)|string_format:"%.2f"}><{else}>0.00<{/if}></td>
+					</tr>
               </tbody>
             </table>
 				<!--- START 分页模板 -->
