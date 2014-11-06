@@ -94,7 +94,7 @@
                 <tr>
 					<!-- <th style="width:30px">#</th> -->
 					<th style="width:50px">省市</th>
-					<th style="width:50px">合作伙伴代码</th>
+					<th style="width:50px">sp企业代码</th>
 					<th style="width:50px">公司名称</th>
 					<th style="width:50px">业务类型</th>
 					<th style="width:50px">业务名称</th>

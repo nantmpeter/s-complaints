@@ -75,7 +75,8 @@
                 <tr>
 					<th style="width:50px">公司名称</th>
 					<!-- <th style="width:50px">sp代码</th> -->
-
+					
+					<th style="width:30px">sp企业代码</th>
 					<th style="width:30px">月不规范定制件数</th>
 					<th style="width:30px">环比增长量</th>
 					<th style="width:30px">环比增长率</th>
@@ -95,7 +96,7 @@
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
 					<td><{$result.part_name}></td>
-					<!-- <td><{$result.sp_code}></td> -->
+					<td><{$result.part_code}></td>
 					<td><{$result.num}></td>
 					<td><{$result.increase}></td>
 					<td><{$result.increasePercent|string_format:"%.2f"}>%</td>
