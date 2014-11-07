@@ -437,7 +437,7 @@ option = {
     
     <script src="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/js/all.js"></script>
          
-<script><!--
+<script>
 
 
 		

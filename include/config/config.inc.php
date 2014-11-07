@@ -16,8 +16,8 @@ define ( 'TEMPLATE_CACHE', ADMIN_BASE . '/cache/' );
 
 //OSAdmin常量
 // define ( 'ADMIN_URL' ,'http://demo.osadmin.net/uploads');
-define ( 'ADMIN_URL' ,'http://localhost:3000');
-// define ( 'ADMIN_URL' ,'http://www.peter.com');
+//define ( 'ADMIN_URL' ,'http://localhost:3000');
+ define ( 'ADMIN_URL' ,'http://www.peter.com');
 define ( 'ADMIN_TITLE' ,'管理后台');
 define ( 'COMPANY_NAME' ,'客户投诉分析系统');
 
@@ -27,7 +27,7 @@ $DATABASE_LIST[OSA_DB_ID] = array (
 	"server"=>'127.0.0.1',
 	"port"=>'3306',
 	"username"=> 'root', 
-	"password"=>'', 
+	"password"=>'123456', 
 	"db_name"=>'an' );
 
 //样例数据库设置

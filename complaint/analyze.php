@@ -97,7 +97,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 
 	foreach ($baseTwoMonthWan as $key => $value) {
 		$baseTwoMonthWanString[] = $key;
-		$baseTwoMonthWanVal[] = $value;
+		$baseTwoMonthWanVal[] = round($value,2);
 	}
 
 	$data['baseTwoMonthWanString'] = '"'.implode('","', $baseTwoMonthWanString).'"';

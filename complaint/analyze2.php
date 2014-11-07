@@ -42,7 +42,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$tmp = array();
 		foreach ($result['now'] as $key => $value) {
 				if ($value['province_id']) {
-					$tmpProvince[$value['province_id']] = $value['wan'];
+					$tmpProvince[$value['province_id']] = round($value['wan'],2);
 					$rand = rand(0,100);
 					$tmp[(string)($value['wan']+$rand/100)] = $province[$value['province_id']]['name'];
 					unset($strProvince[$value['province_id']]);

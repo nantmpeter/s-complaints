@@ -33,13 +33,16 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$result = Complaint::complaintsAnalayze2($param,$start,$page_size);
 	}
 	$data['result'] = $result['list'];
+	$num=0;
 	foreach ($data['result'] as $key => $value) {
 		$total['num'] += $value['num'];
 		$total['cos'] += $value['cos'];
 		$total['wan'] += $value['wan'];
 		$total['month'] = date('Y-m',$value['month']);
 		$tmp['typeName'][$key] = $value['product_type'];
-		$data['pie'][$key]['value'] = $value['num']/$result['total'];
+		$data['pie'][$num]['value'] = round($value['num']/$result['total'],4);
+		$data['pie'][$num]['name'] = $value['product_type'];
+		$num++;
 		// $data['pie'][$key]['color'] = "#F38630";
 		if($value['cos'])
 			$tmp['value'][$key] = $value['num']/$value['cos'];
@@ -67,8 +70,8 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$data['zhuString'] = '"'.implode('","', $tmp['typeName']).'"';
 		$data['zhuData'] = '"'.implode('","', $tmp['value']).'"';
 	}
-
 	$data['pie'] = json_encode($data['pie']);
+
 
 
 

@@ -144,6 +144,7 @@
     	<h3>全网业务申诉量变化趋势分析</h3>
     	<canvas id="line" width="600" height="300"></canvas>
     </div> -->
+    <!--
     <div>
     	<h3>全网业务申诉量/业务收入（千万元）</h3>
     	<canvas id="zhuData" width="600" height="300"></canvas>
@@ -152,6 +153,185 @@
     	<h3></h3>
     	<canvas id="pie" width="900" height="400"></canvas>
     </div>
+    
+    
+    -->
+    <script src="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/js/esl/esl.js"></script>
+    <script src="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/js/codemirror.js"></script>
+	<script src="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/js/javascript.js"></script>
+	<!-- Fixed navbar -->
+    <link href="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/css/codemirror.css" rel="stylesheet">
+    <link href="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/css/monokai.css" rel="stylesheet">
+   
+    <style type="text/css">
+        .test-head {padding-left: 20px;margin-top:0;background-color:#eee;}
+        .CodeMirror pre{color: #f8f8f2;}
+        .sidebar-nav {
+            padding: 9px 0;
+            margin-bottom: 0;
+        }
+        .icon-resize-full, .icon-resize-small {
+            float: right;
+            opacity: .3;
+        }
+        .span4.ani {
+            transition: width 1s;
+            -moz-transition: width 1s; /* Firefox 4 */
+            -webkit-transition: width 1s; /* Safari and Chrome */
+            -o-transition: width 1s; /* Opera */
+        }
+        .span12.ani {
+            transition: width 1s;
+            -moz-transition: width 1s; /* Firefox 4 */
+            -webkit-transition: width 1s; /* Safari and Chrome */
+            -o-transition: width 1s; /* Opera */
+        }
+        .main {
+            height: 400px;
+            overflow: hidden;
+            padding : 10px;
+            margin-bottom: 10px;
+            border: 1px solid #e3e3e3;
+            -webkit-border-radius: 4px;
+               -moz-border-radius: 4px;
+                    border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+               -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+                    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+        }
+
+    </style>
+
+    
+    <div class="container-fluid" idx='0'>
+        <div class="row-fluid">
+            <div md="sidebar-code" class="span4" style="display:none;">
+                <div class="well sidebar-nav">
+                    <div class="nav-header"><a href="#" onclick="autoResize()" class="icon-resize-full" md ="icon-resize" ></a>option</div>
+                    <textarea md="code" name="code">
+option = {
+    title : {
+        text: '全网业务申诉量/业务收入（千万元）',
+        //subtext: '纯属虚构'
+    },
+    tooltip : {
+        trigger: 'axis'
+    },
+    legend: {
+        data:['申诉量/业务收入']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            magicType : {show: true, type: ['line', 'bar']},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            data : [<{$data.zhuString}>]
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : [
+        {
+            name:'申诉量/业务收入',
+            type:'bar',
+            data:[<{$data.zhuData}>],
+            markPoint : {
+                data : [
+                    {type : 'max', name: '最大值'},
+                    {type : 'min', name: '最小值'}
+                ]
+            },
+            markLine : {
+                data : [
+                    {type : 'average', name: '平均值'}
+                ]
+            }
+        }
+    ]
+};
+                    </textarea>
+              </div><!--/.well -->
+            </div><!--/span-->
+            <div md="graphic" class="span12">
+                <div md="main" class="main"></div>
+                <div>
+                    <button class="btn btn-sm btn-success" onclick="refresh(true,0)" type="button">刷 新</button>
+                    <span md='wrong-message' style="color:red"></span>
+                </div>
+            </div><!--/span-->
+        </div><!--/row-->
+    </div><!--/.fluid-container-->
+    <!--------1:bar--------->
+    <div class="container-fluid" idx="1">
+        <div class="row-fluid">
+            <div md="sidebar-code" class="span4" style="display:none;">
+                <div class="well sidebar-nav">
+                    <div class="nav-header"><a href="#" onclick="autoResize()" class="icon-resize-full" md ="icon-resize"></a>option</div>
+                    <textarea md="code" name="code">
+option = {
+    title : {
+        text: '',
+        //subtext: '纯属虚构',
+        x:'center'
+    },
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+    legend: {
+        orient : 'vertical',
+        x : 'left',
+        data:[<{$data.zhuString}>]
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : true,
+    series : [
+        {
+            name:'',
+            type:'pie',
+            radius : '55%',
+            center: ['50%', '60%'],
+            data:<{$data.pie}>
+            	 
+        }
+    ]
+};
+                    </textarea>
+              </div><!--/.well -->
+            </div><!--/span-->
+            <div md="graphic" class="span12">
+                <div md="main" class="main"></div>
+                <div>
+                	<button class="btn btn-sm btn-success" onclick="refresh(true,1)" type="button">刷 新</button>
+                    <span md='wrong-message' style="color:red"></span>
+                </div>
+            </div><!--/span-->
+        </div><!--/row-->
+    </div><!--/.fluid-container-->
+    
+    
+    <script src="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/js/all.js"></script>
+        
 <script>
 $(function() {
 
