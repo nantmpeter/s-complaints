@@ -172,7 +172,7 @@ class Complaint extends Base {
 		if(empty($param))
 			$param = array();
 		foreach ($param as $key => $value) {
-			if($key=='buss_name'||$key=='sp_name'||$key=='complaint_phone')
+			if($key=='buss_name'||$key=='sp_name'||$key=='complaint_phone'||$key='part_name')
 			{
 				$condition["LIKE"]["AND"][$key] = $value;
 			}
@@ -310,13 +310,14 @@ class Complaint extends Base {
 			$condition['LIMIT']=array($start);
 		}
 		else {
-			$condition['LIMIT']=array($start,$page_size);
+			// $condition['LIMIT']=array($start,$page_size);
 		}
 		$r = $db->select('co_custom','*,sum(complaint_total) as num',$condition);
 
 		if($r && isset($s)) {
-			$condition["AND"]['order_time[>=]'] = strtotime($s.'-01 -1 month');
-			$condition["AND"]['order_time[<]'] = strtotime($s.'-01 -1 day');
+			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
+			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
+			// var_dump($condition);
 			$r2 = $db->select('co_custom','*,sum(complaint_total) as num',$condition);
 
 			$tmp = array();
