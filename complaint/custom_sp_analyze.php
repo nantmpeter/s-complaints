@@ -30,6 +30,8 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$data['result'] = Complaint::customSpAnalayze($param,$start,$page_size);
 	}
 
+	$row_count = Complaint::customSpAnalayzeNum($param);
+
 	$wan = Complaint::customSpAnalayzeWan($param);
 	foreach ($wan as $key => $value) {
 		$name[] = $value['name'];
@@ -38,8 +40,9 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	$data['wanName']  = $name?('"'.implode('","', $name).'"'):'';
 	$data['chartWan'] = $score?('"'.implode('","', $score).'"'):'';
 
-	if($data['result']){
-		foreach ($data['result'] as $key => $value) {
+	$charData = Complaint::customSpAnalayze($param,0,20);
+	if($charData){
+		foreach ($charData as $key => $value) {
 			$tmp['name'][] = $value['part_name'];
 			$tmp['value'][] = $value['num'];
 			$tmp['wan'][] = $value['wan'];
@@ -48,8 +51,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$data['chartValue'] = implode(',', $tmp['value']);
 		// $data['chartWan'] = implode(',', $tmp['wan']);
 	}
-	$row_count = 20;
-
+	// $row_count = 20;
 	// $data['month'] = Complaint::customAnalayzeMonth($param);
 
 	// $data['provinces'] = Complaint::customAnalayzeArea($param);
