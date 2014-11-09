@@ -39,9 +39,9 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$total['num'] += $value['num'];
 		$total['wan'] += $value['wan'];
 		$total['month'] = date('Y-m',$value['month']);
-		$tmp['typeName'][$key] = $value['product_type'];
+		$tmp['typeName'][$key] = $value['buss_class'];
 		$data['pie'][$num]['value'] = round($value['num']/$result['total'],4);
-		$data['pie'][$num]['name'] = $value['product_type'];
+		$data['pie'][$num]['name'] = $value['buss_class'];
 		$num++;
 		// $data['pie'][$key]['color'] = "#F38630";
 		if($value['cos'])
@@ -74,7 +74,6 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$data['zhuData'] = '"'.implode('","', $tmp['value']).'"';
 	}
 	$data['pie'] = json_encode($data['pie']);
-
 
 
 
