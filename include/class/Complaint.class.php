@@ -1923,7 +1923,7 @@ class Complaint extends Base {
 		$db=self::__instance();
 		// $r = $db->sum('value',array('month'=>$month));
 		$r = $db->query('select sum(value) as num from co_value_income where `month`='.$month)->fetchAll();
-		return $r['num'];
+		return $r[0]['num'];
 	}
 
 }

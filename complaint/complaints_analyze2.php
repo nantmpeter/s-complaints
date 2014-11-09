@@ -51,6 +51,8 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	}
 	$total['cos'] = Complaint::getValueTotal(strtotime($start_date."-01"));
 
+	// $total['cos'] = 1000;
+
 	$total['increase'] = $total['num'] - Complaint::getComplaintTotal(strtotime($start_date."-01 -1 month"),$province_id);
 
 	$data['total'] = $total;
