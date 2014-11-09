@@ -374,7 +374,7 @@ class Complaint extends Base {
 				$valid = $db->count('co_custom',array('AND'=>array('complaint_status'=>'有效','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
-				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'失败','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
+				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01')))['cos']/10000;
 				$r[$key]['customCost'] = $db->get('co_income','sum(custom_cost) as cos',array('AND'=>array('sp_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))))['cos'];
 
