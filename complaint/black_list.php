@@ -6,6 +6,7 @@ $start_date = $end_date = $page_no = $province_id = $buss_name = $sp_name = $sp_
 
 extract ( $_GET, EXTR_IF_EXISTS );
 $user_info = UserSession::getSessionInfo();
+$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
 
 $http_query = '';

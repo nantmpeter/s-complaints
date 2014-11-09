@@ -59,6 +59,7 @@ class UserSession{
 		
 		//读取该用户所属用户组将该组的权限保存在$_SESSION中
 		$user_group = UserGroup::getGroupById($user_info['user_group']);
+		$user_info['province_id'] = $user_group['province_id'];
 		$user_info['group_id']=$user_group['group_id'];
 		$user_info['user_role']=$user_group['group_role'];
 		$user_info['shortcuts_arr']=explode(',',$user_info['shortcuts']);
@@ -66,6 +67,7 @@ class UserSession{
 		if(strpos($user_group['group_role'],$menu['menu_id'])){
 			$user_info['setting']=1;
 		}
+
 		$user_info['login_time']=Common::getDateTime($user_info['login_time']);
 		UserSession::setSessionInfo( $user_info);
 	}

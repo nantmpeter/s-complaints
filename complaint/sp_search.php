@@ -2,11 +2,11 @@
 header("Content-Type:text/html;charset=utf-8");
 require ('../include/init.inc.php');
 $arr = array('company_name','sp_company_code','sp_access_number','business_name');
-$company_name = $sp_company_code = $sp_access_number = $business_name ="";
 
 
 extract ( $_GET, EXTR_IF_EXISTS );
 $user_info = UserSession::getSessionInfo();
+$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
 
 

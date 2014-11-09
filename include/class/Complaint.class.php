@@ -16,7 +16,13 @@ class Complaint extends Base {
 		return parent::$table_prefix.self::$table_name;
 	}
 
-	public static function save($param,$table,$month){
+	public static function recordTable($name,$table,$month,$province_id,$user_id){
+		$db=self::__instance();
+		// $r = $db->insert('co_table_record',array('table'=>$table,'month'=>strtotime($month.'-01'),'province_id'=>$province_id,'name'=>$name,'user_id'=>$user_id));
+		$r = $db->query('insert into co_table_record (`table`,`month`,province_id,`name`,user_id,time) values("'.$table.'",'.strtotime($month.'-01').','.$province_id.',"'.$name.'",'.$user_id.','.time().')');
+	}
+
+	public static function save($param,$table,$month,$province_id){
 		foreach ($param as $key => $value) {
 			$param[$key] = addslashes($value);
 		}
@@ -37,10 +43,11 @@ class Complaint extends Base {
 		if($table == 'base') {
 			$param[0] = Info::getProvinceByName($param[0]);
 			// $param[6] = ExcelReader::xlsTime($param[6]);
-
-			if($month != $param[25])
-				return true;
 			$param[25] = strtotime($param[25].'01');
+			if(strtotime($month.'-01') != $param[25])
+				return true;
+			if($province_id != $param[0])
+				return true;
 
 			$tmp = array($param[3],$param[0],$param[6],$param[25],$param[5],'',1,'一年');
 			$num = $db->count('co_base',array('complaint_phone'=>$param[3]));
@@ -53,13 +60,15 @@ class Complaint extends Base {
 				$db->query($sql);
 		}
 		if($table == 'custom') {
-			if($month != $param[29])
+			$param[29] = strtotime($param[29].'01');
+			if(strtotime($month.'-01') != $param[29])
+				return true;
+			$param[22] = Info::getProvinceByName($param[22]);
+			if($province_id != $param[22])
 				return true;
 			$param[25] = ExcelReader::xlsTime($param[25]);
 			$param[6] = ExcelReader::xlsTime($param[6]);
-			$param[29] = strtotime($param[29].'01');
 			$param[7] = $bussLine[$param[7]];
-			$param[22] = Info::getProvinceByName($param[22]);
 			$tmp = array($param[16],$param[22],$param[6],$param[29],$param[2],'',1,'一年');
 			$num = $db->count('co_custom',array('complaint_phone'=>$param[16]));
 			if($num > 0) {
@@ -77,9 +86,11 @@ class Complaint extends Base {
 			// $param[18] = ExcelReader::xlsTime($param[18]);
 			// $param[19] = ExcelReader::xlsTime($param[19]);
 			$param[7] = Info::getProvinceByName($param[7]);
-			if($month != $param[47])
+			if($province_id != $param[7])
 				return true;
 			$param[47] = strtotime($param[47].'01');
+			if(strtotime($month.'-01') != $param[47])
+				return true;
 			$tmp = array($param[4],$param[7],$param[42],$param[47],$param[41],'',3,'永久屏蔽');
 			$sql = 'insert into co_black_list ('.$columns['black_list'].') values ("'.implode('","', $tmp).'")';
 
@@ -87,10 +98,16 @@ class Complaint extends Base {
 		}
 		if($table == 'income'){
 			$param[0] = Info::getProvinceByName($param[0]);
+			if($province_id != $param[0])
+				return true;
 			$param[13] = strtotime($param[13].'01');
+			if(strtotime($month.'-01') != $param[13])
+				return true;
 		}
 		if ($table == 'value_income') {
 			$param[0] = strtotime($param[0].'01');
+			if(strtotime($month.'-01') != $param[0])
+				return true;
 		}
 		// var_dump($param);exit;
 		$sql = "insert into co_". $table ." (".$columns[$table].") values ('".implode("','", $param)."')";
@@ -1773,6 +1790,33 @@ class Complaint extends Base {
 		$r = ceil($db->sum('co_complaints','complaint_num',$condition));
 
 		return $r;
+	}
+
+	public static function getImprotData($date,$table)
+	{
+		$db=self::__instance();
+		$condition = array('AND'=>array('month'=>strtotime($date.'-01'),'`table`'=>$table));
+		$r = $db->query("SELECT * FROM co_table_record WHERE month = '".strtotime($date.'-01')."' AND `table` = '".$table."'")->fetchAll();
+		// if($table == 'complaints'){
+		// 	// $condition['AND'][] = array('corp_area'=>$province_id);
+		// 	$condition['GROUP'] = 'corp_area';
+		// }else{
+		// 	// $condition['AND'][] = array('province_id'=>$province_id);
+		// }
+		// $condition['GROUP'] = 'province_id';
+// var_dump($condition);
+// 		$r = $db->select('co_table_record','*',$condition);
+		return $r;
+
+	}
+
+	public static function delData($id,$table,$province_id,$month)
+	{
+		$provinceName = $table=='complaints'?'corp_area':'province_id';
+		$db=self::__instance();
+		$r = $db->delete('co_'.$table,array('AND'=>array('month'=>strtotime($month.'-01'),$provinceName=>$province_id)));
+		if($r)
+			$db->delete('co_table_record',array('id'=>$id));
 	}
 
 }

@@ -4,7 +4,7 @@ class UserGroup extends Base {
 	// 表名
 	private static $table_name = 'user_group';
 	// 查询字段
-	private static $columns = 'group_id, group_name, group_role, owner_id , group_desc';
+	private static $columns = 'group_id, group_name, group_role, owner_id , group_desc, province_id';
 
 	public static function getTableName(){
 		return parent::$table_prefix.self::$table_name;
