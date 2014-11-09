@@ -93,6 +93,8 @@
 </div>
 </div>
 <div class="block">
+		<a style="float:right;padding:10px;" href="<{$export_excel}>" target="" >导出excel</a>
+		<a style="float:right;padding:10px;" href="javascript:;" onclick="updateComplaintLevelAndType()" >手动更新</a>
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
         <{if $data.result|@count > 0}>
         <div id="page-stats" class="block-body collapse in">
@@ -159,6 +161,23 @@ $(function(){
 		$('.question_type').html($('.question'+$(this).val()).html());
 	});
 })
+
+function updateComplaintLevelAndType()
+{
+	alert("请不要关闭此页面，更新过程可能比较慢 ，大概1000条/分钟，更新完毕会提示更新成功");
+	$.ajax({
+        type: "POST",
+        url: "search.php",
+        data: {method:"updateComplaintLevelAndType",start_date:$('#start_date').val()},
+
+        success: function(data){
+            
+            alert(data);
+            
+        }
+	});
+	
+}
 </script>
 <!-- TPLEND 以下内容不需更改，请保证该TPL页内的标签匹配即可 -->
 <{include file="footer.tpl" }>

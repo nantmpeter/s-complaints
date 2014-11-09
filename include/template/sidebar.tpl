@@ -48,6 +48,9 @@
 					<li><a href="/complaint/sp_search.php">全网SP信息查询</a></li>
 					<li>数据字典</li>
 					<ul>
+						<li><a href="/complaint/complaints_type_manage.php">投诉类型及问题分类管理</a></li>
+						<li><a href="/complaint/complaints_level_manage.php">投诉分级管理</a></li>
+						
 						<li><a href="/complaint/unicom_business_sp_list.php">全网联通在信业务-sp名单</a></li>
 						<li><a href="/complaint/unicom_business_list.php">全网联通在信业务-业务信息</a></li>
 							

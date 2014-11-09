@@ -1,0 +1,3 @@
+ALTER TABLE `co_base`
+ADD COLUMN `update_complaint_level_and_type`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '更新投诉分级和投诉分类的标记' AFTER `month`;
+
