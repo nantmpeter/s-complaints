@@ -1918,4 +1918,12 @@ class Complaint extends Base {
 			$db->delete('co_table_record',array('id'=>$id));
 	}
 
+	public static function getValueTotal($month)
+	{
+		$db=self::__instance();
+		// $r = $db->sum('value',array('month'=>$month));
+		$r = $db->query('select sum(value) as num from co_value_income where `month`='.$month)->fetchAll();
+		return $r['num'];
+	}
+
 }

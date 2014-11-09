@@ -37,7 +37,6 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	$num=0;
 	foreach ($data['result'] as $key => $value) {
 		$total['num'] += $value['num'];
-		$total['cos'] += $value['cos'];
 		$total['wan'] += $value['wan'];
 		$total['month'] = date('Y-m',$value['month']);
 		$tmp['typeName'][$key] = $value['product_type'];
@@ -50,6 +49,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		else
 			$tmp['value'][$key] = 0;
 	}
+	$total['cos'] = Complaint::getValueTotal(strtotime($start_date."-01 -1 month"));
 
 	$total['increase'] = $total['num'] - Complaint::getComplaintTotal(strtotime($start_date."-01 -1 month"),$province_id);
 
