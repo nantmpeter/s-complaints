@@ -13,6 +13,7 @@
 					</ul>
 					<li>基本信息分析</li>
 					<ul>
+						<li><a href="/complaint/sp_search.php">全网SP信息查询</a></li>
 						<li><a href="/complaint/search.php">客户投诉查询</a></li>
 						<li>客户投诉分析</li>
 						<ul>
@@ -45,7 +46,6 @@
 						</ul>
 					</ul>
 					<li><a href="/complaint/black_list.php">黑名单</a></li>
-					<li><a href="/complaint/sp_search.php">全网SP信息查询</a></li>
 					<li>数据字典</li>
 					<ul>
 						<li><a href="/complaint/complaints_type_manage.php">投诉类型及问题分类管理</a></li>

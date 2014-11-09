@@ -492,6 +492,33 @@ class Complaint extends Base {
 		return count($db->select('co_custom','*',$condition));
 	}
 
+	public static function customSpAnalayzeNum($param)
+	{
+		$db=self::__instance();
+		if($param['start_date']){
+			$s = $param['start_date'];
+			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			unset($param['start_date'],$param['end_date']);	
+		}
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			if($key=='buss_name'||$key=='sp_name'||$key=='part_name')
+			{
+				$condition["LIKE"]["AND"][$key] = $value;
+			}
+			else
+			{
+				$condition["AND"][$key] = $value;
+			}
+		}
+		$condition['GROUP'] = 'part_name';
+		$condition['ORDER'] = 'num desc';
+		$r = $db->select('co_custom','*,count(*) as num',$condition);
+		return count($r);
+	}
+
 	public static function customSpAnalayze($param,$start = 0,$page_size=20){
 
 		$db=self::__instance();
