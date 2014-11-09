@@ -49,7 +49,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		else
 			$tmp['value'][$key] = 0;
 	}
-	$total['cos'] = Complaint::getValueTotal(strtotime($start_date."-01"));
+	$total['cos'] = Complaint::getValueTotal(strtotime($start_date."-01"))/10000000;
 
 	// $total['cos'] = 1000;
 
