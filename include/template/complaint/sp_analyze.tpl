@@ -101,7 +101,7 @@
        				<{if $smarty.get.province_id}>
 					<td><{$data.province[$result.province_id]['name']}></td>
 					<{/if}>
-					<td><{$result.sp_name}></td>
+					<td><a href="/complaint/sp_analyze_detail.php?sp_name=<{$result.sp_name}>" ><{$result.sp_name}></a></td>
 					<td><{$result.sp_corp_code}></td>
 					<td><{$result.sp_code}></td>
 					<td><{$result.month|date_format:'%Y-%m'}></td>
@@ -344,8 +344,9 @@ option = {
     <{/if}>
 <script>
 $(function() {
+	/*
     // <{if $data.result}>
-/*
+
 	var Data = {
 		labels : [<{$data.chartName}>],
 		datasets : [

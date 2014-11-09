@@ -152,9 +152,17 @@ class Complaint extends Base {
 				$condition["AND"][$key] = $value;
 			}
 		}
-		$condition['LIMIT']=array($start,$page_size);
+		if(0==$page_size)
+		{
+			$condition['LIMIT']=array($start);
+		}
+		else {
+			$condition['LIMIT']=array($start,$page_size);
+		}
 
-		return $db->select('co_base','*',$condition);
+		$ret=$db->select('co_base','*',$condition);
+		//var_dump($db->last_query());exit;
+		return $ret ;
 	}
 
 	public static function searchCount($param)
@@ -169,6 +177,21 @@ class Complaint extends Base {
 		}
 
 		return $db->count('co_base',$condition);
+	}
+	
+	
+	public static function updateComplaintLevelAndType($id,$update_data)
+	{
+		if (! $update_data || ! is_array ( $update_data )) {
+			return false;
+		}
+		$db=self::__instance();
+		$condition=array("id"=>$id);
+		$id = $db->update ( 'co_base', $update_data,$condition );
+		
+		return $id;
+	
+	
 	}
 
 	public static function customSearch($param,$start = 0,$page_size=20){
@@ -1747,6 +1770,82 @@ class Complaint extends Base {
 		
 		$condition["AND"]["del_flag"] = 0;
 		return $db->count('dic_unicom_business_sp',$condition);
+	}
+	
+	//投诉分级列表 
+	public static function getAllComplaintsLevel() {
+		$db=self::__instance();
+		$sql="select * from dic_complaints_level_manage  where del_flag=0  order by complaints_level_sort ";
+		$list = $db->query($sql)->fetchAll();
+		if ($list) {
+			
+			return $list;
+		}
+		return array ();
+	}
+	
+	//根据id获取投诉分级信息
+	public static function getComplaintsLevelById($id) {
+		if (! $id || ! is_numeric ( $id )) {
+			return false;
+		}
+		$db=self::__instance();
+		$condition['id'] = $id;
+		$list = $db->select ( "dic_complaints_level_manage", "*", $condition );
+		if ($list) {
+			return $list [0];
+		}
+		return array ();
+	}
+	
+	//修改投诉分级的关键词
+	public static function updateComplaintsLevelKeywords ( $id,$update_data ) {
+		if (! $update_data || ! is_array ( $update_data )) {
+			return false;
+		}
+		$db=self::__instance();
+		$condition=array("id"=>$id);
+		$id = $db->update ( "dic_complaints_level_manage", $update_data,$condition );
+		
+		return $id;
+	}
+	
+	//投诉类型及问题分类管理列表 
+	public static function getAllComplaintsType() {
+		$db=self::__instance();
+		$sql="select * from dic_complaints_type_manage  where del_flag=0  order by complaints_type_sort ";
+		$list = $db->query($sql)->fetchAll();
+		if ($list) {
+			
+			return $list;
+		}
+		return array ();
+	}
+	
+	//根据id获取投诉类型及问题分类信息
+	public static function getComplaintsTypeById($id) {
+		if (! $id || ! is_numeric ( $id )) {
+			return false;
+		}
+		$db=self::__instance();
+		$condition['id'] = $id;
+		$list = $db->select ( "dic_complaints_type_manage", "*", $condition );
+		if ($list) {
+			return $list [0];
+		}
+		return array ();
+	}
+	
+	//修改投诉类型及问题分类的关键词
+	public static function updateComplaintsTypeKeywords ( $id,$update_data ) {
+		if (! $update_data || ! is_array ( $update_data )) {
+			return false;
+		}
+		$db=self::__instance();
+		$condition=array("id"=>$id);
+		$id = $db->update ( "dic_complaints_type_manage", $update_data,$condition );
+		
+		return $id;
 	}
 	
 	public static function delDataByMonth($table,$month)

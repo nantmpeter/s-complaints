@@ -4,10 +4,125 @@ require ('../include/init.inc.php');
 $arr = array('start_date','end_date','province_id','buss_name','sp_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_line','sp_code');
 $start_date = $end_date = $page_no = $province_id = $buss_name = $sp_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_line = $sp_code =$start_date = $end_date ="";
 
-extract ( $_GET, EXTR_IF_EXISTS );
+$method=$start_date='';
+
+extract ( $_REQUEST, EXTR_IF_EXISTS );
 $user_info = UserSession::getSessionInfo();
 $province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
+
+
+if($method=='updateComplaintLevelAndType' && $start_date!='')
+{
+	set_time_limit(0);
+	$complaints_levels=Complaint::getAllComplaintsLevel();
+	
+	$complaints_types=Complaint::getAllComplaintsType();
+	//一天只能被更新一次
+	$curDate=date('Y-m-d');
+	$complaints=Complaint::search(array('start_date'=>$start_date,
+				"update_complaint_level_and_type[!]"=>$curDate),0,100);
+
+	$successNum=0;
+	while(count($complaints)>0)
+	{
+		foreach($complaints as $k=>$v)
+		{
+			//var_dump($v['complaint_content'],$v['suggestion']);
+			$complaint_level='一般投诉';
+			$find_level=0;
+			if($v['complaint_content']!=''||$v['suggestion']!='')
+			{
+				foreach($complaints_levels as $k1=>$v1)
+				{
+					if($v1['keywords']=='')
+					{
+						break;
+					}
+					$keywordArr=explode('|', $v1['keywords']);
+					foreach($keywordArr as $v2)
+					{
+						if($v['complaint_content']!=''&&mb_strpos($v['complaint_content'], $v2,0,'utf8')!==false)
+						{
+							$complaint_level=$v1['complaints_level'];
+							$find_level=1;
+							break;
+						}
+						if($v['suggestion']!=''&&mb_strpos($v['suggestion'], $v2,0,'utf8')!==false)
+						{
+							$complaint_level=$v1['complaints_level'];
+							$find_level=1;
+							break;
+						}
+					}
+					if($find_level==1)
+					{
+						break;
+					}
+				}
+			}
+			$complaint_type='用户愿意';
+			$problem_type='用户自行定制业务';
+			$find_type=0;
+			if($v['complaint_content']!=''||$v['suggestion']!='')
+			{
+				foreach($complaints_types as $k3=>$v3)
+				{
+					if($v3['keywords']=='')
+					{
+						break;
+					}
+					$keywordArr=explode('|', $v3['keywords']);
+					
+					
+					foreach($keywordArr as $v4)
+					{
+						if($v['complaint_content']!=''&&mb_strpos($v['complaint_content'], $v4,0,'utf8')!==false)
+						{
+							$complaint_type=$v1['complaints_type'];
+							$problem_type=$v1['complaints_problem_type'];
+							$find_type=1;
+							break;
+						}
+						if($v['suggestion']!=''&&mb_strpos($v['suggestion'], $v4,0,'utf8')!==false)
+						{
+							$complaint_type=$v1['complaints_type'];
+							$problem_type=$v1['complaints_problem_type'];
+							$find_type=1;
+							break;
+						}
+					}
+					if($find_type==1)
+					{
+						break;
+					}
+				}
+			}
+			
+			$update_complaint_level_and_type=$curDate;
+			$ret=Complaint::updateComplaintLevelAndType($v['id'],
+					array("complaint_level"=>$complaint_level,
+						"complaint_type"=>$complaint_type,
+						"problem_type"=>$problem_type,
+						"update_complaint_level_and_type"=>$update_complaint_level_and_type));
+			if($ret>0)
+			{
+				$successNum++;
+			}
+			
+		}
+		
+		$complaints=Complaint::search(array('start_date'=>$start_date,
+				"update_complaint_level_and_type[!]"=>$curDate),0,100);
+		if($successNum>900)
+		{
+			$complaints=array();
+		}
+	}
+	
+	echo "更新成功".$successNum."个";exit;
+}
+
 
 $http_query = '';
 foreach ($arr as $key => $value) {
@@ -54,6 +169,8 @@ if($_GET['download']==1)
 
 $page_html=Pagination::showPager("search.php?".$http_query,$page_no,PAGE_SIZE,$row_count);
 // $page_html=Pagination::showPager("search.php?class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date",$page_no,PAGE_SIZE,$row_count);
+$export_excel="search.php?download=1&".$http_query;
+
 
 Template::assign("error" ,$error);
 Template::assign("_POST" ,$_POST);
@@ -61,6 +178,7 @@ Template::assign ( '_GET', $_GET );
 Template::assign("data" ,$data);
 Template::assign("param" ,$param);
 Template::assign ( 'page_html', $page_html );
+Template::assign ( 'export_excel', $export_excel );
 // Template::assign("output" ,$output);
 
 Template::display ('complaint/search.tpl');

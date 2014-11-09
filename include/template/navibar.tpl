@@ -4,9 +4,9 @@
   <body id="body" class="body-fullscreen">
   <{/if}>
   <!--<![endif]-->
-<div class="navbar">
-        <div class="navbar-inner">
-                <ul class="nav pull-right">
+<div class="navbar" >
+        <div class="navbar-inner" style="height:66px;background: url('../assets/images/tipbg.jpg') repeat scroll left 0 rgba(0, 0, 0, 0);">
+                <ul class="nav pull-right" style="margin-top:10px;">
                     
 					<{if $sidebarStatus=='yes' }>
 						<li class="doSidebarClz"><a href="#" class="hidden-phone visible-tablet visible-desktop" role="button">
@@ -56,6 +56,11 @@
                     </li>
                     
                 </ul>
-                <a class="brand" href="<{$smarty.const.ADMIN_URL}>/panel/index.php"><span class="first"></span> <span class="second"><{$smarty.const.COMPANY_NAME}></span></a>
+                
+                <a class="brand" href="<{$smarty.const.ADMIN_URL}>/panel/index.php">
+                <!--<span class="first"></span> <span class="second"><{$smarty.const.COMPANY_NAME}></span>
+                -->
+                <img width="406" height="51" src="/assets/images/logo_manage.png">
+                </a>
         </div>
 </div>
