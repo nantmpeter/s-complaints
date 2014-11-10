@@ -50,7 +50,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	array_multisort($volume, SORT_DESC, $edition, SORT_ASC, $data['provinces']); 
 	foreach ($data['provinces'] as $key => $value) {
 		$name[] = $value['name'];
-		$wan[] = $value['wan'];
+		$wan[] = sprintf("%.2f", $value['wan']);
 	}
 
 	$data['provinceString'] = '"'.implode('","', $name).'"';
