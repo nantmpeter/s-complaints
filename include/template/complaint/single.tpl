@@ -175,7 +175,7 @@
                     <textarea md="code" name="code">
 option = {
     title : {
-        text: '投诉量与收入比（万元）',
+        text: '单产品投诉量',
         //subtext: '纯属虚构'
     },
     tooltip : {
