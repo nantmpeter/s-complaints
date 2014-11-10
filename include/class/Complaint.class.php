@@ -1931,8 +1931,12 @@ class Complaint extends Base {
 		$db=self::__instance();
 		$r = $db->select('co_base','*,count(*) as num',array('AND'=>array('sp_name'=>$sp_name,'month'=>$month),'GROUP'=>'province_id'));
 		foreach ($r as $key => $value) {
+			if(!$value['province_id']){
+				unset($r[$key]);
+				continue;
+			}
 			$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>$month))['cos']/10000;
-			$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
+			$r[$key]['wan'] = $r[$key]['cos']?$value['num']/$r[$key]['cos']:0;
 
 			# code...
 		}
