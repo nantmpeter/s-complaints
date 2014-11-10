@@ -89,7 +89,7 @@
        				<{if $smarty.get.province_id}>
 					<td><{$data.province[$result.province_id]['name']}></td>
 					<{/if}>
-					<td><{$result.buss_name_detail}></td>
+					<td><a href="/complaint/single_detail.php?buss_name_detail=<{$result.buss_name_detail}>&month=<{$result.month}>"><{$result.buss_name_detail}></a></td>
 					<td><{$result.sp_name}></td>
 					<td><{$result.sp_corp_code}></td>
 					<td><{$result.sp_code}></td>

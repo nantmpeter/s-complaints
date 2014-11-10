@@ -1939,4 +1939,33 @@ class Complaint extends Base {
 		return $r;
 	}
 
+	public static function getSingleDetail($buss_name_detail,$month)
+	{
+		$db=self::__instance();
+		$r = $db->select('co_base','*,count(*) as num',array('AND'=>array('buss_name_detail'=>$buss_name_detail,'month'=>$month),'GROUP'=>'province_id'));
+		if($r && isset($month)) {
+			$condition["AND"]['month[>=]'] = strtotime(date('Y-m-d',$month).' -1 month');
+			$condition["AND"]['month[<]'] = strtotime(date('Y-m-d',$month).' -1 day');
+			// var_dump($condition);
+			$r2 = $db->select('co_base','*,count(*) as num',$condition);
+
+			$tmp = array();
+			foreach ($r2 as $key => $value) {
+				$tmp[$value['province_id']] = round($value['num']);
+			}
+			foreach ($r as $key => $value) {
+				if(!$value['province_id']){
+					unset($r[$key]);
+					continue;
+				}
+				$value['num'] = $r[$key]['num'] = round($value['num']);
+				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
+
+				$r[$key]['valid'] = $valid;
+				$r[$key]['increase'] = $value['num'] - $t;
+				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
+			}
+		}
+		return $r;
+	}
 }
