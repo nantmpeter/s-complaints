@@ -1926,4 +1926,17 @@ class Complaint extends Base {
 		return $r[0]['num'];
 	}
 
+	public static function getSpDetail($sp_name,$month)
+	{
+		$db=self::__instance();
+		$r = $db->select('co_base','*,count(*) as num',array('AND'=>array('sp_name'=>$sp_name,'month'=>$month),'GROUP'=>'province_id'));
+		foreach ($r as $key => $value) {
+			$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>$month))['cos']/10000;
+			$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
+
+			# code...
+		}
+		return $r;
+	}
+
 }
