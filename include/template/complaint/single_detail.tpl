@@ -46,11 +46,11 @@
                     <td><{$result.buss_name_detail}></td>
                     <td><{$result.sp_name}></td>
                     <td><{$result.sp_corp_code}></td>
+                    <td><{$result.month|date_format:'%Y-%m'}></td>
 					<td><{$data.provinceMap[$result.province_id]}></td>
 					<!-- <td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td> -->
 					<!-- <td><{$result.complaint_phone}></td> -->
 					<!-- <td><{$result.buss_name}></td> -->
-					<td><{$result.month|date_format:'%Y-%m'}></td>
 					<td><{$result.num}></td>
 					<td><{$result.increase}></td>
 					<td><{$result.increasePercent|string_format:"%.2f"}>%</td>

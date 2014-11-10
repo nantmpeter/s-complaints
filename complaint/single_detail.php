@@ -58,9 +58,9 @@ $data['result'] = Complaint::getSingleDetail($buss_name_detail,$month);
 	// 	$score[] = $value['score'];
 	// }
 
-	// foreach ($province as $key => $value) {
-	// 	$data['provinceMap'][$key] = $value['name'];
-	// }
+	foreach ($province as $key => $value) {
+		$data['provinceMap'][$key] = $value['name'];
+	}
 	// $data['provinceString'] = '"'.implode('","', $name).'"';
 	// $data['provinces'] = '"'.implode('","', $score).'"';
 
