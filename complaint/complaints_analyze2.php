@@ -53,7 +53,8 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$sortTmp[$key]['score'] = $tmp['value'][$key];
 		$sortTmp[$key]['name'] = $value['buss_class'];
 	}
-	array_multisort($tmp['value'], SORT_DESC, $tmp['typeName'], SORT_DESC, $sortTmp);
+	if(is_array($tmp['value']))
+		array_multisort($tmp['value'], SORT_DESC, $tmp['typeName'], SORT_DESC, $sortTmp);
 	$tmpName = $tmpScore = array();
 	foreach ($sortTmp as $key => $value) {
 		$tmpName[] = $value['name'];

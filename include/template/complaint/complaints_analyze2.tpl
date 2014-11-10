@@ -359,21 +359,21 @@ $(function() {
 	// var ctx = document.getElementById("line").getContext("2d");
 	// new Chart(ctx).Line(lineData);
 
-	var zhuData = {
-		labels : [<{$data.zhuString}>],
-		datasets : [
-			{
-				fillColor : "rgba(151,187,205,0.5)",
-				strokeColor : "rgba(151,187,205,1)",
-				pointColor : "rgba(151,187,205,1)",
-				pointStrokeColor : "#fff",
-				data : [<{$data.zhuData}>]
-			}
-		]
-	}
+	// var zhuData = {
+	// 	labels : [<{$data.zhuString}>],
+	// 	datasets : [
+	// 		{
+	// 			fillColor : "rgba(151,187,205,0.5)",
+	// 			strokeColor : "rgba(151,187,205,1)",
+	// 			pointColor : "rgba(151,187,205,1)",
+	// 			pointStrokeColor : "#fff",
+	// 			data : [<{$data.zhuData}>]
+	// 		}
+	// 	]
+	// }
 
-	var ctx = document.getElementById("zhuData").getContext("2d");
-	new Chart(ctx).Bar(zhuData);
+	// var ctx = document.getElementById("zhuData").getContext("2d");
+	// new Chart(ctx).Bar(zhuData);
 
 	// var zhuData = {
 	// 	labels : [<{$data.zhuString}>],
@@ -412,10 +412,10 @@ $(function() {
 	// 	labels : [<{$data.zhuString}>],
 	// 	datasets : <{$data.pie}>
 	// }
-	var pieData = <{$data.pie}>;
+	// var pieData = <{$data.pie}>;
 
-	var ctx = document.getElementById("pie").getContext("2d");
-	new Chart(ctx).Pie(pieData,{segmentStrokeColor:"#F38630"});
+	// var ctx = document.getElementById("pie").getContext("2d");
+	// new Chart(ctx).Pie(pieData,{segmentStrokeColor:"#F38630"});
 
 
 
