@@ -290,7 +290,7 @@ option = {
         trigger: 'axis'
     },
     legend: {
-        data:['投诉量']
+        data:['本月投诉量','上月投诉量']
     },
     toolbox: {
         show : true,
@@ -316,7 +316,7 @@ option = {
     ],
     series : [
         {
-            name:'投诉量',
+            name:'本月投诉量',
             type:'bar',
             data:[<{$data.provinces}>],
             markPoint : {
@@ -332,7 +332,7 @@ option = {
             }
         },
         {
-            name:'投诉量',
+            name:'上月投诉量',
             type:'bar',
             data:[<{$data.provinces2}>],
             markPoint : {
