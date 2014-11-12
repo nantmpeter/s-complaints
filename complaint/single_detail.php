@@ -14,8 +14,19 @@ foreach ($arr as $key => $value) {
 		$param[$value] = $$value;
 	}
 }
+	$province = Info::getProvince();
+
 // $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$_GET['start_date']:date('Y-m');
-$data['result'] = Complaint::getSingleDetail($buss_name_detail,$month);
+	$data['result'] = Complaint::getSingleDetail($buss_name_detail,$month);
+	foreach ($data['result'] as $key => $value) {
+		$tmp['name'][(string)($value['num']+rand(1,1000)/1000)] = $province[$value['province_id']]['name'];
+		$tmp['value'][] = $value['num'];
+	}
+	rsort($tmp['value']);
+	krsort($tmp['name']);
+	$data['name'] = '"'.implode('","', $tmp['name']).'"';
+	$data['value'] = '"'.implode('","', $tmp['value']).'"';
+
 // if (Common::isPost ()) {
 // if($start_date != '' && $end_date !=''){
 	$page_size = PAGE_SIZE;
@@ -36,7 +47,6 @@ $data['result'] = Complaint::getSingleDetail($buss_name_detail,$month);
 
 	// $data['provinces'] = Complaint::customAnalayzeArea($param);
 	// $tmp = explode(',', $data['provinces']);
-	$province = Info::getProvince();
 
 	// foreach ($data['provinces'] as $key => $value) {
 	// 	$tmp[$key]['score'] = $value;
