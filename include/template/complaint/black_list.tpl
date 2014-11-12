@@ -89,7 +89,7 @@
               <tbody>
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
-					<td><{$result.complaint_phone}></td>
+					<td class=""><a href="#" class="detail complaint_phone" data-toggle="popover" data-placement="top" data-original-title="sdaåå" title="sdds" data-original-title="dd"><{$result.complaint_phone}></a></td>
 					<td><{$data.province[$result.province_id]['name']}></td>
 					<td><{$result.sp_corp_code}></td>
 					<td><{$result.month|date_format:'%Y-%m'}></td>
@@ -111,6 +111,25 @@ $(function() {
 	var date=$( "#start_date" );
 	date.datetimepicker({format: 'yyyy-mm',startView: 3,minView: 3,viewSelect:'year'});
 	// date.datepicker( "option", "firstDay", 1 );
+	var map = new Array();
+	map[1] = '基础信息';
+	map[2] = '不规范';
+	map[3] = '工信部';
+	$('.complaint_phone').hover(function(){
+		var tmp = $(this);
+		$.getJSON('/complaint/black_list.php?ajax=1&phone='+$(this).text(),'',function(msg){
+			var text = '';
+			if(msg) {
+				for (var i in msg) {
+					text += map[i]+'<br>'+msg[i]+'<br>';
+				};
+			}
+			tmp.attr('data-original-title',text);
+			// $(this).attr('aa','text');
+		});
+		// alert($(this).text());
+		return false;
+	});
 });
 
 

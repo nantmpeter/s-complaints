@@ -12,7 +12,7 @@
     <script src="<{$smarty.const.ADMIN_URL}>/assets/lib/bootstrap/js/bootstrap.js"></script>
 	<script type="text/javascript">
 	$(function(){
-		$('.detail').tooltip('hide');
+		$('.detail').tooltip({delay: 400});
 	})
 	</script>
 <!--- + -快捷方式的提示 --->

@@ -1971,4 +1971,19 @@ class Complaint extends Base {
 		}
 		return $r;
 	}
+
+	public static function blackListPhoneContent($phone)
+	{
+		$db=self::__instance();
+		$r1 = $db->select('co_base','complaint_content',array('complaint_phone'=>$phone));
+		$r2 = $db->select('co_complaints','complaint_content',array('dispute_phone'=>$phone));
+		$r3 = $db->select('co_custom','complaint_content',array('complaint_phone'=>$phone));
+		if($r1)
+			$r[1] = $r1;
+		if($r2)
+			$r[2] = $r2;
+		if($r1)
+			$r[3] = $r3;
+		return $r;
+	}
 }
