@@ -1979,11 +1979,11 @@ class Complaint extends Base {
 		$r2 = $db->select('co_complaints','complaint_content',array('dispute_phone'=>$phone));
 		$r3 = $db->select('co_custom','complaint_content',array('complaint_phone'=>$phone));
 		if($r1)
-			$r[1] = $r1;
+			$r[1] = $r1[0]['complaint_content'];
 		if($r2)
-			$r[2] = $r2;
-		if($r1)
-			$r[3] = $r3;
+			$r[2] = $r2[0]['complaint_content'];
+		if($r3)
+			$r[3] = $r3[0]['complaint_content'];
 		return $r;
 	}
 }

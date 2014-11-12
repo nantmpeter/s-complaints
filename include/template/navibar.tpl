@@ -61,7 +61,7 @@
                 <!--<span class="first"></span> <span class="second"><{$smarty.const.COMPANY_NAME}></span>
                 -->
                 <img width="406" height="51" src="/assets/images/logo_manage.png">
-                <img src="/assets/images/pic.png">
+                <img width='60' src="/assets/images/pic.png">
 
                 </a>
         </div>
