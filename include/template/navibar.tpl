@@ -60,8 +60,8 @@
                 <a class="brand" href="<{$smarty.const.ADMIN_URL}>/panel/index.php">
                 <!--<span class="first"></span> <span class="second"><{$smarty.const.COMPANY_NAME}></span>
                 -->
-                <img width="406" height="51" src="/assets/images/logo_manage.png">
-                <img width='60' src="/assets/images/pic.png">
+                <img width='60' src="/assets/images/pic.png">&nbsp;&nbsp;
+                <img width="406" heiqght="51" src="/assets/images/logo_manage.png">
 
                 </a>
         </div>

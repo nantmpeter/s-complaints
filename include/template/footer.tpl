@@ -1,9 +1,8 @@
-                    
+
 	
 					<footer>
                         <hr>
-                        
-
+                        <div align="center">中国联通宽带公司©版权所有</div>
 
                     </footer>
 				</div>
