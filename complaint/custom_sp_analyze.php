@@ -36,7 +36,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	$wan = Complaint::customSpAnalayzeWan($param);
 	foreach ($wan as $key => $value) {
 		$name[] = $value['name'];
-		$score[] = $value['score'];
+		$score[] = sprintf("%.2f",$value['score']);
 	}
 	$data['wanName']  = $name?('"'.implode('","', $name).'"'):'';
 	$data['chartWan'] = $score?('"'.implode('","', $score).'"'):'';
