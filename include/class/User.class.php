@@ -278,6 +278,7 @@ class User extends Base{
 		
 		$user_info['group_id']=$user_group['group_id'];
 		$user_info['user_role']=$user_group['group_role'];
+		$user_info['province_id'] = $user_group['province_id'];
 		$user_info['shortcuts_arr']=explode(',',$user_info['shortcuts']);
 		$menu = MenuUrl::getMenuByUrl('/admin/setting.php');
 		if(strpos($user_group['group_role'],$menu['menu_id'])){

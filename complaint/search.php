@@ -8,6 +8,7 @@ $method=$start_date='';
 
 extract ( $_REQUEST, EXTR_IF_EXISTS );
 $user_info = UserSession::getSessionInfo();
+$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
 
 

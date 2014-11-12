@@ -6,6 +6,7 @@ $start_date = $end_date = $page_no = $province_id = $buss_name = $sp_name = $sp_
 
 extract ( $_GET, EXTR_IF_EXISTS );
 $user_info = UserSession::getSessionInfo();
+$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
 foreach ($arr as $key => $value) {
 
@@ -49,7 +50,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	array_multisort($volume, SORT_DESC, $edition, SORT_ASC, $data['provinces']); 
 	foreach ($data['provinces'] as $key => $value) {
 		$name[] = $value['name'];
-		$wan[] = $value['wan'];
+		$wan[] = sprintf("%.2f", $value['wan']);
 	}
 
 	$data['provinceString'] = '"'.implode('","', $name).'"';

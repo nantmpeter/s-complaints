@@ -6,6 +6,7 @@ $start_date = $end_date = $page_no = $province_id = $buss_name = $sp_name = $sp_
 
 extract ( $_GET, EXTR_IF_EXISTS );
 $user_info = UserSession::getSessionInfo();
+$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
 $http_query = '';
 foreach ($arr as $key => $value) {
@@ -34,21 +35,35 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	}
 	$data['result'] = $result['list'];
 	$num=0;
+	$sortTmp = array();
 	foreach ($data['result'] as $key => $value) {
 		$total['num'] += $value['num'];
-		$total['cos'] += $value['cos'];
 		$total['wan'] += $value['wan'];
 		$total['month'] = date('Y-m',$value['month']);
-		$tmp['typeName'][$key] = $value['product_type'];
+		$tmp['typeName'][$key] = $value['buss_class'];
 		$data['pie'][$num]['value'] = round($value['num']/$result['total'],4);
-		$data['pie'][$num]['name'] = $value['product_type'];
+		$data['pie'][$num]['name'] = $value['buss_class'];
 		$num++;
 		// $data['pie'][$key]['color'] = "#F38630";
-		if($value['cos'])
-			$tmp['value'][$key] = $value['num']/$value['cos'];
-		else
+		if($value['cos']){
+			$tmp['value'][$key] = sprintf("%.2f", $value['wan']);
+		}else{
 			$tmp['value'][$key] = 0;
+		}
+		$sortTmp[$key]['score'] = $tmp['value'][$key];
+		$sortTmp[$key]['name'] = $value['buss_class'];
 	}
+	if(is_array($tmp['value']))
+		array_multisort($tmp['value'], SORT_DESC, $tmp['typeName'], SORT_DESC, $sortTmp);
+	$tmpName = $tmpScore = array();
+	foreach ($sortTmp as $key => $value) {
+		$tmpName[] = $value['name'];
+		$tmpScore[] = $value['score'];
+	}
+
+	$total['cos'] = Complaint::getValueTotal(strtotime($start_date."-01"))/10000000;
+
+	// $total['cos'] = 1000;
 
 	$total['increase'] = $total['num'] - Complaint::getComplaintTotal(strtotime($start_date."-01 -1 month"),$province_id);
 
@@ -67,11 +82,10 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$data['provinceMap'][$key] = $value['name'];
 	}
 	if(isset($tmp['typeName'])) {
-		$data['zhuString'] = '"'.implode('","', $tmp['typeName']).'"';
-		$data['zhuData'] = '"'.implode('","', $tmp['value']).'"';
+		$data['zhuString'] = '"'.implode('","', $tmpName).'"';
+		$data['zhuData'] = '"'.implode('","', $tmpScore).'"';
 	}
 	$data['pie'] = json_encode($data['pie']);
-
 
 
 

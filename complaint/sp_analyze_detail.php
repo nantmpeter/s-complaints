@@ -1,34 +1,34 @@
 <?php 
 header("Content-Type:text/html;charset=utf-8");
 require ('../include/init.inc.php');
-$arr = array('start_date','end_date','province_id','buss_name','sp_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_type','sp_code','month');
-$start_date = $end_date = $page_no = $province_id = $buss_name = $sp_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_type = $sp_code =$start_date = $end_date = $month = "";
+$arr = array('month','sp_name');
+$month = $sp_name = "";
 
 extract ( $_GET, EXTR_IF_EXISTS );
+
 $user_info = UserSession::getSessionInfo();
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
 foreach ($arr as $key => $value) {
-
 	if($$value) {
 		$param[$value] = $$value;
 	}
 }
-$start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$_GET['start_date']:date('Y-m');
-
+// $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$_GET['start_date']:date('Y-m');
+$data['result'] = Complaint::getSpDetail($sp_name,$month);
 // if (Common::isPost ()) {
 // if($start_date != '' && $end_date !=''){
 	$page_size = PAGE_SIZE;
 	$page_no=$page_no<1?1:$page_no;
 	$start = ($page_no - 1) * $page_size;
-	if($_GET['download']==1)
-	{
-		$data['result'] = Complaint::baseSpAnalayze($param,$start,0);
-	}
-	else 
-	{
-		$data['result'] = Complaint::baseSpAnalayze($param,$start,$page_size);
-	}
-	$total = Complaint::getProMonthTotal($province_id,$start_date);
+	// if($_GET['download']==1)
+	// {
+	// 	$data['result'] = Complaint::baseSpAnalayze($param,$start,0);
+	// }
+	// else 
+	// {
+	// 	$data['result'] = Complaint::baseSpAnalayze($param,$start,$page_size);
+	// }
+	// $total = Complaint::getProMonthTotal($province_id,$start_date);
 
 	if($data['result']){
 		foreach ($data['result'] as $key => $value) {
@@ -88,7 +88,7 @@ Template::assign("param" ,$param);
 Template::assign ( 'page_html', $page_html );
 Template::assign ( 'export_excel', $export_excel );
 // Template::assign("output" ,$output);
-Template::display ('complaint/sp_analyze.tpl');
+Template::display ('complaint/sp_analyze_detail.tpl');
 
 
 //列表数据转化为字符串

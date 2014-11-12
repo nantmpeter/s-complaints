@@ -6,6 +6,7 @@ $company_name = $sp_company_code = $business_code = "";
 
 $method = $id = '';
 extract ( $_GET, EXTR_IF_EXISTS );
+
 $user_info = UserSession::getSessionInfo();
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
 
