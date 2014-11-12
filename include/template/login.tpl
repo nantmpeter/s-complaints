@@ -15,6 +15,7 @@
     <div class="row-fluid">	
 	
     <div class="dialog">
+        <img src="/assets/images/pic.png">
 		<{$osadmin_action_alert}>	
         <div class="block">
             <p class="block-heading">登入</p>
