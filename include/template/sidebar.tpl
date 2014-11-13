@@ -68,8 +68,8 @@
 					<li class="top_li" style="border-left: 3px solid #e64444;"><a href="/complaint/black_list.php">黑名单</a></li>
 					<li class="top_li" style="border-left: 3px solid #4DC0B1;">数据字典</li>
 					<ul class="second_ul">
-						<li class="second_li"><a href="/complaint/complaints_type_manage.php">投诉类型及问题分类管理</a></li>
-						<li class="second_li"><a href="/complaint/complaints_level_manage.php">投诉分级管理</a></li>
+						<!-- <li class="second_li"><a href="/complaint/complaints_type_manage.php">投诉类型及问题分类管理</a></li>
+						<li class="second_li"><a href="/complaint/complaints_level_manage.php">投诉分级管理</a></li> -->
 						
 						<li class="second_li"><a href="/complaint/unicom_business_sp_list.php">全网联通在信业务-sp名单</a></li>
 						<li class="second_li"><a href="/complaint/unicom_business_list.php">全网联通在信业务-业务信息</a></li>
