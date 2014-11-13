@@ -10,7 +10,7 @@ extract ( $_GET, EXTR_IF_EXISTS );
 
 $province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 
-if($del && $delpro && $table) {
+if($del && $table) {
 	Complaint::delData($id,$table);
 }
 $data['result'] = Complaint::getImprotData($start_date_search,$table,$province_id);
