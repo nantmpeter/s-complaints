@@ -70,6 +70,7 @@ if($search){
 	$page_no=$page_no>($total_page)?($total_page):$page_no;
 	$start = ($page_no - 1) * $page_size;
 	$user_infos = User::getAllUsers ( $start , $page_size );
+	array_pop($user_infos);
 }
 
 $page_html=Pagination::showPager("user.php?user_group=$user_group&user_name=$user_name&search=$search",$page_no,$page_size,$row_count);
