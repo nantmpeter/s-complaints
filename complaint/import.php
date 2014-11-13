@@ -11,7 +11,7 @@ extract ( $_GET, EXTR_IF_EXISTS );
 $province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 
 if($del && $delpro && $table) {
-	Complaint::delData($id,$table,$delpro,$start_date_search);
+	Complaint::delData($id,$table);
 }
 $data['result'] = Complaint::getImprotData($start_date_search,$table,$province_id);
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
@@ -23,7 +23,6 @@ if (Common::isPost ()) {
 	$province_id = $_POST['province_id'];
 
 	if($table && $date && $province_id) {
-
 	if(empty($_FILES['excel'])) {
 		OSAdmin::alert("error","empty file");
 	}else{
@@ -50,20 +49,20 @@ if (Common::isPost ()) {
 			if($check){
 				$error[$_POST['table']][] = $check['error'];
 			}else{
-
 				// TODO check if imported
 				if($excel_array) {
 
 					unset($excel_array[0]);
 					$error[$_POST['table']] = array();
 
+					$record_id = Complaint::recordTable($_FILES['excel']['name'],$table,$date,$province_id,$user_info['user_id']);
+
 					foreach ($excel_array as $key => $value) {
-						$r = Complaint::save($value,$table,$date,$province_id);
+						$r = Complaint::save($value,$table,$date,$province_id,$record_id);
 						if(!$r)
 							$error[$_POST['table']][] = implode("','", $value);
 					}
 					if (empty($error[$_POST['table']])) {
-						Complaint::recordTable($_FILES['excel']['name'],$table,$date,$province_id,$user_info['user_id']);
 
 						$error[$_POST['table']][] = '导入成功！';
 					}
