@@ -22,7 +22,7 @@ if (Common::isPost ()) {
 	$table = $_POST['table'];
 	$province_id = $_POST['province_id'];
 
-	if($table && $date && $province_id) {
+	if($table && $date && $province_id !== null) {
 	if(empty($_FILES['excel'])) {
 		OSAdmin::alert("error","empty file");
 	}else{
