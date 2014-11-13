@@ -146,7 +146,7 @@ option = {
         trigger: 'axis'
     },
     legend: {
-        data:['收入比']
+        data:['投诉量']
     },
     toolbox: {
         show : true,
