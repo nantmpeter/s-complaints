@@ -30,12 +30,12 @@
 					<{/if}>
 					
 					<li id="fat-menu" class="dropdown">
-                        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                       <!--  <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
 							
                             选择模板
                             <i class="icon-caret-down"></i>
                         </a>
-
+ -->
                         <ul class="dropdown-menu">
 							<{foreach from=$osa_templates key=key item=name}>
                             <li><a href="<{$smarty.const.ADMIN_URL}>/panel/set.php?t=<{$key}>"><{$name}></a></li>
