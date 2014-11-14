@@ -402,7 +402,6 @@ class Complaint extends Base {
 	}
 
 	public static function baseAnalayze($param,$start = 0,$page_size=20){
-
 		$db=self::__instance();
 		if($param['start_date']){
 			$s = $param['start_date'];
@@ -410,6 +409,10 @@ class Complaint extends Base {
 			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
+		if($param['wan']) {
+			$r = $db->select('co_base','*,count(*) as num',$condition);
+		}
+		unset($param['wan']);
 
 		if(empty($param))
 			$param = array();
