@@ -111,10 +111,10 @@
 					<th style="width:30px">sp接入代码</th>
 					<th style="width:30px">投诉内容</th>
 					<th style="width:30px">处理意见</th>
-					<!-- <th style="width:30px">投诉类型</th>
+					<th style="width:30px">投诉类型</th>
 					<th style="width:30px">投诉问题分类</th>
 					<th style="width:30px">投诉分级</th>
-					<th style="width:30px">业务线</th> -->
+					<th style="width:30px">业务线</th>
                 </tr>
               </thead>
               <tbody>							  
@@ -130,10 +130,10 @@
 					<td><{$result.sp_code}></td>
 					<td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_content}>" title="" data-original-title1="投诉内容">详情</a></td>
 					<td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.suggestion}>" title="" data-original-title1="处理意见">详情</a></td>
-					<!-- <td><{$result.complaint_type}></td>
+					<td><{$result.complaint_type}></td>
 					<td><{$result.problem_type}></td>
 					<td><{$result.complaint_level}></td>
-					<td><{$result.buss_line}></td> -->
+					<td><{$result.buss_line}></td>
 					<!-- <td style = "word-break: break-all; word-wrap:break-word;"><{$result.result}></td> -->
 					<!-- <td><{$result.op_time}></td> -->
 					</tr>
