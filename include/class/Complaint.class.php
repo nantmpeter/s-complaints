@@ -571,13 +571,13 @@ class Complaint extends Base {
 		else {
 			$condition['LIMIT']=array($start,$page_size);
 		}
-		$r = $db->select('co_custom','*,sum(complaint_total) as num',$condition);
+		$r = $db->select('co_custom','*,count(*) as num',$condition);
 
 
 		if($r && $s) {
 			$condition["AND"]['order_time[>=]'] = strtotime($s.'-01 -1 month');
 			$condition["AND"]['order_time[<]'] = strtotime($s.'-01 -1 day');
-			$r2 = $db->select('co_custom','*,sum(complaint_total) as num',$condition);
+			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
 
 			$tmp = array();
 			foreach ($r2 as $key => $value) {
