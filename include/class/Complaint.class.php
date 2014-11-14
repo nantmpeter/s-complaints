@@ -545,8 +545,8 @@ class Complaint extends Base {
 		$db=self::__instance();
 		if($param['start_date']){
 			$s = $param['start_date'];
-			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
 		if(empty($param))
@@ -576,8 +576,8 @@ class Complaint extends Base {
 
 
 		if($r && $s) {
-			$condition["AND"]['order_time[>=]'] = strtotime($s.'-01 -1 month');
-			$condition["AND"]['order_time[<]'] = strtotime($s.'-01 -1 day');
+			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
+			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
 			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
 
 			$tmp = array();
@@ -595,7 +595,8 @@ class Complaint extends Base {
 				$valid = $db->count('co_custom',array('AND'=>array('complaint_status'=>'有效','part_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))+$tmpProCondition));
 				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','part_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))+$tmpProCondition));
 				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','part_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))+$tmpProCondition));
-				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','part_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))));
+				$r[$key]['appealNot'] = $r[$key]['num'] - $r[$key]['appealSuc'] - $r[$key]['appealFail'];
+				// $r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','part_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['customCost'] = $db->get('co_income','sum(custom_cost) as cos',array('AND'=>array('sp_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))+$tmpProCondition))['cos'];
 
 				$cosCondition = array('sp_name'=>$value['part_name'],'month'=>strtotime($s.'-01'));
@@ -813,7 +814,8 @@ class Complaint extends Base {
 				$valid = $db->count('co_custom',array('AND'=>array('complaint_status'=>'有效','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
-				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
+				$r[$key]['appealNot'] = $r[$key]['num'] - $r[$key]['appealSuc'] - $r[$key]['appealFail'];
+				// $r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
 
 				$r[$key]['valid'] = $valid;
 				$r[$key]['increase'] = $value['num'] - $t;
