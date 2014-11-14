@@ -397,6 +397,7 @@ class Complaint extends Base {
 	{
 		$db=self::__instance();
 		$r = $db->get('co_income','sum(province_income) as cos',array('AND'=>$params));
+		// echo $db->last_query();
 		return $r;
 	}
 
@@ -1929,16 +1930,19 @@ class Complaint extends Base {
 		return $r[0]['num'];
 	}
 
-	public static function getSpDetail($sp_name,$month)
+	public static function getSpDetail($sp_corp_code,$month)
 	{
 		$db=self::__instance();
-		$r = $db->select('co_base','*,count(*) as num',array('AND'=>array('sp_name'=>$sp_name,'month'=>$month),'GROUP'=>'province_id'));
+		$r = $db->select('co_base','*,count(*) as num',array('AND'=>array('sp_corp_code'=>$sp_corp_code,'month'=>$month),'GROUP'=>'province_id'));
+
 		foreach ($r as $key => $value) {
 			if(!$value['province_id']){
 				unset($r[$key]);
 				continue;
 			}
-			$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>$month))['cos']/10000;
+
+			$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>$month,'sp_code'=>$sp_corp_code))['cos']/10000;
+
 			$r[$key]['wan'] = $r[$key]['cos']?$value['num']/$r[$key]['cos']:0;
 
 			# code...
