@@ -1,8 +1,8 @@
 <?php 
 header("Content-Type:text/html;charset=utf-8");
 require ('../include/init.inc.php');
-$arr = array('month','sp_name');
-$month = $sp_name = "";
+$arr = array('month','sp_corp_code');
+$month = $sp_corp_code = "";
 
 extract ( $_GET, EXTR_IF_EXISTS );
 
@@ -14,7 +14,7 @@ foreach ($arr as $key => $value) {
 	}
 }
 // $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$_GET['start_date']:date('Y-m');
-$data['result'] = Complaint::getSpDetail($sp_name,$month);
+$data['result'] = Complaint::getSpDetail($sp_corp_code,$month);
 // if (Common::isPost ()) {
 // if($start_date != '' && $end_date !=''){
 	$page_size = PAGE_SIZE;
@@ -29,30 +29,33 @@ $data['result'] = Complaint::getSpDetail($sp_name,$month);
 	// 	$data['result'] = Complaint::baseSpAnalayze($param,$start,$page_size);
 	// }
 	// $total = Complaint::getProMonthTotal($province_id,$start_date);
+	$province = Info::getProvince();
 
 	if($data['result']){
 		foreach ($data['result'] as $key => $value) {
 			// $total += $value['num'];
-			$name = mb_substr($value['sp_name'],0,20);
-			$tmp['name'][] = $name;
+			// $name = mb_substr($value['sp_name'],0,20);
+			$tmp['name'][(string)($value['num']+rand(1,1000)/1000)] = $province[$value['province_id']]['name'];
 			$tmp['value'][] = $value['num'];
 			$tmp['wan'][] = round($value['wan'],2);
-			$data['wanString'][(string)$value['wan']] = $name;
+			$data['wanString'][(string)$value['wan']] = $province[$value['province_id']]['name'];
 		}
 		rsort($tmp['wan']);
 		krsort($data['wanString']);
+		rsort($tmp['value']);
+		krsort($tmp['name']);
 
 		$data['wanString'] = '"'.implode('","', $data['wanString']).'"';
 		$data['chartName'] = '"'.implode('","', $tmp['name']).'"';
 		$data['chartValue'] = implode(',', $tmp['value']);
 		$data['chartWan'] = implode(',', $tmp['wan']);
 	}
-	$row_count = 20;
+
+	// $row_count = 20;
 
 	// $data['month'] = Complaint::customAnalayzeMonth($param);
 
 	// $data['provinces'] = Complaint::customAnalayzeArea($param);
-	$province = Info::getProvince();
 	foreach ($province as $key => $value) {
 		$data['provinceMap'][$key] = $value['name'];
 	}

@@ -56,7 +56,7 @@ $page_size = PAGE_SIZE;
 $page_no=$page_no<1?1:$page_no;
 
 if($search){
-	$row_count = User::countSearch($user_group,$user_name);
+	$row_count = User::countSearch($user_group,$user_name) - 1;
 	$total_page=$row_count%$page_size==0?$row_count/$page_size:ceil($row_count/$page_size);
 	$total_page=$total_page<1?1:$total_page;
 	$page_no=$page_no>($total_page)?($total_page):$page_no;
@@ -64,12 +64,13 @@ if($search){
 	$user_infos = User::search($user_group,$user_name,$start , $page_size);
 	
 }else{
-	$row_count = User::count ();
+	$row_count = User::count () - 1;
 	$total_page=$row_count%$page_size==0?$row_count/$page_size:ceil($row_count/$page_size);
 	$total_page=$total_page<1?1:$total_page;
 	$page_no=$page_no>($total_page)?($total_page):$page_no;
 	$start = ($page_no - 1) * $page_size;
 	$user_infos = User::getAllUsers ( $start , $page_size );
+	array_pop($user_infos);
 }
 
 $page_html=Pagination::showPager("user.php?user_group=$user_group&user_name=$user_name&search=$search",$page_no,$page_size,$row_count);

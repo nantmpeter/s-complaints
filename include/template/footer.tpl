@@ -1,9 +1,8 @@
-                    
+
 	
 					<footer>
                         <hr>
-                        
-
+                        <div align="center">中国联通宽带公司©版权所有</div>
 
                     </footer>
 				</div>
@@ -12,7 +11,7 @@
     <script src="<{$smarty.const.ADMIN_URL}>/assets/lib/bootstrap/js/bootstrap.js"></script>
 	<script type="text/javascript">
 	$(function(){
-		$('.detail').tooltip('hide');
+		$('.detail').tooltip({delay: 400});
 	})
 	</script>
 <!--- + -快捷方式的提示 --->

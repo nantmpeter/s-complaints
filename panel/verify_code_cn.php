@@ -16,7 +16,7 @@ $bg = imagecolorallocate($im, 0xfc, 0xfc, 0xfc);
 imagefill($im, 0, 0, $bg);
 // 设置文字 
 $text = "";
-for($i=0;$i<6;$i++) $text .= trim($chars[rand(0,count($chars)-1)]); 
+for($i=0;$i<4;$i++) $text .= trim($chars[rand(0,count($chars)-1)]); 
 
 $_SESSION['osa_verify_code'] = $text; 
 

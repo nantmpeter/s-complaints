@@ -19,7 +19,7 @@
 				</div>
 				<div>
 					<label>选择报表类型：</label>
-					<select name="table" >
+					<select class="pro_select" name="table" >
 						<option>请选择</option>
 						<option value="base">每月全国各省客户投诉工单</option>
 						<option value="custom">每月全国31省不规范定制表</option>
@@ -30,9 +30,11 @@
 				</div>
 				<div>
 					<label>选择报表地区：</label>
-						<select name="province_id"><option value="0">全部</option>
+						<select name="province_id">
+						<option>请选择</option>
+						<option class="pro_all hide" value="0">全国</option>
 						<{foreach name=province from=$data.province item=province}>
-							<option value="<{$province.id}>" <{if $param.province_id == $province.id}> selected='selected'<{/if}>><{$province.name}></option>
+							<option class='pro_one' value="<{$province.id}>" <{if $param.province_id == $province.id}> selected='selected'<{/if}>><{$province.name}></option>
 						<{/foreach}>
 						</select>
 				</div>
@@ -231,6 +233,17 @@
 	$(function(){
 		var date=$( "#start_date,#start_date_search" );
 		date.datetimepicker({format: 'yyyy-mm',startView: 3,minView: 3,viewSelect:'year'});
+
+		$('.pro_select').change(function(){
+			if($(this).val() == 'base') {
+				$('.pro_one').show();
+				$('.pro_all').hide();
+			}else{
+				$('.pro_one').hide();
+				$('.pro_all').show();
+			}
+			// alert($(this).val());
+		});
 	})
 
 </script>

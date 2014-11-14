@@ -5,12 +5,12 @@ class Complaint extends Base {
 	// public static $columns;
 	// 表名
 	// private static $table_name = 'co_base';
-	private static $base = "province_id,order_id,order_time,complaint_phone,complaint_content,sp_name,sp_corp_code,sp_code,suggestion,order_department,buss_department,buss_name,buss_name_detail,buss_rates,problem,reconciliations,charge_back,buss_type,buss_type_name,complaint_type,problem_type,problem_result,complaint_level,buss_line,work_id,month";
-	private static $custom = "order_id,sub_order_id,part_name,responsibility_code,responsibility_name,part_code,order_time,buss_type,buss_type_code,buss_name,buss_code,product_name,product_code,complaint_status,appeal_status,user_name,complaint_phone,complaint_type,custom,complaint_total,complaint_content,appeal_content,province_id,cooperative,all_net,order_end_time,complaint_id,deductions,buss_line,month";
-	private static $complaints = "complaints_id,case_id,user_name,phone,dispute_phone,address,about_corp,corp_area,type_one,type_two,type_three,buss_one,buss_two,buss_three,buss_four,complaint_source,comfirm_user,complaint_time,get_time,handle_time,complaint_content,complaint10010,10010status,complaint10015,10015status,complaint_status,problem,problem_type,contact_element,element,buss_type,product_type,problem_channel,service_need,buss_way,netproblem,phoneproblem,vipuser,partment,buss_class,complaint_num,sp_corp_name,sp_corp_code,sp_code,buss_name,complaint_class,buss_line,month";
-	private static $income = "province_id,sp_name,sp_code,buss_type,province_income,sp_income,owe,tuipei_cost,imbalance_cost,20_cost,diaozhang_cost,violate_cost,custom_cost,month,mastsp_code,mastsp_cost,mastsp_sleave";
-	private static $value_income = "month,buss_type,value,province_income";
-	private static $black_list = "complaint_phone,province_id,sp_corp_code,month,sp_corp_name,complaint_phone_tag,level,time_limit";
+	private static $base = "province_id,order_id,order_time,complaint_phone,complaint_content,sp_name,sp_corp_code,sp_code,suggestion,order_department,buss_department,buss_name,buss_name_detail,buss_rates,problem,reconciliations,charge_back,buss_type,buss_type_name,complaint_type,problem_type,problem_result,complaint_level,buss_line,work_id,month,record_id";
+	private static $custom = "order_id,sub_order_id,part_name,responsibility_code,responsibility_name,part_code,order_time,buss_type,buss_type_code,buss_name,buss_code,product_name,product_code,complaint_status,appeal_status,user_name,complaint_phone,complaint_type,custom,complaint_total,complaint_content,appeal_content,province_id,cooperative,all_net,order_end_time,complaint_id,deductions,buss_line,month,record_id";
+	private static $complaints = "complaints_id,case_id,user_name,phone,dispute_phone,address,about_corp,corp_area,type_one,type_two,type_three,buss_one,buss_two,buss_three,buss_four,complaint_source,comfirm_user,complaint_time,get_time,handle_time,complaint_content,complaint10010,10010status,complaint10015,10015status,complaint_status,problem,problem_type,contact_element,element,buss_type,product_type,problem_channel,service_need,buss_way,netproblem,phoneproblem,vipuser,partment,buss_class,complaint_num,sp_corp_name,sp_corp_code,sp_code,buss_name,complaint_class,buss_line,month,record_id";
+	private static $income = "province_id,sp_name,sp_code,buss_type,province_income,sp_income,owe,tuipei_cost,imbalance_cost,20_cost,diaozhang_cost,violate_cost,custom_cost,month,mastsp_code,mastsp_cost,mastsp_sleave,record_id";
+	private static $value_income = "month,buss_type,value,custom_cost,record_id";
+	private static $black_list = "complaint_phone,province_id,sp_corp_code,month,sp_corp_name,complaint_phone_tag,level,time_limit,record_id";
 
 	public static function getTableName(){
 		return parent::$table_prefix.self::$table_name;
@@ -19,13 +19,16 @@ class Complaint extends Base {
 	public static function recordTable($name,$table,$month,$province_id,$user_id){
 		$db=self::__instance();
 		// $r = $db->insert('co_table_record',array('table'=>$table,'month'=>strtotime($month.'-01'),'province_id'=>$province_id,'name'=>$name,'user_id'=>$user_id));
-		$r = $db->query('insert into co_table_record (`table`,`month`,province_id,`name`,user_id,time) values("'.$table.'",'.strtotime($month.'-01').','.$province_id.',"'.$name.'",'.$user_id.','.time().')');
+		$db->query('insert into co_table_record (`table`,`month`,province_id,`name`,user_id,time) values("'.$table.'",'.strtotime($month.'-01').','.$province_id.',"'.$name.'",'.$user_id.','.time().')');
+		$r = $db->query('select LAST_INSERT_ID()')->fetchAll();
+		return $r[0][0];
 	}
 
-	public static function save($param,$table,$month,$province_id){
+	public static function save($param,$table,$month,$province_id,$record_id){
 		foreach ($param as $key => $value) {
 			$param[$key] = addslashes($value);
 		}
+		$param[] = $record_id;
 		$columns['base'] = self::$base;
 		$columns['custom'] = self::$custom;
 		$columns['complaints'] = self::$complaints;
@@ -64,8 +67,8 @@ class Complaint extends Base {
 			if(strtotime($month.'-01') != $param[29])
 				return true;
 			$param[22] = Info::getProvinceByName($param[22]);
-			if($province_id != $param[22])
-				return true;
+			// if($province_id != $param[22])
+			// 	return true;
 			$param[25] = ExcelReader::xlsTime($param[25]);
 			$param[6] = ExcelReader::xlsTime($param[6]);
 			$param[7] = $bussLine[$param[7]];
@@ -86,8 +89,8 @@ class Complaint extends Base {
 			// $param[18] = ExcelReader::xlsTime($param[18]);
 			// $param[19] = ExcelReader::xlsTime($param[19]);
 			$param[7] = Info::getProvinceByName($param[7]);
-			if($province_id != $param[7])
-				return true;
+			// if($province_id != $param[7])
+			// 	return true;
 			$param[47] = strtotime($param[47].'01');
 			if(strtotime($month.'-01') != $param[47])
 				return true;
@@ -98,8 +101,8 @@ class Complaint extends Base {
 		}
 		if($table == 'income'){
 			$param[0] = Info::getProvinceByName($param[0]);
-			if($province_id != $param[0])
-				return true;
+			// if($province_id != $param[0])
+			// 	return true;
 			$param[13] = strtotime($param[13].'01');
 			if(strtotime($month.'-01') != $param[13])
 				return true;
@@ -120,7 +123,7 @@ class Complaint extends Base {
 
 
 	public static function checkFirstLine($arr,$table) {
-		$checkParams['base'] = 1;
+		// $checkParams['base'] = 1;
 		$checkParams['custom'] = 20;
 		$db=self::__instance();
 		$params = explode(',', self::$$table);
@@ -394,6 +397,7 @@ class Complaint extends Base {
 	{
 		$db=self::__instance();
 		$r = $db->get('co_income','sum(province_income) as cos',array('AND'=>$params));
+		// echo $db->last_query();
 		return $r;
 	}
 
@@ -574,7 +578,7 @@ class Complaint extends Base {
 		if($r && $s) {
 			$condition["AND"]['order_time[>=]'] = strtotime($s.'-01 -1 month');
 			$condition["AND"]['order_time[<]'] = strtotime($s.'-01 -1 day');
-			$r2 = $db->select('co_custom','*,sum(complaint_total) as num',$condition);
+			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
 
 			$tmp = array();
 			foreach ($r2 as $key => $value) {
@@ -1909,11 +1913,11 @@ class Complaint extends Base {
 
 	}
 
-	public static function delData($id,$table,$province_id,$month)
+	public static function delData($id,$table)
 	{
 		$provinceName = $table=='complaints'?'corp_area':'province_id';
 		$db=self::__instance();
-		$r = $db->delete('co_'.$table,array('AND'=>array('month'=>strtotime($month.'-01'),$provinceName=>$province_id)));
+		$r = $db->delete('co_'.$table,array('AND'=>array('record_id'=>$id)));
 		if($r)
 			$db->delete('co_table_record',array('id'=>$id));
 	}
@@ -1926,16 +1930,19 @@ class Complaint extends Base {
 		return $r[0]['num'];
 	}
 
-	public static function getSpDetail($sp_name,$month)
+	public static function getSpDetail($sp_corp_code,$month)
 	{
 		$db=self::__instance();
-		$r = $db->select('co_base','*,count(*) as num',array('AND'=>array('sp_name'=>$sp_name,'month'=>$month),'GROUP'=>'province_id'));
+		$r = $db->select('co_base','*,count(*) as num',array('AND'=>array('sp_corp_code'=>$sp_corp_code,'month'=>$month),'GROUP'=>'province_id'));
+
 		foreach ($r as $key => $value) {
 			if(!$value['province_id']){
 				unset($r[$key]);
 				continue;
 			}
-			$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>$month))['cos']/10000;
+
+			$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>$month,'sp_code'=>$sp_corp_code))['cos']/10000;
+
 			$r[$key]['wan'] = $r[$key]['cos']?$value['num']/$r[$key]['cos']:0;
 
 			# code...
@@ -1969,6 +1976,21 @@ class Complaint extends Base {
 				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
 			}
 		}
+		return $r;
+	}
+
+	public static function blackListPhoneContent($phone)
+	{
+		$db=self::__instance();
+		$r1 = $db->select('co_base','complaint_content',array('complaint_phone'=>$phone));
+		$r2 = $db->select('co_complaints','complaint_content',array('dispute_phone'=>$phone));
+		$r3 = $db->select('co_custom','complaint_content',array('complaint_phone'=>$phone));
+		if($r1)
+			$r[1] = $r1[0]['complaint_content'];
+		if($r2)
+			$r[2] = $r2[0]['complaint_content'];
+		if($r3)
+			$r[3] = $r3[0]['complaint_content'];
 		return $r;
 	}
 }

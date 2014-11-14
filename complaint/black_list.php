@@ -1,10 +1,17 @@
 <?php 
 header("Content-Type:text/html;charset=utf-8");
 require ('../include/init.inc.php');
-$arr = array('start_date','end_date','province_id','buss_name','sp_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_type','sp_code','complaint_phone','sp_corp_name','sp_corp_code','level');
-$start_date = $end_date = $page_no = $province_id = $buss_name = $sp_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_type = $sp_code =$start_date = $end_date = $complaint_phone = $sp_corp_name = $sp_corp_code = $level = "";
+$arr = array('start_date','end_date','province_id','buss_name','sp_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_type','sp_code','complaint_phone','sp_corp_name','sp_corp_code','level','ajax','phone');
+$start_date = $end_date = $page_no = $province_id = $buss_name = $sp_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_type = $sp_code =$start_date = $end_date = $complaint_phone = $sp_corp_name = $sp_corp_code = $level = $ajax = $phone = "";
 
 extract ( $_GET, EXTR_IF_EXISTS );
+
+
+if($ajax && $phone) {
+	$result = Complaint::blackListPhoneContent($phone);
+	echo json_encode($result);exit;
+}
+
 $user_info = UserSession::getSessionInfo();
 $province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
