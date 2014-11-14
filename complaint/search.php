@@ -24,7 +24,7 @@ if($method=='updateComplaintLevelAndType' && $start_date!='')
 				"update_complaint_level_and_type[!]"=>$curDate),0,100);
 
 	$successNum=0;
-	while(count($complaints)>0)
+	while($complaints&&count($complaints)>0)
 	{
 		foreach($complaints as $k=>$v)
 		{
@@ -116,7 +116,7 @@ if($method=='updateComplaintLevelAndType' && $start_date!='')
 				"update_complaint_level_and_type[!]"=>$curDate),0,100);
 		if($successNum>900)
 		{
-			$complaints=array();
+			$complaints=false;
 		}
 	}
 	
