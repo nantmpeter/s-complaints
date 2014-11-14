@@ -29,7 +29,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	{
 		$result = Complaint::baseAnalayze($param,$start,$page_size);
 	}
-	
+
 	foreach ($result['now'] as $key => $value) {
 		$resultProvince[] = $value['province_id'];
 	}

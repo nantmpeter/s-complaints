@@ -410,32 +410,44 @@ class Complaint extends Base {
 			unset($param['start_date'],$param['end_date']);	
 		}
 		if($param['wan']) {
+			$condition['GROUP'] = 'province_id';
 			$r = $db->select('co_base','*,count(*) as num',$condition);
-		}
-		unset($param['wan']);
+			$tmpSort = array();
+			foreach ($r as $key => $value) {
+				$num = $r['num'];
+				$cos = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01 -1 month')))['cos']/10000;
+				if($num/$cos >= $param['wan']){
+					$tmp[$k] = $value;
+					$tmp[$k]['score'] = $num/$cos;
+				}
+				// var_dump($tmp);exit;
+			}
+			$r = $tmp;
+		}else{
+			unset($param['wan']);
 
-		if(empty($param))
-			$param = array();
-		foreach ($param as $key => $value) {
-			if($key=='buss_name'||$key=='sp_name'||$key=='sp_corp_code')
-			{
-				$condition["LIKE"]["AND"][$key] = $value;
+			if(empty($param))
+				$param = array();
+			foreach ($param as $key => $value) {
+				if($key=='buss_name'||$key=='sp_name'||$key=='sp_corp_code')
+				{
+					$condition["LIKE"]["AND"][$key] = $value;
+				}else{
+					$condition["AND"][$key] = $value;
+				}
 			}
-			else
+			$condition['GROUP'] = 'province_id';
+			//如果$page_size为0表示获取所有满足条件的记录
+			if(0==$page_size)
 			{
-				$condition["AND"][$key] = $value;
+				$condition['LIMIT']=array($start);
 			}
+			else {
+				$condition['LIMIT']=array($start,$page_size);
+			}
+			$r = $db->select('co_base','*,count(*) as num',$condition);	
 		}
-		$condition['GROUP'] = 'province_id';
-		//如果$page_size为0表示获取所有满足条件的记录
-		if(0==$page_size)
-		{
-			$condition['LIMIT']=array($start);
-		}
-		else {
-			$condition['LIMIT']=array($start,$page_size);
-		}
-		$r = $db->select('co_base','*,count(*) as num',$condition);
+		
 
 		if($r && isset($s)) {
 			unset($condition["AND"]);
