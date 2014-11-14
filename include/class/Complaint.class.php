@@ -374,10 +374,11 @@ class Complaint extends Base {
 				}
 				$value['num'] = $r[$key]['num'] = round($value['num']);
 				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
-				$valid = $db->count('co_custom',array('AND'=>array('complaint_status'=>'有效','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
+				// $valid = $db->count('co_custom',array('AND'=>array('complaint_status'=>'有效','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
-				$r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
+				$r[$key]['appealNot'] = $r[$key]['num'] - $r[$key]['appealSuc'] - $r[$key]['appealFail'];
+				// $r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01')))['cos']/10000;
 				$r[$key]['customCost'] = $db->get('co_income','sum(custom_cost) as cos',array('AND'=>array('sp_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))))['cos'];
 
@@ -385,7 +386,9 @@ class Complaint extends Base {
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
 					$r[$key]['wan'] = 0;
-				$r[$key]['valid'] = $valid;
+				// $r[$key]['valid'] = $valid;
+				$r[$key]['valid'] = $r[$key]['num'] - $r[$key]['appealSuc'];
+				
 				$r[$key]['increase'] = $value['num'] - $t;
 				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
 			}
@@ -607,7 +610,9 @@ class Complaint extends Base {
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
 					$r[$key]['wan'] = 0;
-				$r[$key]['valid'] = $valid;
+				// $r[$key]['valid'] = $valid;
+				$r[$key]['valid'] = $r[$key]['num'] - $r[$key]['appealSuc'];
+
 				$r[$key]['increase'] = $value['num'] - $t;
 				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
 			}
@@ -811,13 +816,13 @@ class Complaint extends Base {
 				$r[$key]['num'] = round($value['num']);
 				$t = isset($tmp[$value['buss_name']])?$tmp[$value['buss_name']]:0;
 
-				$valid = $db->count('co_custom',array('AND'=>array('complaint_status'=>'有效','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
+				// $valid = $db->count('co_custom',array('AND'=>array('complaint_status'=>'有效','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['appealNot'] = $r[$key]['num'] - $r[$key]['appealSuc'] - $r[$key]['appealFail'];
 				// $r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
 
-				$r[$key]['valid'] = $valid;
+				$r[$key]['valid'] = $r[$key]['num'] - $r[$key]['appealSuc'];
 				$r[$key]['increase'] = $value['num'] - $t;
 				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
 			}
