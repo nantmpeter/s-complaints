@@ -123,7 +123,7 @@ class Complaint extends Base {
 
 
 	public static function checkFirstLine($arr,$table) {
-		$checkParams['base'] = 1;
+		// $checkParams['base'] = 1;
 		$checkParams['custom'] = 20;
 		$db=self::__instance();
 		$params = explode(',', self::$$table);
@@ -571,7 +571,7 @@ class Complaint extends Base {
 		else {
 			$condition['LIMIT']=array($start,$page_size);
 		}
-		$r = $db->select('co_custom','*,count(*) as num',$condition);
+		$r = $db->select('co_custom','*,sum(complaint_total) as num',$condition);
 
 
 		if($r && $s) {
