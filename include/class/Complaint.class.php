@@ -1061,7 +1061,7 @@ class Complaint extends Base {
 				$r2 = $db->select('co_custom','*,count(*) as num',$condition);
 
 				$tmpR2 = array();
-				foreach ($r2 as $key => $value) {
+				foreach ($r2 as $value) {
 					$tmpR2[$value['part_name']] = round($value['num']);
 				}
 				if(isset($param['province_id'])){
