@@ -158,7 +158,15 @@ $(function() {
 
 $(function(){
 	$('[name="complaint_type"]').change(function(msg){
-		$('.problem_type').html($('.question'+$(this).val()).html());
+		if($(this).val()!=0)
+		{
+			$('.problem_type').html($('.question'+$(this).val()).html());
+		}
+		else
+		{
+			$('.problem_type').html("<select name='problem_type'><option value='0'>全部</option>");
+			
+		}
 	});
 	$('.problem_type').html($('.question'+$('[name="complaint_type"]').val()).html());
 
