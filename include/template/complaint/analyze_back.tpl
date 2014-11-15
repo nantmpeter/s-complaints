@@ -83,8 +83,8 @@
 					<th >环比增长量</th>
 					<th >环比增长率</th>
 
-					<th >业务收入(万)</th>
-					<th >投诉量/业务收入(万)</th>
+					<th >业务收入(万元)</th>
+					<th >投诉量/业务收入(万元)</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
 					<!-- <th style="width:30px">处理意见</th> -->
@@ -153,7 +153,7 @@
     <div class="navbar navbar-default navbar-fixed-top" role="navigation" id="head"></div>
 
 
-    <div class="container-fluid">
+    <div class="container-fluid"  style="padding:0;">
         <div class="row-fluid example">
             <div id="sidebar-code" class="col-md-4">
                 <div class="well sidebar-nav">

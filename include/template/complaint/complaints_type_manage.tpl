@@ -3,7 +3,7 @@
 <{include file ="sidebar.tpl"}>
 <!-- TPLSTART 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
 
-<{$osadmin_action_alert}>
+
 <{$osadmin_quick_note}>
 
 <div class="block">
@@ -13,8 +13,8 @@
 			<thead>
 			<tr>
 				<th>#</th>
-				<th>投诉分类名称</th>
-				<th>投诉问题类型</th>
+				<th>投诉类型</th>
+				<th>投诉问题分类</th>
 				<th>关键词</th>
 				<th width="80px">操作</th>
 			</tr>

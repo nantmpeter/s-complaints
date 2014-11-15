@@ -37,7 +37,7 @@
 		<label> 投诉类型 </label>
 			<select name="complaint_type"><option value="0">全部</option>
 			<{foreach name=complaintType from=$data.complaintType key=key item=complaintType}>
-				<option value="<{$key}>" <{if $param.complaint_type == $key}> selected='selected'<{/if}>><{$complaintType}></option>
+				<option value="<{$complaintType}>" <{if $param.complaint_type == $complaintType}> selected='selected'<{/if}>><{$complaintType}></option>
 			<{/foreach}>
 			</select>
 			<!-- <{$data.complaintType}> -->
@@ -65,7 +65,7 @@
 		<label> 投诉分级</label>
 			<select name="complaint_level"><option value="0">全部</option>
 			<{foreach name=complaintLevel from=$data.complaintLevel key=key item=complaintLevel}>
-				<option value="<{$key}>" <{if $param.complaint_level == $key}> selected='selected'<{/if}>><{$complaintLevel}></option>
+				<option value="<{$complaintLevel}>" <{if $param.complaint_level == $complaintLevel}> selected='selected'<{/if}>><{$complaintLevel}></option>
 			<{/foreach}>
 			</select>
 		</div>
@@ -97,7 +97,7 @@
 		<a style="float:right;padding:10px;" href="javascript:;" onclick="updateComplaintLevelAndType()" >手动更新</a>
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
         <{if $data.result|@count > 0}>
-        <div id="page-stats" class="block-body collapse in">
+        <div id="page-stats" class="block-body collapse in" style="width:97%">
                <table class="table table-striped">
               <thead>
                 <tr>

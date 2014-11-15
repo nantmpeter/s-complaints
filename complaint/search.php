@@ -131,6 +131,18 @@ foreach ($arr as $key => $value) {
           $param[$value] = $$value;
      }
 }
+if($complaint_type=='全部')
+{
+	unset($param['complaint_type']);
+}
+if($question_type=='全部')
+{
+	unset($param['question_type']);
+}
+if($complaint_level=='全部')
+{
+	unset($param['complaint_level']);
+}
 $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$_GET['start_date']:date('Y-m');
 
 // if (Common::isPost ()) {
