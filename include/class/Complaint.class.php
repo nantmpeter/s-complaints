@@ -682,7 +682,7 @@ class Complaint extends Base {
 			$condition['LIMIT']=array($start);
 		}
 		else {
-			if(!$param['wan'])
+			// if(!$param['wan'])
 				$condition['LIMIT']=array($start,$page_size);
 		}
 		unset($condition['AND']['wan']);
