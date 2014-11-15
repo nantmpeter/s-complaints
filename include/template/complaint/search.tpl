@@ -54,7 +54,7 @@
 
 		</div>
 		<div style="float:left;margin-right:5px">
-		<label> 业务线</label>
+		<label> 业务类型</label>
 			<select name="buss_type"><option value="0">全部</option>
 			<{foreach name=bussLine from=$data.bussLine item=bussLine key=key}>
 				<option value="<{$key}>" <{if $param.buss_type == $key}> selected='selected'<{/if}>><{$bussLine}></option>
@@ -114,7 +114,7 @@
 					<th style="width:30px">投诉类型</th>
 					<th style="width:30px">投诉问题分类</th>
 					<th style="width:30px">投诉分级</th>
-					<th style="width:30px">业务线</th>
+					<th style="width:30px">业务类型</th>
                 </tr>
               </thead>
               <tbody>							  
@@ -133,7 +133,7 @@
 					<td><{$result.complaint_type}></td>
 					<td><{$result.problem_type}></td>
 					<td><{$result.complaint_level}></td>
-					<td><{$result.buss_line}></td>
+					<td><{$result.buss_name}></td>
 					<!-- <td style = "word-break: break-all; word-wrap:break-word;"><{$result.result}></td> -->
 					<!-- <td><{$result.op_time}></td> -->
 					</tr>

@@ -502,7 +502,7 @@ class Complaint extends Base {
 			}
 		}
 		$r2 = $r2?$r2:array();
-
+		$r = $r?$r:array();
 		return array('now' => $r,'last'=>$r2);
 	}
 

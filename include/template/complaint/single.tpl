@@ -72,7 +72,7 @@
        				<{if $smarty.get.province_id}>
 					<th style="width:50px">省</th>
 					<{/if}>
-					<th style="width:50px">业务名称</th>
+					<th style="width:50px">具体业务名称</th>
 					<th style="width:50px">公司名称</th>
 					<th style="width:50px">公司sp代码</th>
 					<th style="width:50px">sp接入号码</th>
