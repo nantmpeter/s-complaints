@@ -30,7 +30,7 @@
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> SP企业代码查询</label>
-				<input type="text" name="sp_corp_code" value="<{$_GET.sp_corp_code}>" placeholder="SP企业代码查询" > 
+				<input type="text" name="part_code" value="<{$_GET.part_code}>" placeholder="SP企业代码查询" > 
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 业务线</label>

@@ -1037,6 +1037,7 @@ class Complaint extends Base {
 		// $condition['ORDER'] = 'num desc';
 		unset($condition['AND']['wan']);
 		$r = $db->select('co_custom','*,count(*) as num',$condition);
+
 		$tmp = $data = array();
 		foreach ($r as $key => $value) {
 			// var_dump($value);exit;
