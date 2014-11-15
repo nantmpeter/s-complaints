@@ -83,8 +83,8 @@
 					<th >环比增长量</th>
 					<th >环比增长率</th>
 
-					<th >业务收入(万)</th>
-					<th >投诉量/业务收入(万)</th>
+					<th >业务收入(万元)</th>
+					<th >投诉量/业务收入(万元)</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
 					<!-- <th style="width:30px">处理意见</th> -->
