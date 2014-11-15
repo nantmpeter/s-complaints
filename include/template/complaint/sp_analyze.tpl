@@ -28,14 +28,15 @@
 		<label> SP公司名称</label>
 				<input type="text" name="sp_name" value="<{$_GET.sp_name}>" placeholder="SP公司名称" > 
 		</div>
-		<div style="float:left;margin-right:5px">
-		<label> 业务线</label>
-			<select name="buss_type"><option value="0">全部</option>
-			<{foreach name=bussLine from=$data.bussLine item=bussLine key=key}>
-				<option value="<{$key}>" <{if $param.buss_type == $key}> selected='selected'<{/if}>><{$bussLine}></option>
-			<{/foreach}>
-			</select>
-		</div>
+
+        <div style="float:left;margin-right:5px">
+        <label> 业务类型</label>
+            <select name="buss_name"><option value="0">全部</option>
+            <{foreach name=bussLine from=$data.bussLine item=bussLine key=key}>
+                <option value="<{$bussLine}>" <{if $param.buss_name == $bussLine}> selected='selected'<{/if}>><{$bussLine}></option>
+            <{/foreach}>
+            </select>
+        </div>
 
         <div style="float:left;margin-right:5px">
         <label> 万投比</label>
@@ -43,6 +44,7 @@
                 <option value="5" <{if $param.wan == 5}> selected='selected'<{/if}>>5</option>
             </select>
         </div>
+
 		
 		<div class="btn-toolbar" style="padding-top:25px;padding-bottom:0px;margin-bottom:0px">
 

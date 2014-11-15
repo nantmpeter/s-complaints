@@ -426,22 +426,22 @@ class Complaint extends Base {
 			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
-		if($param['wan']) {
-			$condition['GROUP'] = 'province_id';
-			$r = $db->select('co_base','*,count(*) as num',$condition);
+		// if($param['wan']) {
+		// 	$condition['GROUP'] = 'province_id';
+		// 	$r = $db->select('co_base','*,count(*) as num',$condition);
 
-			$tmpSort = array();
-			foreach ($r as $key => $value) {
-				$num = $value['num'];
-				$cos = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01 -1 month')))['cos']/10000;
-				if($num/$cos >= $param['wan']){
-					$tmp[$k] = $value;
-					$tmp[$k]['score'] = $num/$cos;
-				}
-				// var_dump($tmp);exit;
-			}
-			$r = $tmp;
-		}else{
+		// 	$tmpSort = array();
+		// 	foreach ($r as $key => $value) {
+		// 		$num = $value['num'];
+		// 		$cos = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01 -1 month')))['cos']/10000;
+		// 		if($num/$cos >= $param['wan']){
+		// 			$tmp[$k] = $value;
+		// 			$tmp[$k]['score'] = $num/$cos;
+		// 		}
+		// 		// var_dump($tmp);exit;
+		// 	}
+		// 	$r = $tmp;
+		// }else{
 			unset($param['wan']);
 
 			if(empty($param))
@@ -463,14 +463,27 @@ class Complaint extends Base {
 			else {
 				$condition['LIMIT']=array($start,$page_size);
 			}
+			unset($condition['AND']['wan']);
 			$r = $db->select('co_base','*,count(*) as num',$condition);	
-		}
+			$r2Province = array();
+			foreach ($r as $key => $value) {
+				$num = $value['num'];
+				$cos = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01 -1 month')))['cos']/10000;
+				if($num/$cos >= $param['wan']){
+					$tmp[$k] = $value;
+					$tmp[$k]['score'] = $num/$cos;
+					$r2Province[] = $value['province_id'];
+				}
+			}
+			$r = $tmp;
+		// }
 		
 
 		if($r && isset($s)) {
 			unset($condition["AND"]);
 			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
 			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
+			$condition["AND"]['province_id'] = $r2Province;
 			$r2 = $db->select('co_base','*,count(*) as num',$condition);
 
 			$tmp = $lastMonth = array();

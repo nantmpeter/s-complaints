@@ -35,14 +35,22 @@
 		<label> SP公司名称</label>
 				<input type="text" name="part_name" value="<{$_GET.part_name}>" placeholder="SP公司名称" > 
 		</div>
-		<div style="float:left;margin-right:5px">
-		<label> 业务线</label>
+		<!-- <div style="float:left;margin-right:5px"> -->
+<!-- 		<label> 业务线</label>
 			<select name="buss_type"><option value="0">全部</option>
 			<{foreach name=bussLine from=$data.bussLine item=bussLine key=key}>
 				<option value="<{$key}>" <{if $param.buss_type == $key}> selected='selected'<{/if}>><{$bussLine}></option>
 			<{/foreach}>
 			</select>
-		</div>
+		</div> -->
+        <div style="float:left;margin-right:5px">
+        <label> 业务类型</label>
+            <select name="buss_name"><option value="0">全部</option>
+            <{foreach name=bussLine from=$data.bussLine item=bussLine key=key}>
+                <option value="<{$bussLine}>" <{if $param.buss_name == $bussLine}> selected='selected'<{/if}>><{$bussLine}></option>
+            <{/foreach}>
+            </select>
+        </div>
 		<div style="float:left;margin-right:5px">
 			<label> 投诉状态</label>
 			<select name="complaint_status"><option value="0">全部</option>
@@ -108,7 +116,6 @@
 					<th style="width:30px">投诉状态</th>
 					<th style="width:30px">申诉状态</th>
 					<!-- <th style="width:30px">扣款金额</th> -->
-					<th style="width:30px">业务线</th>
                 </tr>
               </thead>
               <tbody>							  
@@ -131,7 +138,6 @@
 					<td><{$result.complaint_status}></td>
 					<td><{$result.appeal_status}></td>
 					<!-- <td></td> -->
-					<td><{$result.buss_line}></td>
 					</tr>
 				<{/foreach}>
               </tbody>

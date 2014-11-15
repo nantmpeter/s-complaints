@@ -55,9 +55,9 @@
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 业务类型</label>
-			<select name="buss_type"><option value="0">全部</option>
+			<select name="buss_name"><option value="0">全部</option>
 			<{foreach name=bussLine from=$data.bussLine item=bussLine key=key}>
-				<option value="<{$key}>" <{if $param.buss_type == $key}> selected='selected'<{/if}>><{$bussLine}></option>
+				<option value="<{$bussLine}>" <{if $param.buss_name == $bussLine}> selected='selected'<{/if}>><{$bussLine}></option>
 			<{/foreach}>
 			</select>
 		</div>
