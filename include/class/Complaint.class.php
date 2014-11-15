@@ -483,7 +483,7 @@ class Complaint extends Base {
 			unset($condition["AND"]);
 			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
 			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
-			$condition["AND"]['province_id'] = $r2Province;
+			// $condition["AND"]['province_id'] = $r2Province;
 			$r2 = $db->select('co_base','*,count(*) as num',$condition);
 
 			$tmp = $lastMonth = array();
