@@ -1,8 +1,8 @@
 <?php 
 header("Content-Type:text/html;charset=utf-8");
 require ('../include/init.inc.php');
-$arr = array('start_date','end_date','province_id','buss_name','sp_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_line','sp_code');
-$start_date = $end_date = $page_no = $province_id = $buss_name = $sp_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_line = $sp_code =$start_date = $end_date ="";
+$arr = array('start_date','end_date','province_id','buss_name','sp_name','sp_corp_code','complaint_type','problem_type','complaint_level','buss_line','sp_code');
+$start_date = $end_date = $page_no = $province_id = $buss_name = $sp_name = $sp_corp_code = $complaint_type = $problem_type = $complaint_level = $buss_line = $sp_code =$start_date = $end_date ="";
 
 $method=$start_date='';
 
@@ -131,20 +131,51 @@ foreach ($arr as $key => $value) {
           $param[$value] = $$value;
      }
 }
-if($complaint_type=='全部')
+//var_dump($param);exit;
+$data['complaintType'] = Info::getComplaintType('complaint_type',false);
+$data['questionType'][1] = Info::getQuestionType(1,'problem_type',true,$problem_type);
+$data['questionType'][2] = Info::getQuestionType(2,'problem_type',true,$problem_type);
+$data['questionType'][3] = Info::getQuestionType(3,'problem_type',true,$problem_type);
+
+$data['complaintLevel'] = Info::getComplaintLevel('complaint_level',false);
+
+//var_dump($param,$complaint_level);
+if($complaint_type!='')
 {
-	unset($param['complaint_type']);
+	if($complaint_type=='0')
+	{
+		Template::assign ( 'complaint_type', $complaint_type );
+	}
+	else {
+		if($problem_type!='')
+		{
+			if($problem_type=='0')
+			{
+				Template::assign ( 'problem_type', $problem_type );
+			}
+			else {//var_dump($param['problem_type']);exit;
+				Template::assign ( 'problem_type', $param['problem_type'] );
+				$questionType = Info::getQuestionType($param['complaint_type'],'question_type',false);
+				$param['problem_type']=$questionType[$param['problem_type']];
+			}
+		}
+		Template::assign ( 'complaint_type', $param['complaint_type'] );
+		$param['complaint_type']=$data['complaintType'][$param['complaint_type']];
+	}
 }
-if($question_type=='全部')
+if($complaint_level!='')
 {
-	unset($param['question_type']);
-}
-if($complaint_level=='全部')
-{
-	unset($param['complaint_level']);
+	if($complaint_level=='0')
+	{
+		Template::assign ( 'complaint_level', $complaint_level );
+	}
+	else {
+		Template::assign ( 'complaint_level', $param['complaint_level'] );
+		$param['complaint_level']=$data['complaintLevel'][$param['complaint_level']];
+	}
 }
 $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$_GET['start_date']:date('Y-m');
-
+//var_dump($param);exit;
 // if (Common::isPost ()) {
 if($start_date != ''){
 	$page_size = PAGE_SIZE;
@@ -163,11 +194,8 @@ if($start_date != ''){
 }
 $data['province'] = Info::getProvince(false);
 
-$data['complaintType'] = Info::getComplaintType('complaint_type',false);
-$data['questionType'][1] = Info::getQuestionType(1,'question_type',true);
-$data['questionType'][2] = Info::getQuestionType(2,'question_type',true);
-$data['questionType'][3] = Info::getQuestionType(3,'question_type',true);
-$data['complaintLevel'] = Info::getComplaintLevel('complaint_level',false);
+
+
 $data['bussLine'] = Info::getBussLine('buss_line',false);
 
 

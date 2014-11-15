@@ -25,9 +25,18 @@
 				<tr>
  
 				<td><{$complaints_level.id}></td>
-				<td><{$complaints_level.complaints_level}></td>
+				<td>
+				<{if $complaints_level.id eq 1|| $complaints_level.id eq 5 ||$complaints_level.id eq 9}>
+				<{$complaints_level.complaints_level}>
+				<{else}>
+				<{/if}>
+				
+				</td>
 				<td><{$complaints_level.complaints_type}></td>
-				<td><input title="多个关键词请用'|'分隔" type="text" name="complaints_level_<{$complaints_level.id}>" id="complaints_level_<{$complaints_level.id}>" value="<{$complaints_level.keywords}>" /></td>
+				<td>
+				<textarea title="多个关键词请用'|'分隔" name="complaints_level_<{$complaints_level.id}>" id="complaints_level_<{$complaints_level.id}>" rows="2" cols=""><{$complaints_level.keywords}></textarea>
+				<!--<input title="多个关键词请用'|'分隔" type="text" name="complaints_level_<{$complaints_level.id}>" id="complaints_level_<{$complaints_level.id}>" value="<{$complaints_level.keywords}>" />
+				--></td>
 				<td>
 				
 				<a onclick="updateComplaintsLevelKeywords(<{$complaints_level.id}>)" href="javascript:;" title= "修改" ><i class="icon-pencil"></i></a>
