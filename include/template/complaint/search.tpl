@@ -164,8 +164,8 @@ $(function(){
 
 		if($(this).val()!=0)
 		{
-			$('.question_type').html($('.question'+map[$(this).val()]).html());
-			// $('.problem_type').html($('.question'+$(this).val()).html());
+			// $('.question_type').html($('.question'+map[$(this).val()]).html());
+			$('.problem_type').html($('.question'+$(this).val()).html());
 		}
 		else
 		{
