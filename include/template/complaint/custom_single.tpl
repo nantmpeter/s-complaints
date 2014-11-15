@@ -37,6 +37,13 @@
 			</select>
 			<!-- <{$data.bussLine}> -->
 		</div>
+
+               <!--  <div style="float:left;margin-right:5px">
+        <label> 万投比</label>
+            <select name="wan"><option value="0">全部</option>
+                <option value="5" <{if $param.wan == 5}> selected='selected'<{/if}>>5</option>
+            </select>
+        </div> -->
 		
 		<div class="btn-toolbar" style="padding-top:25px;padding-bottom:0px;margin-bottom:0px">
 
@@ -78,7 +85,7 @@
 					<th style="width:30px">申诉成功</th>
 					<th style="width:30px">申诉失败</th>
 					<th style="width:30px">未申诉量</th>
-					<th style="width:30px">不规范定制/业务收入(百万)</th>
+					<!-- <th style="width:30px">不规范定制/业务收入(百万)</th> -->
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
 					<!-- <th style="width:30px">处理意见</th> -->
@@ -102,7 +109,7 @@
 					<td><{$result.appealSuc}></td>
 					<td><{$result.appealFail}></td>
 					<td><{$result.appealNot}></td>
-					<td><{$result.cos|string_format:"%.2f"}></td>
+					<!-- <td><{$result.wan|string_format:"%.2f"}></td> -->
 
 					<!-- <td><{$result.sp_code}></td> -->
 					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_content}>" title="" data-original-title1="投诉内容">详情</a></td> -->

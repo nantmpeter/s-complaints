@@ -410,6 +410,8 @@ class Complaint extends Base {
 
 	public static function getCos($params)
 	{
+		if(isset($params['province_id']) && $params['province_id'] == 0)
+			unset($params['province_id']);
 		$db=self::__instance();
 		$r = $db->get('co_income','sum(province_income) as cos',array('AND'=>$params));
 		// echo $db->last_query();
@@ -840,7 +842,15 @@ class Complaint extends Base {
 			$condition['LIMIT']=array($start,$page_size);
 		}
 		// var_dump($condition);
+		unset($condition['AND']['wan']);
 		$r = $db->select('co_custom','*,count(*) as num',$condition);
+		// if($param['wan']) {
+		// 	foreach ($r as $key => $value) {
+		// 		$r[$key]['cos'] = self::getCos(array('buss_type'=>$value['buss_name'],'province_id'=>$value['province_id'],'month'=>$value['month']))['cos']/10000;
+
+		// 		$r[$key]['wan'] = $r[$key]['cos']?$value['num']/$r[$key]['cos']:0;
+		// 	}
+		// }
 		// echo $db->last_query();
 		// var_dump($r);
 		if($r && isset($s)) {
@@ -863,6 +873,10 @@ class Complaint extends Base {
 				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['appealNot'] = $r[$key]['num'] - $r[$key]['appealSuc'] - $r[$key]['appealFail'];
 				// $r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
+				// if(!isset($r[$key]['wan'])) {
+				// 	$r[$key]['cos'] = self::getCos(array('buss_type'=>$value['buss_name'],'province_id'=>$value['province_id'],'month'=>$value['month']))['cos']/10000;
+				// 	$r[$key]['wan'] = $r[$key]['cos']?$value['num']/$r[$key]['cos']:0;
+				// }
 
 				$r[$key]['valid'] = $r[$key]['num'] - $r[$key]['appealSuc'];
 				$r[$key]['increase'] = $value['num'] - $t;
@@ -1014,6 +1028,7 @@ class Complaint extends Base {
 		foreach ($r as $key => $value) {
 			// var_dump($value);exit;
 			$data[$key] = $value;
+
 			$tmp['name'][$key] = $data[$key]['name'] = $value['part_name'];
 			$cosCondition = array('sp_name'=>$value['part_name'],'month'=>strtotime($s.'-01'));
 				
@@ -1021,8 +1036,35 @@ class Complaint extends Base {
 
 			// $cos = $db->get('co_income','sum(province_income) as cos',array('province_id'=>$value['province_id']))['cos']/10000;
 			$tmp['score'][$key] = $data[$key]['score'] = $data[$key]['wan'] = $cos?($value['num']/$cos):0;
-			if($param['wan'] && $tmp['score'][$key] < $param['wan'])
+			if($param['wan'] && ($tmp['score'][$key] < $param['wan'])){
 				unset($data[$key]);
+				unset($tmp['score'][$key]);
+				unset($tmp['name'][$key]);
+			}else{
+				$tmpProCondition = array();
+				$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
+				$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
+
+				$r2 = $db->select('co_custom','*,count(*) as num',$condition);
+
+				$tmpR2 = array();
+				foreach ($r2 as $key => $value) {
+					$tmpR2[$value['part_name']] = round($value['num']);
+				}
+				if(isset($param['province_id'])){
+					$condition['province_id']= $tmpProCondition['province_id'] = $value['province_id'];
+				}
+				$t = isset($tmpR2[$value['part_name']])?$tmpR2[$value['part_name']]:0;
+
+				$valid = $db->count('co_custom',array('AND'=>array('complaint_status'=>'有效','part_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))+$tmpProCondition));
+				$data[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','part_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))+$tmpProCondition));
+				$data[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','part_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))+$tmpProCondition));
+				$data[$key]['appealNot'] = $r[$key]['num'] - $r[$key]['appealSuc'] - $r[$key]['appealFail'];
+				$data[$key]['valid'] = $r[$key]['num'] - $r[$key]['appealSuc'];
+
+				$data[$key]['increase'] = $value['num'] - $t;
+				$data[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
+			}
 			// var_dump($cos,$value['num']);
 		}
 		if($r){
