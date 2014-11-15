@@ -43,4 +43,4 @@ INSERT INTO dic_complaints_type_manage VALUES ('7', null, '收费不规范', '�
 INSERT INTO dic_complaints_type_manage VALUES ('8', null, '资费不明确', '服务规范性', '8', '2014-11-08 14:51:37', '2014-11-08 14:51:43', '0');
 INSERT INTO dic_complaints_type_manage VALUES ('9', null, '业务取消不规范', '服务规范性', '9', '2014-11-08 14:51:37', '2014-11-08 14:51:44', '0');
 INSERT INTO dic_complaints_type_manage VALUES ('10', null, '定制不规范', '服务规范性', '10', '2014-11-08 14:51:39', '2014-11-08 14:51:45', '0');
-INSERT INTO dic_complaints_type_manage VALUES ('11', '地方官', '用户自行定制业务', '用户愿意', '11', '2014-11-08 14:51:38', '2014-11-08 17:55:35', '0');
+INSERT INTO dic_complaints_type_manage VALUES ('11', '地方官', '用户自行定制业务', '用户原因', '11', '2014-11-08 14:51:38', '2014-11-08 17:55:35', '0');

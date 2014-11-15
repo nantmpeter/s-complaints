@@ -181,7 +181,7 @@
     </style>
 
     
-    <div class="container-fluid" idx='0'>
+    <div class="container-fluid" idx='0'  style="padding:0;">
         <div class="row-fluid">
             <div md="sidebar-code" class="span4" style="display:none;">
                 <div class="well sidebar-nav">
@@ -242,7 +242,7 @@ option = {
                     </textarea>
               </div><!--/.well -->
             </div><!--/span-->
-            <div md="graphic" class="span12">
+            <div md="graphic" class="span12" style="margin: 0;">
                 <div md="main" class="main"></div>
                 <div>
                     <button class="btn btn-sm btn-success" onclick="refresh(true,0)" type="button">刷 新</button>
@@ -252,7 +252,7 @@ option = {
         </div><!--/row-->
     </div><!--/.fluid-container-->
     <!--------1:bar--------->
-    <div class="container-fluid" idx="1">
+    <div class="container-fluid" idx="1"  style="padding:0;">
         <div class="row-fluid">
             <div md="sidebar-code" class="span4" style="display:none;">
                 <div class="well sidebar-nav">
@@ -313,7 +313,7 @@ option = {
                     </textarea>
               </div><!--/.well -->
             </div><!--/span-->
-            <div md="graphic" class="span12">
+            <div md="graphic" class="span12" style="margin: 0;">
                 <div md="main" class="main"></div>
                 <div>
                 	<button class="btn btn-sm btn-success" onclick="refresh(true,1)" type="button">刷 新</button>

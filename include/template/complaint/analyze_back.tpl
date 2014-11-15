@@ -153,7 +153,7 @@
     <div class="navbar navbar-default navbar-fixed-top" role="navigation" id="head"></div>
 
 
-    <div class="container-fluid">
+    <div class="container-fluid"  style="padding:0;">
         <div class="row-fluid example">
             <div id="sidebar-code" class="col-md-4">
                 <div class="well sidebar-nav">
