@@ -355,7 +355,19 @@ class Complaint extends Base {
 		else {
 			// $condition['LIMIT']=array($start,$page_size);
 		}
+		unset($condition['AND']['wan']);
 		$r = $db->select('co_custom','*,sum(complaint_total) as num',$condition);
+		if($param['wan']) {
+			foreach ($r as $key => $value) {
+				$num = $value['num'];
+				$cos = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01 -1 month')))['cos']/10000;
+				if($cos && $num/$cos >= $param['wan']){
+					$tmp[$key] = $value;
+					$tmp[$key]['score'] = $num/$cos;
+				}
+			}
+			$r = $tmp;
+		}
 
 		if($r && isset($s)) {
 			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
@@ -393,7 +405,7 @@ class Complaint extends Base {
 				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
 			}
 		}
-		return $r;
+		return $r?$r:array();
 	}
 
 	public static function getCos($params)
@@ -591,6 +603,7 @@ class Complaint extends Base {
 		else {
 			$condition['LIMIT']=array($start,$page_size);
 		}
+		unset($condition['AND']['wan']);
 		$r = $db->select('co_custom','*,count(*) as num',$condition);
 
 
@@ -667,10 +680,23 @@ class Complaint extends Base {
 			$condition['LIMIT']=array($start);
 		}
 		else {
-			$condition['LIMIT']=array($start,$page_size);
+			if(!$param['wan'])
+				$condition['LIMIT']=array($start,$page_size);
 		}
-
+		unset($condition['AND']['wan']);
 		$r = $db->select('co_base','*,count(*) as num',$condition);
+
+		if($param['wan']) {
+			foreach ($r as $key => $value) {
+				$num = $value['num'];
+				$cos = self::getCos(array('sp_code'=>$value['sp_corp_code'],'month'=>strtotime($s.'-01 -1 month')))['cos']/10000;
+				if($cos && $num/$cos >= $param['wan']){
+					$tmp[$key] = $value;
+					$tmp[$key]['score'] = $num/$cos;
+				}
+			}
+			$r = $tmp;
+		}
 
 		if($r && $s) {
 			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
@@ -982,23 +1008,26 @@ class Complaint extends Base {
 		}
 		$condition['GROUP'] = 'part_name';
 		// $condition['ORDER'] = 'num desc';
-
+		unset($condition['AND']['wan']);
 		$r = $db->select('co_custom','*,count(*) as num',$condition);
 		$tmp = $data = array();
 		foreach ($r as $key => $value) {
 			// var_dump($value);exit;
+			$data[$key] = $value;
 			$tmp['name'][$key] = $data[$key]['name'] = $value['part_name'];
 			$cosCondition = array('sp_name'=>$value['part_name'],'month'=>strtotime($s.'-01'));
 				
 			$cos = self::getCos($cosCondition)['cos']/10000;
 
 			// $cos = $db->get('co_income','sum(province_income) as cos',array('province_id'=>$value['province_id']))['cos']/10000;
-			$tmp['score'][$key] = $data[$key]['score'] = $cos?($value['num']/$cos):0;
+			$tmp['score'][$key] = $data[$key]['score'] = $data[$key]['wan'] = $cos?($value['num']/$cos):0;
+			if($param['wan'] && $tmp['score'][$key] < $param['wan'])
+				unset($data[$key]);
 			// var_dump($cos,$value['num']);
 		}
 		if($r){
 			array_multisort($tmp['score'], SORT_DESC, $tmp['name'], SORT_ASC, $data);
-			array_splice($data, 20);
+			// array_splice($data);
 			return $data;
 		}
 		return array();
@@ -1006,6 +1035,7 @@ class Complaint extends Base {
 
 	public static function customAnalayzeMonth($param)
 	{
+		unset($param['wan']);
 		$condition = array();
 		$db=self::__instance();
 		// unset($param['province_id']);
@@ -1206,7 +1236,7 @@ class Complaint extends Base {
 	public static function customAnalayzeArea($param)
 	{
 		$flag = isset($param['flag'])?$param['flag']:0;
-		unset($param['flag']);
+		unset($param['flag'],$param['wan']);
 		$condition = array();
 		$db=self::__instance();
 		if($param['start_date']){

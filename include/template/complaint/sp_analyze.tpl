@@ -36,6 +36,13 @@
 			<{/foreach}>
 			</select>
 		</div>
+
+        <div style="float:left;margin-right:5px">
+        <label> 万投比</label>
+            <select name="wan"><option value="0">全部</option>
+                <option value="5" <{if $param.wan == 5}> selected='selected'<{/if}>>5</option>
+            </select>
+        </div>
 		
 		<div class="btn-toolbar" style="padding-top:25px;padding-bottom:0px;margin-bottom:0px">
 
@@ -69,7 +76,7 @@
               <thead>
                 <tr>
        				<{if $smarty.get.province_id}>
-					<th style="width:50px">省</th>
+					<th style="width:80px">省</th>
 					<{/if}>
 					<th style="width:50px">公司名称</th>
 					<th style="width:50px">sp企业代码</th>
@@ -131,7 +138,7 @@
               </tbody>
             </table>
 				<!--- START 分页模板 -->
-               <!-- <{$page_html}> -->
+               <{$page_html}>
 			   <!--- END -->
         </div>
         <{else}>

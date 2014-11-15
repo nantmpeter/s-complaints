@@ -42,6 +42,14 @@
 			</select>
 			<!-- <{$data.bussLine}> -->
 		</div>
+
+        
+        <div style="float:left;margin-right:5px">
+        <label> 万投比</label>
+            <select name="wan"><option value="0">全部</option>
+                <option value="5" <{if $param.wan == 5}> selected='selected'<{/if}>>5</option>
+            </select>
+        </div>
 		
 		<div class="btn-toolbar" style="padding-top:25px;padding-bottom:0px;margin-bottom:0px">
 

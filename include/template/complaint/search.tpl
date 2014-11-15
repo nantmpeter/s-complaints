@@ -155,10 +155,13 @@ $(function() {
 	date.datetimepicker({format: 'yyyy-mm',startView: 3,minView: 3,viewSelect:'year'});
 });
 
-
+var map = new Array();
+map['服务规范性'] = 1;
+map['业务可用性'] = 2;
+map['用户原因'] = 3;
 $(function(){
 	$('[name="complaint_type"]').change(function(msg){
-		$('.question_type').html($('.question'+$(this).val()).html());
+		$('.question_type').html($('.question'+map[$(this).val()]).html());
 	});
 })
 

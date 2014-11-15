@@ -1,8 +1,8 @@
 <?php 
 header("Content-Type:text/html;charset=utf-8");
 require ('../include/init.inc.php');
-$arr = array('start_date','end_date','province_id','buss_name','sp_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_type','sp_code');
-$start_date = $end_date = $page_no = $province_id = $buss_name = $sp_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_type = $sp_code =$start_date = $end_date ="";
+$arr = array('start_date','end_date','province_id','buss_name','sp_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_type','sp_code','wan');
+$start_date = $end_date = $page_no = $province_id = $buss_name = $sp_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_type = $sp_code =$start_date = $end_date = $wan = "";
 
 extract ( $_GET, EXTR_IF_EXISTS );
 $user_info = UserSession::getSessionInfo();
@@ -48,13 +48,14 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$edition[$key] = $row['name']; 
 	}
 	array_multisort($volume, SORT_DESC, $edition, SORT_ASC, $data['provinces']); 
+	$wan = array();
 	foreach ($data['provinces'] as $key => $value) {
 		$name[] = $value['name'];
 		$wan[] = sprintf("%.2f", $value['wan']);
 	}
 
 	$data['provinceString'] = '"'.implode('","', $name).'"';
-	$data['provinces'] = '"'.implode('","', $wan).'"';
+	$data['provinces'] = $wan?'"'.implode('","', $wan).'"':'';
 // }
 $data['province'] = Info::getProvince(false);
 $data['complaintType'] = Info::getComplaintType('complaint_type',false);

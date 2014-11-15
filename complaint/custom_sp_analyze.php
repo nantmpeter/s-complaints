@@ -1,14 +1,16 @@
 <?php 
 header("Content-Type:text/html;charset=utf-8");
 require ('../include/init.inc.php');
-$arr = array('start_date','end_date','province_id','buss_name','sp_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_type','sp_code','month','part_name');
-$start_date = $end_date = $page_no = $province_id = $buss_name = $sp_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_type = $sp_code =$start_date = $end_date = $month = $part_name = "";
+$arr = array('start_date','end_date','province_id','buss_name','sp_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_type','sp_code','month','part_name','wan');
+$start_date = $end_date = $page_no = $province_id = $buss_name = $sp_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_type = $sp_code =$start_date = $end_date = $month = $part_name = $wan = "";
 
 extract ( $_GET, EXTR_IF_EXISTS );
 $user_info = UserSession::getSessionInfo();
 $province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
+$http_query = '';
 foreach ($arr as $key => $value) {
+    $http_query .= $value.'='.$$value.'&';
 
 	if($$value) {
 		$param[$value] = $$value;
@@ -22,18 +24,24 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	$page_size = PAGE_SIZE;
 	$page_no=$page_no<1?1:$page_no;
 	$start = ($page_no - 1) * $page_size;
-	if($_GET['download']==1)
-	{
-		$data['result'] = Complaint::customSpAnalayze($param,$start,0);
-	}
-	else 
-	{
-		$data['result'] = Complaint::customSpAnalayze($param,$start,$page_size);
-	}
+	
 
-	$row_count = Complaint::customSpAnalayzeNum($param);
-
-	$wan = Complaint::customSpAnalayzeWan($param);
+	$wanResult = Complaint::customSpAnalayzeWan($param);
+	if($wan) {
+		$data['result'] = array_slice($wanResult, $start, $page_size);
+		$row_count = count($wanResult);
+	}else{
+		if($_GET['download']==1)
+		{
+			$data['result'] = Complaint::customSpAnalayze($param,$start,0);
+		}
+		else 
+		{
+			$data['result'] = Complaint::customSpAnalayze($param,$start,$page_size);
+		}
+		$row_count = Complaint::customSpAnalayzeNum($param);
+	}
+	$wan = array_slice($wanResult, 0,20);
 	foreach ($wan as $key => $value) {
 		$name[] = $value['name'];
 		$score[] = sprintf("%.2f",$value['score']);
@@ -80,8 +88,11 @@ if($_GET['download']==1)
 	Common::exportExcel($downloadStr,'black_list') ;
 	exit;
 }
-$page_html=Pagination::showPager("custom_sp_analyze.php?class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date",$page_no,PAGE_SIZE,$row_count);
-$export_excel="custom_sp_analyze.php?download=1&class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date";
+
+$page_html=Pagination::showPager("custom_sp_analyze.php?".$http_query,$page_no,PAGE_SIZE,$row_count);
+// $page_html=Pagination::showPager("custom_sp_analyze.php?class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date",$page_no,PAGE_SIZE,$row_count);
+
+$export_excel="custom_sp_analyze.php?download=1&".$http_query;
 
 Template::assign("error" ,$error);
 Template::assign("_POST" ,$_POST);
