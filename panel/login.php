@@ -30,6 +30,7 @@ if (Common::isPost ()) {
 		}
 	}
 }
+Template::assign ( 'isLogin',1);
 Template::assign ( '_POST',$_POST );
 Template::assign ( 'page_title','登入' );
 Template::Display ( 'login.tpl' );

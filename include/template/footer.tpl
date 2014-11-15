@@ -2,8 +2,9 @@
 	
 					<footer>
                         <hr>
+                        <{if $isLogin eq 1}>
                         <div align="center">中国联通宽带公司©版权所有</div>
-
+						<{/if}>
                     </footer>
 				</div>
 			</div>
