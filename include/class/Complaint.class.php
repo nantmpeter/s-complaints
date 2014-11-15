@@ -472,7 +472,7 @@ class Complaint extends Base {
 				if($num/$cos >= $param['wan']){
 					$tmp[$k] = $value;
 					$tmp[$k]['score'] = $num/$cos;
-					$r2Province[] = $value['province_id'];
+					$r2Province[$value['province_id']] = $value['province_id'];
 				}
 			}
 			$r = $tmp;
