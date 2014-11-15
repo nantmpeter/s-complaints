@@ -466,16 +466,16 @@ class Complaint extends Base {
 			unset($condition['AND']['wan']);
 			$r = $db->select('co_base','*,count(*) as num',$condition);	
 			$r2Province = array();
-			foreach ($r as $key => $value) {
+			foreach ($r as $k => $value) {
 				$num = $value['num'];
 				$cos = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01 -1 month')))['cos']/10000;
 				if($num/$cos >= $param['wan']){
-					$tmp[$k] = $value;
-					$tmp[$k]['score'] = $num/$cos;
+					$r[$k] = $value;
+					$r[$k]['score'] = $num/$cos;
 					$r2Province[$value['province_id']] = $value['province_id'];
 				}
 			}
-			$r = $tmp;
+
 		// }
 		
 
@@ -483,7 +483,8 @@ class Complaint extends Base {
 			unset($condition["AND"]);
 			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
 			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
-			// $condition["AND"]['province_id'] = $r2Province;
+			$condition["AND"]['province_id'] = $r2Province;
+
 			$r2 = $db->select('co_base','*,count(*) as num',$condition);
 
 			$tmp = $lastMonth = array();
