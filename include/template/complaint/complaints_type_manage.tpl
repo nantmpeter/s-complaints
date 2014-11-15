@@ -13,8 +13,8 @@
 			<thead>
 			<tr>
 				<th>#</th>
-				<th>投诉分类名称</th>
-				<th>投诉问题类型</th>
+				<th>投诉类型</th>
+				<th>投诉问题分类</th>
 				<th>关键词</th>
 				<th width="80px">操作</th>
 			</tr>
