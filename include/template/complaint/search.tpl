@@ -35,9 +35,9 @@
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 投诉类型 </label>
-			<select name="complaint_type"><option value="0">全部</option>
+			<select id="complaint_type" name="complaint_type"><option value="0">全部</option>
 			<{foreach name=complaintType from=$data.complaintType key=key item=complaintType}>
-				<option value="<{$complaintType}>" <{if $param.complaint_type == $complaintType}> selected='selected'<{/if}>><{$complaintType}></option>
+				<option value="<{$key}>" <{if $complaint_type == $key}> selected='selected'<{/if}>><{$complaintType}></option>
 			<{/foreach}>
 			</select>
 			<!-- <{$data.complaintType}> -->
@@ -46,8 +46,8 @@
 		<div style="float:left;margin-right:5px">
 
 		<label> 投诉问题分类 </label>
-			<div class="question_type">
-			<select name="question_type">
+			<div class="problem_type">
+			<select name="problem_type">
 				<option value="0">全部</option>
 			</select>				
 			</div>
@@ -65,7 +65,7 @@
 		<label> 投诉分级</label>
 			<select name="complaint_level"><option value="0">全部</option>
 			<{foreach name=complaintLevel from=$data.complaintLevel key=key item=complaintLevel}>
-				<option value="<{$complaintLevel}>" <{if $param.complaint_level == $complaintLevel}> selected='selected'<{/if}>><{$complaintLevel}></option>
+				<option value="<{$key}>" <{if $complaint_level == $key}> selected='selected'<{/if}>><{$complaintLevel}></option>
 			<{/foreach}>
 			</select>
 		</div>
@@ -158,8 +158,10 @@ $(function() {
 
 $(function(){
 	$('[name="complaint_type"]').change(function(msg){
-		$('.question_type').html($('.question'+$(this).val()).html());
+		$('.problem_type').html($('.question'+$(this).val()).html());
 	});
+	$('.problem_type').html($('.question'+$('[name="complaint_type"]').val()).html());
+
 })
 
 function updateComplaintLevelAndType()

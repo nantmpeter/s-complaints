@@ -36,7 +36,7 @@ class Info extends Base{
 		return $r;
 	}
 
-	public static function getQuestionType($class,$name,$format=false)
+	public static function getQuestionType($class,$name,$format=false,$problem_type=0)
 	{
 		$r = array(
 				1 => array(
@@ -54,21 +54,28 @@ class Info extends Base{
 						4 => '其他',
 					),
 				3 => array(
-						1 => '客户自行定制业务'
+						1 => '用户自行定制业务'
 					)
 			);
 		if(isset($r[$class])) {
 			if($format)
-				$r[$class] = self::format($r[$class],$name);
+				$r[$class] = self::format($r[$class],$name,$problem_type);
 			return $r[$class];
 		}
 	}
-
-	private static function format($result,$name) {
+	
+	private static function format($result,$name,$problem_type=0) {
 		$html = '<select name="'.$name.'"><option value="0">全部</option>';
 
 			foreach ($result as $key => $value) {
-				$html.='<option value="'.$key.'">'.$value.'</option>';
+				if($problem_type==$key)
+				{
+					$seleced="selected=selected";
+				}
+				else {
+					$seleced='';
+				}
+				$html.='<option '.$seleced.' value="'.$key.'">'.$value.'</option>';
 			}
 			$html.='</select>'; 
 			return $html;
