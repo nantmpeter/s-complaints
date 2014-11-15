@@ -412,9 +412,10 @@ class Complaint extends Base {
 		if($param['wan']) {
 			$condition['GROUP'] = 'province_id';
 			$r = $db->select('co_base','*,count(*) as num',$condition);
+
 			$tmpSort = array();
 			foreach ($r as $key => $value) {
-				$num = $r['num'];
+				$num = $value['num'];
 				$cos = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01 -1 month')))['cos']/10000;
 				if($num/$cos >= $param['wan']){
 					$tmp[$k] = $value;
@@ -1051,7 +1052,10 @@ class Complaint extends Base {
 		}
 		$condition['GROUP'] = 'm';
 
+		unset($condition['AND']['wan']);
 		$r = $db->select('co_base','count(*) as num,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
+
+
 		// if($r && $s) {
 		// 	$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
 		// 	$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
