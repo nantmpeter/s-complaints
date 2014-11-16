@@ -23,7 +23,7 @@
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 具体业务名称</label>
-			<input type="text" name="buss_name" value="<{$_GET.buss_name}>" placeholder="具体业务名称" > 
+			<input type="text" name="buss_name_detail" value="<{$_GET.buss_name_detail}>" placeholder="具体业务名称" > 
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> SP公司名称</label>
@@ -123,7 +123,7 @@
 					<td><{$data.province[$result.province_id].name}></td>
 					<td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td>
 					<td><{$result.complaint_phone}></td>
-					<td><{$result.buss_name}></td>
+					<td><{$result.buss_name_detail}></td>
 					<td><{$result.month|date_format:'%Y-%m'}></td>
 					<td><{$result.sp_name}></td>
 					<td><{$result.sp_corp_code}></td>

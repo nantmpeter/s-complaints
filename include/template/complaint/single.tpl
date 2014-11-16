@@ -79,7 +79,8 @@
 
 					<th style="width:30px">月投诉件数</th>
 					<th style="width:30px">环比增长量</th>
-					<th style="width:30px">环比增长率</th>
+                    <th style="width:30px">环比增长率</th>
+					<th style="width:30px">业务类型</th>
                 </tr>
               </thead>
               <tbody>
@@ -99,6 +100,8 @@
 					<td><{$result.num}></td>
 					<td><{$result.increase}></td>
 					<td><{$result.increasePercent|string_format:"%.2f"}>%</td>
+                    <td><{$result.buss_name}></td>
+
 					</tr>
 				<{/foreach}>
               </tbody>

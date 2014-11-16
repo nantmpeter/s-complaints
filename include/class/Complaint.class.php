@@ -215,7 +215,7 @@ class Complaint extends Base {
 		if(empty($param))
 			$param = array();
 		foreach ($param as $key => $value) {
-			if($key=='buss_name'||$key=='sp_name'||$key=='complaint_phone'||$key='part_name')
+			if($key=='buss_name'||$key=='sp_name'||$key=='complaint_phone'||$key=='part_name')
 			{
 				$condition["LIKE"]["AND"][$key] = $value;
 			}
@@ -224,6 +224,7 @@ class Complaint extends Base {
 				$condition["AND"][$key] = $value;
 			}
 		}
+
 		//如果$page_size为0表示获取所有满足条件的记录
 		if(0==$page_size)
 		{
@@ -232,6 +233,7 @@ class Complaint extends Base {
 		else {
 			$condition['LIMIT']=array($start,$page_size);
 		}
+
 		return $db->select('co_custom','*',$condition);
 	}
 
@@ -270,7 +272,7 @@ class Complaint extends Base {
 		if(empty($param))
 			$param = array();
 		foreach ($param as $key => $value) {
-			if($key=='case_id'||$key=='buss_name'||$key=='sp_name'||$key=='dispute_phone')
+			if($key=='case_id'||$key=='buss_name'||$key=='sp_name'||$key=='dispute_phone'||$key == 'complaint_time')
 			{
 				$condition["LIKE"]["AND"][$key] = $value;
 			}
@@ -1432,8 +1434,18 @@ class Complaint extends Base {
 		if(empty($param))
 			$param = array();
 		foreach ($param as $key => $value) {
-			$condition["AND"][$key] = $value;
+			if($key=='case_id'||$key=='buss_name'||$key=='sp_name'||$key=='dispute_phone'||$key == 'complaint_time')
+			{
+				$condition["LIKE"]["AND"][$key] = $value;
+			}
+			else
+			{
+				$condition["AND"][$key] = $value;
+			}
 		}
+		// foreach ($param as $key => $value) {
+		// 	$condition["AND"][$key] = $value;
+		// }
 		return $db->count('co_complaints',$condition);
 	}
 
