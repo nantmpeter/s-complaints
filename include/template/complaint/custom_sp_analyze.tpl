@@ -116,7 +116,7 @@
 
 					<td><{$data.bussLine[$result.buss_type]}></td>
 					<td><{$result.valid}></td>
-					<td><{$result.customCost|string_format:"%.2f"}></td>
+					<td><{$result.cos|string_format:"%.2f"}></td>
 					</tr>
 				<{/foreach}>
               </tbody>
