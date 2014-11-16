@@ -297,7 +297,7 @@ a.block-heading:hover,
   margin-top: 12px;
 }
 .block-body.collapse {
-  margin-top: 0em;
+  /*margin-top: 0em;*/
   margin-bottom: 0em;
 }
 /*Navigation*/
