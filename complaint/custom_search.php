@@ -50,7 +50,7 @@ if($_GET['download']==1)
 }
 $page_html=Pagination::showPager("custom_search.php?".$http_query,$page_no,PAGE_SIZE,$row_count);
 // $page_html=Pagination::showPager("custom_search.php?class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date",$page_no,PAGE_SIZE,$row_count);
-$export_excel="custom_search.php.php?download=1&".$http_query;
+$export_excel="custom_search.php?download=1&".$http_query;
 
 Template::assign("error" ,$error);
 Template::assign("_POST" ,$_POST);
