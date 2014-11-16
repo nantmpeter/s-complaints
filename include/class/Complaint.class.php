@@ -711,6 +711,7 @@ class Complaint extends Base {
 			foreach ($r as $key => $value) {
 				$num = $value['num'];
 				$cos = self::getCos(array('sp_code'=>$value['sp_corp_code'],'month'=>strtotime($s.'-01 -1 month')))['cos']/10000;
+
 				if($cos && $num/$cos >= $param['wan']){
 					$tmp[$key] = $value;
 					$tmp[$key]['score'] = $num/$cos;
