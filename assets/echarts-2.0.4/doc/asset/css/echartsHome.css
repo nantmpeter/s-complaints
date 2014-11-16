@@ -5,7 +5,7 @@
     font-family: sans-serif;
 }
 html {
-    background-color: rgb(6, 19, 37);
+    /*background-color: rgb(6, 19, 37);*/
 }
 body {
   padding-top: 50px;
@@ -138,7 +138,7 @@ hr {
 
 #footer {
     clear:both;
-    background-color: rgb(6, 19, 37);
+    /*background-color: rgb(6, 19, 37);*/
     padding: 30px 0;
 }
 #footer p {
