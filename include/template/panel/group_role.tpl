@@ -3,8 +3,6 @@
 <{include file ="sidebar.tpl"}>
 <!-- START 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
 
-
-$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 <select name="group_id" onchange="javascript:location.replace('group_role.php?group_id='+this.options[this.selectedIndex].value)" style="margin:5px 0px 0px">
 	<{html_options options=$group_option_list selected=$group_id}>
 </select>

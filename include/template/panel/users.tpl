@@ -5,8 +5,6 @@
 <!--- START 以上内容不需更改，保证该TPL页内的标签匹配即可 --->
 
 
-$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
-
 <div class="btn-toolbar" style="margin-bottom:2px;">
     <a href="user_add.php" class="btn btn-primary"><i class="icon-plus"></i> 账号</a>
 	<a data-toggle="collapse" data-target="#search"  href="#" title= "检索"><button class="btn btn-primary" style="margin-left:5px"><i class="icon-search"></i></button></a>

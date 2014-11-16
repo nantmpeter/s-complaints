@@ -3,10 +3,6 @@
 <{include file ="sidebar.tpl"}>
 <!-- TPLSTART 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
 
-
-
-$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
-
 <div class="block">
 	<a href="#page-stats" class="block-heading" data-toggle="collapse">投诉分级列表</a>
 	<div id="page-stats" class="block-body collapse in">
