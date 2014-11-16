@@ -33,7 +33,7 @@
 				<input type="text" name="part_code" value="<{$_GET.part_code}>" placeholder="SP企业代码查询" > 
 		</div>
 		<div style="float:left;margin-right:5px">
-		<label> 业务线</label>
+		<label> 业务类型</label>
 			<select name="buss_type"><option value="0">全部</option>
 			<{foreach name=bussLine from=$data.bussLine item=bussLine key=key}>
 				<option value="<{$key}>" <{if $param.buss_type == $key}> selected='selected'<{/if}>><{$bussLine}></option>
@@ -93,7 +93,7 @@
 					<th style="width:30px">不规范定制/业务收入(万元)</th>
 
 					<th style="width:30px">投诉类型</th>
-					<th style="width:30px">业务线</th>
+					<th style="width:30px">业务类型</th>
 					<th style="width:30px">认定有效量</th>
 					<th style="width:30px">不规范定制扣款</th>
 

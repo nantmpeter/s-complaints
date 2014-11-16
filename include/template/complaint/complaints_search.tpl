@@ -90,7 +90,7 @@
 					<th style="width:30px">申诉核查情况</th>
 					<!-- <th style="width:30px">处理意见</th> -->
 					<!-- <th style="width:30px">投诉类型</th> -->
-					<th style="width:30px">投诉问题分类</th>
+					<th style="width:30px">投诉类型</th>
 					<!-- <th style="width:30px">投诉分级</th> -->
 					<th style="width:30px">业务分类</th>
                 </tr>
