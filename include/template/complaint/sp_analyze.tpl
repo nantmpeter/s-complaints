@@ -28,6 +28,10 @@
 		<label> SP公司名称</label>
 				<input type="text" name="sp_name" value="<{$_GET.sp_name}>" placeholder="SP公司名称" > 
 		</div>
+        <div style="float:left;margin-right:5px">
+        <label> SP企业代码</label>
+                <input type="text" name="sp_corp_code" value="<{$_GET.sp_corp_code}>" placeholder="SP企业代码" > 
+        </div>
 
         <div style="float:left;margin-right:5px">
         <label> 业务类型</label>
