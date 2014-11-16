@@ -48,9 +48,9 @@ class Complaint extends Base {
 			// $param[6] = ExcelReader::xlsTime($param[6]);
 			$param[25] = strtotime($param[25].'01');
 			if(strtotime($month.'-01') != $param[25])
-				return true;
+				return false;
 			if($province_id != $param[0])
-				return true;
+				return false;
 
 			$tmp = array($param[3],$param[0],$param[6],$param[25],$param[5],'',1,'一年');
 			$num = $db->count('co_base',array('complaint_phone'=>$param[3]));
@@ -65,7 +65,7 @@ class Complaint extends Base {
 		if($table == 'custom') {
 			$param[29] = strtotime($param[29].'01');
 			if(strtotime($month.'-01') != $param[29])
-				return true;
+				return false;
 			$param[22] = Info::getProvinceByName($param[22]);
 			// if($province_id != $param[22])
 			// 	return true;
@@ -93,7 +93,7 @@ class Complaint extends Base {
 			// 	return true;
 			$param[47] = strtotime($param[47].'01');
 			if(strtotime($month.'-01') != $param[47])
-				return true;
+				return false;
 			$tmp = array($param[4],$param[7],$param[42],$param[47],$param[41],'',3,'永久屏蔽');
 			$sql = 'insert into co_black_list ('.$columns['black_list'].') values ("'.implode('","', $tmp).'")';
 
@@ -105,12 +105,12 @@ class Complaint extends Base {
 			// 	return true;
 			$param[13] = strtotime($param[13].'01');
 			if(strtotime($month.'-01') != $param[13])
-				return true;
+				return false;
 		}
 		if ($table == 'value_income') {
 			$param[0] = strtotime($param[0].'01');
 			if(strtotime($month.'-01') != $param[0])
-				return true;
+				return false;
 		}
 		// var_dump($param);exit;
 		$sql = "insert into co_". $table ." (".$columns[$table].") values ('".implode("','", $param)."')";

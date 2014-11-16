@@ -59,8 +59,10 @@ if (Common::isPost ()) {
 
 					foreach ($excel_array as $key => $value) {
 						$r = Complaint::save($value,$table,$date,$province_id,$record_id);
-						if(!$r)
-							$error[$_POST['table']][] = implode("','", $value);
+						if(!$r){
+							file_put_contents('../error_'.date('Y-m-d').'.log',date('Y-m-d H:i:s').' '.$_FILES['excel']['name'].' \''.implode("','", $value)."'\n",FILE_APPEND);
+							$error[$_POST['table']][] = '\''.implode("','", $value)."'<br>";
+						}
 					}
 					if (empty($error[$_POST['table']])) {
 
