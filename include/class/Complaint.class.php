@@ -471,10 +471,10 @@ class Complaint extends Base {
 			foreach ($r as $k => $value) {
 				$num = $value['num'];
 				$cos = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01 -1 month')))['cos']/10000;
-
-				if($num/$cos >= $param['wan']){
+				$score = $cos?$num/$cos:0;
+				if($score >= $param['wan']){
 					$r[$k] = $value;
-					$r[$k]['score'] = $cos?$num/$cos:0;
+					$r[$k]['score'] = $score;
 					$r2Province[$value['province_id']] = $value['province_id'];
 				}else{
 					unset($r[$k]);
