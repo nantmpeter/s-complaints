@@ -3,8 +3,8 @@
 <{include file ="sidebar.tpl"}>
 <!--- START 以上内容不需更改，保证该TPL页内的标签匹配即可 --->
 
-<{$osadmin_action_alert}>
-<{$osadmin_quick_note}>
+
+$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 
 <div style="border:0px;padding-bottom:5px;height:auto">
 	<form action="" method="GET" style="margin-bottom:0px">

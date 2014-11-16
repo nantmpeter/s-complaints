@@ -4,8 +4,8 @@
 
 <!--- START 以上内容不需更改，保证该TPL页内的标签匹配即可 --->
 
-<{$osadmin_action_alert}>
-<{$osadmin_quick_note}>
+
+$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 
 	<div class="block">
         <a href="#page-menu" class="block-heading" data-toggle="collapse">快捷菜单</a>

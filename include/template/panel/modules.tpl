@@ -3,8 +3,8 @@
 <{include file ="sidebar.tpl"}>
 <!-- TPLSTART 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
 
-<{$osadmin_action_alert}>
-<{$osadmin_quick_note}>
+
+$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 <div class="btn-toolbar">
 	<a href="module_add.php" class="btn btn-primary"><i class="icon-plus"></i> 模块</a>
 </div>
