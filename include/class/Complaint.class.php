@@ -474,7 +474,7 @@ class Complaint extends Base {
 
 				if($num/$cos >= $param['wan']){
 					$r[$k] = $value;
-					$r[$k]['score'] = $num/$cos;
+					$r[$k]['score'] = $cos?$num/$cos:0;
 					$r2Province[$value['province_id']] = $value['province_id'];
 				}else{
 					unset($r[$k]);
