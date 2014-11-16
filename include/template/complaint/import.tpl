@@ -2,10 +2,12 @@
 <{include file ="navibar.tpl"}>
 <{include file ="sidebar.tpl"}>
 <!-- TPLSTART 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+	<{if $error}>
 	<div class="error alert">
 		<{$error}>
 
 	</div>
+	<{/if}>
 	<div class="block">
 	<a href="#page-stats" class="block-heading" data-toggle="collapse">数据导入</a>
 

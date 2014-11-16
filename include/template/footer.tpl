@@ -10,9 +10,13 @@
 			</div>
 		</div>
     <script src="<{$smarty.const.ADMIN_URL}>/assets/lib/bootstrap/js/bootstrap.js"></script>
+    <script src="<{$smarty.const.ADMIN_URL}>/assets/js/jquery.pin.js"></script>
 	<script type="text/javascript">
 	$(function(){
 		$('.detail').tooltip({delay: 400});
+		// $(".table-striped thead tr").pin({
+		//       containerSelector: ".block"
+		// })
 	})
 	</script>
 <!--- + -快捷方式的提示 --->
