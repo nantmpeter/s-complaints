@@ -1,8 +1,8 @@
 <?php 
 header("Content-Type:text/html;charset=utf-8");
 require ('../include/init.inc.php');
-$arr = array('start_date','end_date','province_id','buss_name','part_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_line','sp_code','month','complaint_status','appeal_status','buss_type');
-$start_date = $end_date = $page_no = $province_id = $buss_name = $part_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_line = $sp_code =$start_date = $end_date = $month = $complaint_status = $appeal_status = $buss_type = "";
+$arr = array('start_date','end_date','province_id','buss_name','part_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_line','sp_code','month','complaint_status','appeal_status','buss_type','part_code');
+$start_date = $end_date = $page_no = $province_id = $buss_name = $part_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_line = $sp_code =$start_date = $end_date = $month = $complaint_status = $appeal_status = $buss_type = $part_code = "";
 
 extract ( $_GET, EXTR_IF_EXISTS );
 $user_info = UserSession::getSessionInfo();
