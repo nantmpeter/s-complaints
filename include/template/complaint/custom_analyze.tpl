@@ -126,7 +126,7 @@
 					<td><{$result.complaint_level}></td> -->
 					<td><{$data.bussLine[$result.buss_type]}></td>
 					<td><{$result.valid}></td>
-					<td><{$result.cos}></td>
+					<td><{$result.cos|string_format:"%.2f"}></td>
 					<!-- <td style = "word-break: break-all; word-wrap:break-word;"><{$result.result}></td> -->
 					<!-- <td><{$result.op_time}></td> -->
 					</tr>
