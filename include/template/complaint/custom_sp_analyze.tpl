@@ -95,7 +95,7 @@
 					<th style="width:30px">投诉类型</th>
 					<th style="width:30px">业务类型</th>
 					<th style="width:30px">认定有效量</th>
-					<th style="width:30px">不规范定制扣款</th>
+					<th style="width:30px">不规范定制扣款(万元)</th>
 
                 </tr>
               </thead>

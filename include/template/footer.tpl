@@ -14,7 +14,7 @@
 	<script type="text/javascript">
 	$(function(){
 		$('.detail').tooltip({delay: 400});
-		// $(".table-striped thead tr").pin({
+		// $(".table-striped thead").pin({
 		//       containerSelector: ".block"
 		// })
 	})

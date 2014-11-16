@@ -91,7 +91,7 @@
 					<th style="width:30px">申诉成功</th>
 					<th style="width:30px">申诉失败</th>
 					<th style="width:30px">未申诉量</th>
-					<th style="width:30px">不规范定制万投比</th>
+					<th style="width:30px">不规范定制万投比(万元)</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
 					<!-- <th style="width:30px">处理意见</th> -->
@@ -100,7 +100,7 @@
 					<th style="width:30px">投诉分级</th> -->
 					<th style="width:30px">业务类型</th>
 					<th style="width:30px">认定有效量</th>
-					<th style="width:30px">不规范定制扣款</th>
+					<th style="width:30px">不规范定制扣款(万元)</th>
                 </tr>
               </thead>
               <tbody>
