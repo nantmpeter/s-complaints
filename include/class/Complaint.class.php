@@ -10,7 +10,7 @@ class Complaint extends Base {
 	private static $complaints = "complaints_id,case_id,user_name,phone,dispute_phone,address,about_corp,corp_area,type_one,type_two,type_three,buss_one,buss_two,buss_three,buss_four,complaint_source,comfirm_user,complaint_time,get_time,handle_time,complaint_content,complaint10010,10010status,complaint10015,10015status,complaint_status,problem,problem_type,contact_element,element,buss_type,product_type,problem_channel,service_need,buss_way,netproblem,phoneproblem,vipuser,partment,buss_class,complaint_num,sp_corp_name,sp_corp_code,sp_code,buss_name,complaint_class,buss_line,month,record_id";
 	private static $income = "province_id,sp_name,sp_code,buss_type,province_income,sp_income,owe,tuipei_cost,imbalance_cost,20_cost,diaozhang_cost,violate_cost,custom_cost,month,mastsp_code,mastsp_cost,mastsp_sleave,record_id";
 	private static $value_income = "month,buss_type,value,custom_cost,record_id";
-	private static $black_list = "complaint_phone,province_id,sp_corp_code,month,sp_corp_name,complaint_phone_tag,level,time_limit,record_id";
+	private static $black_list = "complaint_phone,province_id,sp_corp_code,month,sp_corp_name,complaint_phone_tag,level,time_limit";
 
 	public static function getTableName(){
 		return parent::$table_prefix.self::$table_name;
@@ -60,7 +60,7 @@ class Complaint extends Base {
 			}
 			$sql = 'insert into co_black_list ('.$columns['black_list'].') values ("'.implode('","', $tmp).'")';
 			if($param[3])
-				$db->query($sql);
+				$r = $db->query($sql);
 		}
 		if($table == 'custom') {
 			$param[29] = strtotime($param[29].'01');
