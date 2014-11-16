@@ -49,7 +49,8 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$data['chartWan'] = implode(',', $tmp['wan']);
 	}
 	$row_count = 20;
-
+	if($wan)
+		$row_count = count($data['result']);
 	// $data['month'] = Complaint::customAnalayzeMonth($param);
 
 	// $data['provinces'] = Complaint::customAnalayzeArea($param);

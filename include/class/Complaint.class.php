@@ -707,10 +707,21 @@ class Complaint extends Base {
 		unset($condition['AND']['wan']);
 		$r = $db->select('co_base','*,count(*) as num',$condition);
 
+
+		if(isset($param['province_id']) && $param['province_id']){
+			$cosCondition['province_id']=$param['province_id'];
+		}else{
+			$province = $db->select('co_base','province_id',array('AND'=>array('month'=>strtotime($s.'-01')),'GROUP'=>'province_id'));
+
+			foreach ($province as $k => $v) {
+				$cosCondition['province_id'][] = $v['province_id'];
+			}
+
+		}
 		if($param['wan']) {
 			foreach ($r as $key => $value) {
 				$num = $value['num'];
-				$cos = self::getCos(array('sp_code'=>$value['sp_corp_code'],'month'=>strtotime($s.'-01 -1 month')))['cos']/10000;
+				$cos = self::getCos(array('sp_code'=>$value['sp_corp_code'],'month'=>strtotime($s.'-01 -1 month'))+$cosCondition)['cos']/10000;
 
 				if($cos && $num/$cos >= $param['wan']){
 					$tmp[$key] = $value;
@@ -734,20 +745,10 @@ class Complaint extends Base {
 			foreach ($r as $key => $value) {
 				$t = isset($tmp[$value['sp_name']])?$tmp[$value['sp_name']]:0;
 
-				$cosCondition = array('sp_name'=>$value['sp_name'],'month'=>strtotime($s.'-01'));
+				// $cosCondition = array('sp_name'=>$value['sp_name'],'month'=>strtotime($s.'-01'));
 
-				if(isset($param['province_id']) && $param['province_id']){
-					$cosCondition['province_id']=$param['province_id'];
-				}else{
-					$province = $db->select('co_base','province_id',array('AND'=>array('month'=>strtotime($s.'-01')),'GROUP'=>'province_id'));
-					// $a = $db->query('SELECT `province_id` FROM `co_base` GROUP BY `province_id`')->fetchAll();
-					foreach ($province as $k => $v) {
-						$cosCondition['province_id'][] = $v['province_id'];
-					}
-					// $cosCondition['province_id'] = implode(',', $cosCondition['province_id']);
-				}
 
-				$r[$key]['cos'] = self::getCos($cosCondition)['cos']/10000;
+				$r[$key]['cos'] = self::getCos(array('sp_code'=>$value['sp_corp_code'],'month'=>strtotime($s.'-01 -1 month'))+$cosCondition)['cos']/10000;
 
 				if($r[$key]['cos']){
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
