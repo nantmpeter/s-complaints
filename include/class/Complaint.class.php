@@ -444,7 +444,7 @@ class Complaint extends Base {
 		// 	}
 		// 	$r = $tmp;
 		// }else{
-			unset($param['wan']);
+			// unset($param['wan']);
 
 			if(empty($param))
 				$param = array();
@@ -471,10 +471,13 @@ class Complaint extends Base {
 			foreach ($r as $k => $value) {
 				$num = $value['num'];
 				$cos = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01 -1 month')))['cos']/10000;
+
 				if($num/$cos >= $param['wan']){
 					$r[$k] = $value;
 					$r[$k]['score'] = $num/$cos;
 					$r2Province[$value['province_id']] = $value['province_id'];
+				}else{
+					unset($r[$k]);
 				}
 			}
 
