@@ -91,6 +91,7 @@
 					<th style="width:30px">申诉成功</th>
 					<th style="width:30px">申诉失败</th>
 					<th style="width:30px">未申诉量</th>
+                    <th style="width:30px">省份应收(万元)</th>
 					<th style="width:30px">不规范定制万投比(万元)</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
@@ -99,7 +100,7 @@
 				<!-- 	<th style="width:30px">投诉问题分类</th>
 					<th style="width:30px">投诉分级</th> -->
 					<th style="width:30px">业务类型</th>
-					<th style="width:30px">认定有效量</th>
+                    <th style="width:30px">认定有效量</th>
 					<th style="width:30px">不规范定制扣款(万元)</th>
                 </tr>
               </thead>
@@ -116,6 +117,7 @@
 					<td><{$result.appealSuc}></td>
 					<td><{$result.appealFail}></td>
 					<td><{$result.appealNot}></td>
+                    <td><{$result.cos|string_format:"%.2f"}></td>
 					<td><{$result.wan|string_format:"%.2f"}></td>
 
 					<!-- <td><{$result.sp_code}></td> -->
@@ -126,7 +128,7 @@
 					<td><{$result.complaint_level}></td> -->
 					<td><{$data.bussLine[$result.buss_type]}></td>
 					<td><{$result.valid}></td>
-					<td><{$result.cos|string_format:"%.2f"}></td>
+					<td><{$result.customCost|string_format:"%.2f"}></td>
 					<!-- <td style = "word-break: break-all; word-wrap:break-word;"><{$result.result}></td> -->
 					<!-- <td><{$result.op_time}></td> -->
 					</tr>
