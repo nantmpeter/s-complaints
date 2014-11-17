@@ -5,7 +5,6 @@
 <div class="block">
 	<a href="#page-stats" class="block-heading" data-toggle="collapse">读取Excel.xls</a>
 	<div id="page-stats" class="block-body collapse in" style="width:97%">
-$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 	
 	<form id="tab" method="post" action="" autocomplete="off" ENCTYPE="multipart/form-data">
 				<hr />

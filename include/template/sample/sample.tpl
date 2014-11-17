@@ -5,7 +5,6 @@
 <div class="block">
 	<a href="#page-stats" class="block-heading" data-toggle="collapse">图表</a>
 	<div id="page-stats" class="block-body collapse in" style="width:97%">
-$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 	<table class="table table-striped">
 			<thead>
 			<tr>
