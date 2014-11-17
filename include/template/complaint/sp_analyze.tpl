@@ -224,7 +224,7 @@ option = {
         trigger: 'axis'
     },
     legend: {
-        data:['投诉数']
+        data:['投诉量']
     },
     toolbox: {
         show : true,
@@ -250,7 +250,7 @@ option = {
     ],
     series : [
         {
-            name:'投诉数',
+            name:'投诉量',
             type:'bar',
             data:[<{$data.chartValue}>],
             markPoint : {

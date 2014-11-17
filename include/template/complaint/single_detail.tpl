@@ -172,7 +172,7 @@ option = {
     ],
     series : [
         {
-            name:'投诉量',
+            name:'收入比',
             type:'bar',
             data:[<{$data.value}>],
             markPoint : {

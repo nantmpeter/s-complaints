@@ -233,7 +233,7 @@ option = {
         trigger: 'axis'
     },
     legend: {
-        data:['短彩信数']
+        data:['投诉量']
     },
     toolbox: {
         show : true,
@@ -259,7 +259,7 @@ option = {
     ],
     series : [
         {
-            name:'短彩信数',
+            name:'投诉量',
             type:'bar',
             data:[<{$data.month}>],
             markPoint : {
@@ -391,7 +391,7 @@ option = {
         trigger: 'axis'
     },
     legend: {
-        data:['投诉量']
+        data:['万投比']
     },
     toolbox: {
         show : true,
@@ -417,7 +417,7 @@ option = {
     ],
     series : [
         {
-            name:'投诉量',
+            name:'万投比',
             type:'bar',
             data:[<{$data.baseTwoMonthWanVal}>],
             markPoint : {
