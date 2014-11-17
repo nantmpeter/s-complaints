@@ -12,7 +12,7 @@
 	<a href="#page-stats" class="block-heading" data-toggle="collapse">数据导入</a>
 
 	<div id="page-stats" class="block-body collapse in">
-	<a href="">新增报表</a>
+
 		<form id="tab" method="post" action="" autocomplete="off" ENCTYPE="multipart/form-data">
 				<hr />
 				<div style="float:left;margin-right:5px">
