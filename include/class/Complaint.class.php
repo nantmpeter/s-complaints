@@ -721,7 +721,7 @@ class Complaint extends Base {
 		if($param['wan']) {
 			foreach ($r as $key => $value) {
 				$num = $value['num'];
-				$cos = self::getCos(array('sp_code'=>$value['sp_corp_code'],'month'=>strtotime($s.'-01 -1 month'))+$cosCondition)['cos']/10000;
+				$cos = self::getCos(array('sp_code'=>$value['sp_corp_code'],'month'=>strtotime($s.'-01'))+$cosCondition)['cos']/10000;
 
 				if($cos && $num/$cos >= $param['wan']){
 					$tmp[$key] = $value;
@@ -748,7 +748,7 @@ class Complaint extends Base {
 				// $cosCondition = array('sp_name'=>$value['sp_name'],'month'=>strtotime($s.'-01'));
 
 
-				$r[$key]['cos'] = self::getCos(array('sp_code'=>$value['sp_corp_code'],'month'=>strtotime($s.'-01 -1 month'))+$cosCondition)['cos']/10000;
+				$r[$key]['cos'] = self::getCos(array('sp_code'=>$value['sp_corp_code'],'month'=>strtotime($s.'-01'))+$cosCondition)['cos']/10000;
 
 				if($r[$key]['cos']){
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
