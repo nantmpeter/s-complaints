@@ -326,7 +326,6 @@ class Complaint extends Base {
 	}
 
 	public static function customAnalayze($param,$start = 0,$page_size=20){
-
 		$db=self::__instance();
 		if($param['start_date']){
 			$s = $param['start_date'];
@@ -394,7 +393,8 @@ class Complaint extends Base {
 				$r[$key]['appealNot'] = $r[$key]['num'] - $r[$key]['appealSuc'] - $r[$key]['appealFail'];
 				// $r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))));
 				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01')))['cos']/10000;
-				$r[$key]['customCost'] = $db->get('co_income','sum(custom_cost) as cos',array('AND'=>array('sp_name'=>$value['part_name'],'month'=>strtotime($s.'-01'))))['cos']/10000;
+				//'sp_name'=>$param['part_name'],
+				$r[$key]['customCost'] = $db->get('co_income','sum(custom_cost) as cos',array('AND'=>array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01'))))['cos']/10000;
 
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
@@ -414,6 +414,7 @@ class Complaint extends Base {
 	{
 		if(isset($params['province_id']) && $params['province_id'] == 0)
 			unset($params['province_id']);
+
 		$db=self::__instance();
 		$r = $db->get('co_income','sum(province_income) as cos',array('AND'=>$params));
 		// echo $db->last_query();
