@@ -769,6 +769,67 @@ class Complaint extends Base {
 		return $r;
 	}
 
+	public static function baseSpAnalayzeCount($param)
+	{
+		$db=self::__instance();
+		if(!$param['start_date']){
+			$param['start_date'] = date('Y-m');
+		}
+		$s = $param['start_date'];
+		$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<=]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			unset($param['start_date'],$param['end_date']);	
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			if($key=='buss_name'||$key=='sp_name')
+			{
+				$condition["LIKE"]["AND"][$key] = $value;
+			}
+			else
+			{
+				$condition["AND"][$key] = $value;
+			}
+		}
+		$condition['GROUP'] = 'sp_name';
+		// $condition['ORDER'] = 'num desc';
+		//如果$page_size为0表示获取所有满足条件的记录
+
+		unset($condition['AND']['wan']);
+		$r = $db->select('co_base','*,count(*) as num',$condition);
+		return count($r);
+
+	}
+
+	public static function complaintsSpAnalayzeCount($param)
+	{
+		$db=self::__instance();
+		if($param['start_date']){
+			$s = $param['start_date'];
+
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<=]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			unset($param['start_date'],$param['end_date']);	
+		}
+			// $condition["AND"]['month[>=]'] = '1406822401';
+
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			if($key=='buss_name'||$key=='sp_name')
+			{
+				$condition["LIKE"]["AND"][$key] = $value;
+			}
+			else
+			{
+				$condition["AND"][$key] = $value;
+			}
+		}
+		$condition['GROUP'] = 'sp_corp_name';
+		$r = $db->select('co_complaints','*,count(*) as num',$condition);
+		return count($r);
+	}
+
 	public static function complaintsSpAnalayze($param,$start = 0,$page_size=20){
 
 		$db=self::__instance();
@@ -833,6 +894,34 @@ class Complaint extends Base {
 			}
 		}
 		return $r;
+	}
+
+	public static function customSingleCount($param)
+	{
+		$db=self::__instance();
+		if($param['start_date']){
+			$s = $param['start_date'];
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			unset($param['start_date'],$param['end_date']);	
+		}
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			if($key=='buss_name'||$key=='sp_name')
+			{
+				$condition["LIKE"]["AND"][$key] = $value;
+			}
+			else
+			{
+				$condition["AND"][$key] = $value;
+			}
+		}
+		$condition['GROUP'] = 'buss_name';
+		// var_dump($condition);
+		unset($condition['AND']['wan']);
+		$r = $db->select('co_custom','*,count(*) as num',$condition);
+		return count($r);
 	}
 
 	public static function customSingle($param,$start = 0,$page_size=20){
@@ -911,6 +1000,34 @@ class Complaint extends Base {
 		return $r;
 	}
 
+	public static function baseSingleCount($param)
+	{
+		$db=self::__instance();
+
+		if($param['start_date']){
+			$s = $param['start_date'];
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			unset($param['start_date'],$param['end_date']);	
+		}
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			if($key=='buss_name'||$key=='sp_name')
+			{
+				$condition["LIKE"]["AND"][$key] = $value;
+			}
+			else
+			{
+				$condition["AND"][$key] = $value;
+			}
+		}
+		$condition['GROUP'] = 'buss_name_detail';
+
+		$r = $db->select('co_base','*,count(*) as num',$condition);
+		return count($r);
+	}
+
 		public static function baseSingle($param,$start = 0,$page_size=20){
 
 		$db=self::__instance();
@@ -964,6 +1081,32 @@ class Complaint extends Base {
 			}
 		}
 		return $r;
+	}
+
+	public static function complaintsSingleCount($param)
+	{
+		$db=self::__instance();
+		if($param['start_date']){
+			$s = $param['start_date'];
+			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			unset($param['start_date'],$param['end_date']);	
+		}
+		if(empty($param))
+			$param = array();
+		foreach ($param as $key => $value) {
+			if($key=='buss_name'||$key=='sp_name')
+			{
+				$condition["LIKE"]["AND"][$key] = $value;
+			}
+			else
+			{
+				$condition["AND"][$key] = $value;
+			}
+		}
+		$condition['GROUP'] = 'buss_name';
+		$r = $db->select('co_complaints','*,count(*) as num',$condition);
+		return count($r);
 	}
 
 	public static function complaintsSingle($param,$start = 0,$page_size=20){

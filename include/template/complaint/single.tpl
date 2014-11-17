@@ -107,7 +107,7 @@
               </tbody>
             </table>
 				<!--- START 分页模板 -->
-               <!-- <{$page_html}> -->
+               <{$page_html}>
 			   <!--- END -->
         </div>
         <{else}>
@@ -168,6 +168,7 @@
 
     </style>
 
+    <{if $smarty.get.page_no < 2}>
     
     <div class="container-fluid" idx='0' style="padding:0;">
         <div class="row-fluid">
@@ -240,7 +241,7 @@ option = {
         </div><!--/row-->
     </div><!--/.fluid-container-->
     
-    
+    <{/if}>
     <script src="<{$smarty.const.ADMIN_URL}>/assets/echarts-2.0.4/doc/asset/js/all.js"></script>
          
 

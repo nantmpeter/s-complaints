@@ -8,7 +8,9 @@ extract ( $_GET, EXTR_IF_EXISTS );
 $user_info = UserSession::getSessionInfo();
 $province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
+$http_query = '';
 foreach ($arr as $key => $value) {
+     $http_query .= $value.'='.$$value.'&';
 
 	if($$value) {
 		$param[$value] = $$value;
@@ -43,7 +45,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$data['chartValue'] = implode(',', $tmp['value']);
 		$data['chartWan'] = implode(',', $tmp['wan']);
 	}
-	$row_count = 20;
+	$row_count = Complaint::complaintsSpAnalayzeCount($param);
 
 	// $data['month'] = Complaint::customAnalayzeMonth($param);
 
@@ -72,8 +74,11 @@ if($_GET['download']==1)
 	Common::exportExcel($downloadStr,'black_list') ;
 	exit;
 }
-$page_html=Pagination::showPager("custom_sp_analyze.php?class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date",$page_no,PAGE_SIZE,$row_count);
-$export_excel="complaints_sp_analyze.php?download=1&class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date";
+$page_html=Pagination::showPager("complaints_sp_analyze.php?".$http_query,$page_no,PAGE_SIZE,$row_count);
+$export_excel="complaints_sp_analyze.php?download=1&".$http_query;
+
+// $page_html=Pagination::showPager("custom_sp_analyze.php?class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date",$page_no,PAGE_SIZE,$row_count);
+// $export_excel="complaints_sp_analyze.php?download=1&class_name=$class_name&user_name=$user_name&start_date=$start_date&end_date=$end_date";
 
 Template::assign("error" ,$error);
 Template::assign("_POST" ,$_POST);
