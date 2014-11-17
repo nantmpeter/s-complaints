@@ -11,7 +11,8 @@
 	<div class="block">
 	<a href="#page-stats" class="block-heading" data-toggle="collapse">数据导入</a>
 
-	<div id="page-stats" class="block-body collapse in">
+	<div id="page-stats" class="block-body collapse in" style="width:97%">
+$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 
 		<form id="tab" method="post" action="" autocomplete="off" ENCTYPE="multipart/form-data">
 				<hr />
@@ -56,7 +57,8 @@
 		</form>
 	</div>
 
-	<div id="page-stats" class="block-body collapse in">
+	<div id="page-stats" class="block-body collapse in" style="width:97%">
+$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 		<form id="tab" method="get" action="" autocomplete="off">
 				<hr />
 				<div style="float:left;margin-right:5px">
@@ -93,7 +95,8 @@
 	<div class="block">
 		<a style="float:right;padding:10px;" href="<{$export_excel}>" target="" >导出excel</a>
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
-        <div id="page-stats" class="block-body collapse in">
+        <div id="page-stats" class="block-body collapse in" style="width:97%">
+$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
                <table class="table table-striped">
               <thead>
                 <tr>
@@ -117,7 +120,8 @@
 		</div>
 	</div>
 
-	<!-- <div id="page-stats" class="block-body collapse in">
+	<!-- <div id="page-stats" class="block-body collapse in" style="width:97%">
+$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 	
 	<form id="tab" method="post" action="" autocomplete="off" ENCTYPE="multipart/form-data">
 				<hr />
@@ -139,7 +143,8 @@
 		</pre>
 		<{/if}>
 	</div>
-	<div id="page-stats" class="block-body collapse in">
+	<div id="page-stats" class="block-body collapse in" style="width:97%">
+$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 	
 	<form id="tab" method="post" action="" autocomplete="off" ENCTYPE="multipart/form-data">
 				<hr />
@@ -161,7 +166,8 @@
 		</pre>
 		<{/if}>
 	</div>
-	<div id="page-stats" class="block-body collapse in">
+	<div id="page-stats" class="block-body collapse in" style="width:97%">
+$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 	
 	<form id="tab" method="post" action="" autocomplete="off" ENCTYPE="multipart/form-data">
 				<hr />
@@ -184,7 +190,8 @@
 		<{/if}>
 	</div>
 
-	<div id="page-stats" class="block-body collapse in">
+	<div id="page-stats" class="block-body collapse in" style="width:97%">
+$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 	
 	<form id="tab" method="post" action="" autocomplete="off" ENCTYPE="multipart/form-data">
 				<hr />
@@ -207,7 +214,8 @@
 		<{/if}>
 	</div>
 
-	<div id="page-stats" class="block-body collapse in">
+	<div id="page-stats" class="block-body collapse in" style="width:97%">
+$province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 	
 	<form id="tab" method="post" action="" autocomplete="off" ENCTYPE="multipart/form-data">
 				<hr />
