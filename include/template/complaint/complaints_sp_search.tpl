@@ -102,7 +102,7 @@
 					<td><{$result.month|date_format:'%Y-%m'}></td>
 					<td><{$data.province[$result.corp_area]['name']}></td>
 					<td><{$result.case_id}></td>
-					<td><{$result.complaint_time|date_format:'%Y-%m-%d'}></td>
+					<td><{$result.complaint_time}></td>
 					<td><{$result.phone}></td>
 					<!-- <td><{$result.product_type}></td> -->
 					<td><{$result.buss_name}></td>
