@@ -97,7 +97,7 @@
 					<th style="width:30px">全国投诉占比</th>
 					<th style="width:30px">sp应收(万元)</th>
 
-					<th style="width:30px">sp万投比(万元)</th>
+					<th style="width:30px">sp万投比</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
 					<!-- <th style="width:30px">处理意见</th> -->
