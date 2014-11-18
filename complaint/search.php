@@ -79,15 +79,15 @@ if($method=='updateComplaintLevelAndType' && $start_date!='')
 					{
 						if($v['complaint_content']!=''&&mb_strpos($v['complaint_content'], $v4,0,'utf8')!==false)
 						{
-							$complaint_type=$v1['complaints_type'];
-							$problem_type=$v1['complaints_problem_type'];
+							$complaint_type=$v3['complaints_type'];
+							$problem_type=$v3['complaints_problem_type'];
 							$find_type=1;
 							break;
 						}
 						if($v['suggestion']!=''&&mb_strpos($v['suggestion'], $v4,0,'utf8')!==false)
 						{
-							$complaint_type=$v1['complaints_type'];
-							$problem_type=$v1['complaints_problem_type'];
+							$complaint_type=$v3['complaints_type'];
+							$problem_type=$v3['complaints_problem_type'];
 							$find_type=1;
 							break;
 						}
