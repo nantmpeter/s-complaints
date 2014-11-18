@@ -8,7 +8,7 @@
   <li>
     <a href="/complaint/custom_analyze.php">全国不规范定制发展趋势及各省分布情况</a>
   </li>
-  <li class="active"><a href="/complaint/custom_analyze2.php">全国不规范定制件数/各省业务收入</a></li>
+  <li class="active"><a href="/complaint/custom_analyze2.php">全国不规范定制万投比</a></li>
 </ul>
 	<form action="" method="GET" style="margin-bottom:0px">
 		<div style="float:left;margin-right:5px">
@@ -92,7 +92,7 @@
 					<th style="width:30px">申诉成功</th>
 					<th style="width:30px">申诉失败</th>
 					<th style="width:30px">未申诉量</th>
-					<th style="width:30px">不规范定制/业务收入(万)</th>
+					<th style="width:30px">不规范定制万投比</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
 					<!-- <th style="width:30px">处理意见</th> -->

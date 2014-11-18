@@ -8,7 +8,7 @@
   <li>
     <a href="/complaint/analyze.php">全国发展趋势及各省分布情况</a>
   </li>
-  <li class="active"><a href="/complaint/analyze2.php">全国各省投诉量/各省业务收入</a></li>
+  <li class="active"><a href="/complaint/analyze2.php">全国各省万投比</a></li>
 </ul>
 	<form action="" method="GET" style="margin-bottom:0px">
 		<div style="float:left;margin-right:5px">
@@ -35,7 +35,7 @@
 				<input type="text" name="sp_name" value="<{$_GET.sp_name}>" placeholder="SP公司名称" > 
 		</div>
 		<div style="float:left;margin-right:5px">
-		<label> 业务线</label>
+		<label> 业务类型</label>
 			<select name="buss_type"><option value="0">全部</option>
 			<{foreach name=bussLine from=$data.bussLine item=bussLine key=key}>
 				<option value="<{$key}>" <{if $param.buss_type == $key}> selected='selected'<{/if}>><{$bussLine}></option>
@@ -90,7 +90,7 @@
 					<th >环比增长率</th>
 					<th >省分应收(万元)</th>
 
-					<th >投诉量/业务收入(万元)</th>
+					<th >万投比</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
 					<!-- <th style="width:30px">处理意见</th> -->

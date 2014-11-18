@@ -90,7 +90,7 @@
 					<th style="width:30px">申诉成功</th>
 					<th style="width:30px">申诉失败</th>
 					<th style="width:30px">未申诉量</th>
-					<th style="width:30px">不规范定制/业务收入(万元)</th>
+					<th style="width:30px">不规范定制万投比</th>
 
 					<th style="width:30px">投诉类型</th>
 					<th style="width:30px">业务类型</th>
