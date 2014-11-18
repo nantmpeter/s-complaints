@@ -293,6 +293,21 @@ class Complaint extends Base {
 		return $r;
 	}
 	
+	public static function updateComplaintProblemType($id,$update_data)
+	{
+		if (! $update_data || ! is_array ( $update_data )) {
+			return false;
+		}
+		$db=self::__instance();
+		$condition=array("id"=>$id);
+		$id = $db->update ( 'co_complaints', $update_data,$condition );
+		//var_dump($db->last_query());exit;
+		return $id;
+	
+	
+	}
+	
+	
 	public static function complaintsSpSearch($param,$start = 0,$page_size=20){
 		$db=self::__instance();
 		if($param['start_date']){

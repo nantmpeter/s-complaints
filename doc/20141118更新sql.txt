@@ -1,0 +1,10 @@
+ALTER TABLE `co_base`
+MODIFY COLUMN `update_complaint_level_and_type`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '2014-01-01' COMMENT '更新投诉分级和投诉分类的标记' AFTER `month`;
+
+
+
+
+ALTER TABLE `co_complaints`
+ADD COLUMN `update_complaint_problem_type`  varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '2014-01-01' COMMENT '更新投诉分级和投诉分类的标记' AFTER `record_id`,
+ADD COLUMN `complaints_problem_type`  varchar(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '投诉问题类型' AFTER `update_complaint_problem_type`;
+

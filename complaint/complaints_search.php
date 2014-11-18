@@ -3,11 +3,86 @@ header("Content-Type:text/html;charset=utf-8");
 require ('../include/init.inc.php');
 $arr = array('start_date','end_date','corp_area','buss_name','sp_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_type','sp_code','case_id','complaint_time','dispute_phone','sp_corp_name','buss_class','appeal_date');
 $start_date = $end_date = $page_no = $corp_area = $buss_name = $sp_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_type = $sp_code =$start_date = $end_date = $case_id = $complaint_time = $dispute_phone = $sp_corp_name = $buss_class = $appeal_date = "";
+$method=$start_date='';
 
-extract ( $_GET, EXTR_IF_EXISTS );
+extract ( $_REQUEST, EXTR_IF_EXISTS );
 $user_info = UserSession::getSessionInfo();
 $province_id = $user_info['province_id']?$user_info['province_id']:$province_id;
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
+
+
+//var_dump($method,$start_date);exit;
+if($method=='updateComplaintProblemType' && $start_date!='')
+{
+	set_time_limit(0);
+	
+	$complaints_types=Complaint::getAllComplaintsType();
+	//一天只能被更新一次
+	$curDate=date('Y-m-d');
+	$complaints=Complaint::complaintsSearch(array('start_date'=>$start_date,
+				"update_complaint_problem_type[!]"=>$curDate),0,100);
+
+	$successNum=0;
+	while($complaints&&count($complaints)>0)
+	{
+		foreach($complaints as $k=>$v)
+		{
+			
+			$complaints_problem_type='用户自行定制业务';
+			$find_type=0;
+			if($v['complaint_content']!='')
+			{
+				
+				foreach($complaints_types as $k3=>$v3)
+				{
+					if($v3['keywords']=='')
+					{
+						continue;
+					}
+					$keywordArr=explode('|', $v3['keywords']);
+					
+					
+					foreach($keywordArr as $v4)
+					{
+						if($v['complaint_content']!=''&&mb_strpos($v['complaint_content'], $v4,0,'utf8')!==false)
+						{
+							$complaints_problem_type=$v1['complaints_problem_type'];
+							$find_type=1;
+							break;
+						}
+						
+					}
+					if($find_type==1)
+					{
+						break;
+					}
+				}
+			}
+			
+			$update_complaint_problem_type=$curDate;
+			$ret=Complaint::updateComplaintProblemType($v['id'],
+					array(
+						"complaints_problem_type"=>$complaints_problem_type,
+						"update_complaint_problem_type"=>$update_complaint_problem_type));
+			if($ret>0)
+			{
+				$successNum++;
+			}
+			
+		}
+		
+		$complaints=Complaint::complaintsSearch(array('start_date'=>$start_date,
+				"update_complaint_problem_type[!]"=>$curDate),0,100);
+		if($successNum>900)
+		{
+			$complaints=false;
+		}
+	}
+	
+	echo "更新成功".$successNum."个";exit;
+}
+
+
 $http_query = '';
 foreach ($arr as $key => $value) {
 	$http_query .= $value.'='.$$value.'&';

@@ -37,7 +37,7 @@ if($method=='updateComplaintLevelAndType' && $start_date!='')
 				{
 					if($v1['keywords']=='')
 					{
-						break;
+						continue;
 					}
 					$keywordArr=explode('|', $v1['keywords']);
 					foreach($keywordArr as $v2)
@@ -61,7 +61,7 @@ if($method=='updateComplaintLevelAndType' && $start_date!='')
 					}
 				}
 			}
-			$complaint_type='用户愿意';
+			$complaint_type='用户原因';
 			$problem_type='用户自行定制业务';
 			$find_type=0;
 			if($v['complaint_content']!=''||$v['suggestion']!='')
@@ -70,7 +70,7 @@ if($method=='updateComplaintLevelAndType' && $start_date!='')
 				{
 					if($v3['keywords']=='')
 					{
-						break;
+						continue;
 					}
 					$keywordArr=explode('|', $v3['keywords']);
 					
