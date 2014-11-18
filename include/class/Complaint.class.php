@@ -1511,7 +1511,6 @@ class Complaint extends Base {
 				$tmpProvince[$value['province_id']] = $value['num']/$r[$key]['cos'];
 		}
 		return $tmpProvince;
-		return implode(',', $tmpProvince);
 	}
 
 

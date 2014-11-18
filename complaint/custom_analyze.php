@@ -36,6 +36,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	$data['month'] = Complaint::customAnalayzeMonth($param);
 
 	$data['provinces'] = Complaint::customAnalayzeArea($param);
+
 	// $tmp = explode(',', $data['provinces']);
 	$province = Info::getProvince();
 
