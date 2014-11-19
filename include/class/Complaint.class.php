@@ -2216,6 +2216,17 @@ class Complaint extends Base {
 
 		return $r;
 	}
+	
+	public static function getCustomTotal($month,$province_id)
+	{
+		$db=self::__instance();
+		$condition = array('AND'=>array('month'=>$month));
+		if($province_id)
+			$condition['AND']['province_id']=$province_id;
+		$r = ceil($db->sum('co_custom','complaint_total',$condition));
+
+		return $r;
+	}
 
 	public static function getImprotData($date,$table)
 	{

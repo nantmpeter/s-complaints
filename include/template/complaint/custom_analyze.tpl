@@ -133,6 +133,23 @@
 					<!-- <td><{$result.op_time}></td> -->
 					</tr>
 				<{/foreach}>
+                <tr>
+                    <td>总计</td>
+                    <!-- <td><{$result.order_time|date_format:'%Y-%m-%d %H:%M:%S'}></td> -->
+                    <!-- <td><{$result.complaint_phone}></td> -->
+                    <!-- <td><{$result.buss_name}></td> -->
+                    <td><{$data.total.num}></td>
+                    <td><{$data.total.increase}></td>
+                    <td><{if ($data.total.num-$data.total.increase)}><{($data.total.increase/($data.total.num-$data.total.increase)*100)|string_format:"%.2f"}><{else}>0.00<{/if}>%</td>
+                    <td><{$data.total.suc}></td>
+                    <td><{$data.total.fail}></td>
+                    <td><{$data.total.not}></td>
+                    <td><{$data.total.cos|string_format:"%.2f"}></td>
+                    <td><{if $data.total.cos}><{($data.total.num/$data.total.cos)|string_format:"%.2f"}><{else}>0.00<{/if}></td>
+                    <td></td>
+                    <td><{$data.total.valid}></td>
+                    <td><{$data.total.cost|string_format:"%.2f"}></td>
+                    </tr>
               </tbody>
             </table>
 				<!--- START 分页模板 -->

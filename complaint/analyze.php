@@ -46,6 +46,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 
 		$tmp = array();
 		$total = array('province_id'=>'总计','num'=>0,'cos'=>0,'wan'=>0,'increase');
+		$allProvince = array();
 		foreach ($result['now'] as $key => $value) {
 				if ($value['province_id']) {
 					$total['num'] += $value['num'];
@@ -57,11 +58,11 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 					$rand = rand(0,100);
 					$tmp[(string)($value['num']+$rand/100)] = $province[$value['province_id']]['name'];
 					unset($strProvince[$value['province_id']]);
-
+					$allProvince[] = $value['province_id'];
 				}
-
 		}
-		$total['increase'] = $total['num'] - Complaint::getBaseTotal(strtotime(date('Y-m-d',$value['month'])." -1 month"),$province_id);
+		$allProvince = $province_id?$province_id:$allProvince;
+		$total['increase'] = $total['num'] - Complaint::getBaseTotal(strtotime(date('Y-m-d',$value['month'])." -1 month"),$allProvince);
 		$data['total'] = $total;
 		// var_dump($total);
 		// $result['now'] = $result['now']+array($total);

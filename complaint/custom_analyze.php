@@ -29,7 +29,27 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	else 
 	{
 		$data['result'] = Complaint::customAnalayze($param,$start,$page_size);
+		$allProvince = array();
+		foreach ($data['result'] as $key => $value) {
+			$total['num'] += $value['num'];
+			$total['cos'] += $value['cos'];
+			$total['wan'] += $value['wan'];
+			$total['month'] = date('Y-m',$value['month']);
+			$allProvince[] = $value['province_id'];
+			$total['suc'] += $value['appealSuc'];
+			$total['fail'] += $value['appealFail'];
+			$total['not'] += $value['appealNot'];
+			$total['valid'] += $value['valid'];
+			$total['cost'] += $value['customCost'];
+			$data['total'] = $total;
+		}
+		$allProvince = $province_id?$province_id:$allProvince;
+
+		$total['increase'] = $total['num'] - Complaint::getCustomTotal(strtotime($start_date."-01 -1 month"),$allProvince);
 	}
+
+	$data['total'] = $total;
+
 
 	$row_count = Complaint::customAnalayzeCount($param);
 
