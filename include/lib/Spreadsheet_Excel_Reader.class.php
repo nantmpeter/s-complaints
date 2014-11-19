@@ -707,7 +707,6 @@ class Spreadsheet_Excel_Reader
                                        for ($i = 0; $i < $uniqueStrings; $i++) {
         // Read in the number of characters
                                                 if ($spos == $limitpos) {
-                                                    var_dump($opcode);
                                                 $opcode = ord($this->data[$spos]) | ord($this->data[$spos+1])<<8;
                                                 $conlength = ord($this->data[$spos+2]) | ord($this->data[$spos+3])<<8;
                                                         if ($opcode != 0x3c) {
