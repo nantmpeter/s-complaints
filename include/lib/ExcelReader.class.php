@@ -6,7 +6,7 @@ class ExcelReader {
 		$data = new Spreadsheet_Excel_Reader();
 		$data->setOutputEncoding('UTF-8'); //设置输出的编码为utf8
 		$ret = $data->read($file); //要读取的excel文件地址
-
+		// var_dump($data->sst); exit;
 		if($ret == -1){
 			$array = false;
 		}else{

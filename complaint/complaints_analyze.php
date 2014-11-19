@@ -69,8 +69,8 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$comScore[] = $value['score'];
 	}
 
-	$data['provinces'] = '"'.implode('","', $proScore).'"';
-	$data['complaints'] = '"'.implode('","', $comScore).'"';
+	$data['provinces'] = implode(',', $proScore);
+	$data['complaints'] = implode(',', $comScore);
 	// foreach ($province as $key => $value) {
 	// 	$data['provinceMap'][$key] = $value['name'];
 	// }

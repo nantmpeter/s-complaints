@@ -64,7 +64,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$data['provinceMap'][$key] = $value['name'];
 	}
 	$data['provinceString'] = '"'.implode('","', $name).'"';
-	$data['provinces'] = '"'.implode('","', $score).'"';
+	$data['provinces'] = implode(',', $score);
 
 // }
 $data['province'] = Info::getProvince(false);

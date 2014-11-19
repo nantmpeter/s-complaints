@@ -92,7 +92,7 @@
 					<th style="width:30px">申诉失败</th>
 					<th style="width:30px">未申诉量</th>
                     <th style="width:30px">省份应收(万元)</th>
-					<th style="width:30px">不规范定制万投比(万元)</th>
+					<th style="width:30px">不规范定制万投比</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
 					<!-- <th style="width:30px">处理意见</th> -->

@@ -48,7 +48,7 @@ class OLERead {
     	}
     	
     	$this->data = @file_get_contents($sFileName);
-		
+
     	if (!$this->data) { 
     		$this->error = 1; 
     		return false; 
@@ -81,7 +81,7 @@ class OLERead {
             if ($this->numExtensionBlocks != 0) {
                 $bbdBlocks = (BIG_BLOCK_SIZE - BIG_BLOCK_DEPOT_BLOCKS_POS)/4; 
             }
-        
+
         for ($i = 0; $i < $bbdBlocks; $i++) {
               $bigBlockDepotBlocks[$i] = GetInt4d($this->data, $pos);
               $pos += 4;
@@ -175,7 +175,7 @@ class OLERead {
         
     function __readPropertySets(){
         $offset = 0;
-        //var_dump($this->entry);
+
         while ($offset < strlen($this->entry)) {
               $d = substr($this->entry, $offset, PROPERTY_STORAGE_BLOCK_SIZE);
             
@@ -193,7 +193,7 @@ class OLERead {
             }
             
             $name = str_replace("\x00", "", $name);
-            
+
             $this->props[] = array (
                 'name' => $name, 
                 'type' => $type,
@@ -707,6 +707,7 @@ class Spreadsheet_Excel_Reader
                                        for ($i = 0; $i < $uniqueStrings; $i++) {
         // Read in the number of characters
                                                 if ($spos == $limitpos) {
+                                                    var_dump($opcode);
                                                 $opcode = ord($this->data[$spos]) | ord($this->data[$spos+1])<<8;
                                                 $conlength = ord($this->data[$spos+2]) | ord($this->data[$spos+3])<<8;
                                                         if ($opcode != 0x3c) {
@@ -964,6 +965,7 @@ class Spreadsheet_Excel_Reader
         $spos += $length + 4;
         //var_dump($this->formatRecords);
     //echo "code $code $length";
+
         while($cont) {
             //echo "mem= ".memory_get_usage()."\n";
 //            $r = &$this->file->nextRecord();
