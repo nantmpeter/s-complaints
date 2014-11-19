@@ -26,7 +26,7 @@
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> SP公司名称</label>
-				<input type="text" name="sp_name" value="<{$_GET.sp_name}>" placeholder="SP公司名称" > 
+				<input type="text" name="part_name" value="<{$_GET.part_name}>" placeholder="SP公司名称" > 
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 业务类型</label>
