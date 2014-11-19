@@ -1018,8 +1018,8 @@ class Complaint extends Base {
 				$t = isset($tmp[$value['buss_name']])?$tmp[$value['buss_name']]:0;
 
 				// $valid = $db->count('co_custom',array('AND'=>array('complaint_status'=>'有效','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
-				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
-				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
+				$r[$key]['appealSuc'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉成功','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'),'province_id'=>$param['province_id'])));
+				$r[$key]['appealFail'] = $db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'),'province_id'=>$param['province_id'])));
 				$r[$key]['appealNot'] = $r[$key]['num'] - $r[$key]['appealSuc'] - $r[$key]['appealFail'];
 				// $r[$key]['appealNot'] = $valid-$db->count('co_custom',array('AND'=>array('appeal_status'=>'申诉失败','buss_name'=>$value['buss_name'],'month'=>strtotime($s.'-01'))));
 				// if(!isset($r[$key]['wan'])) {
