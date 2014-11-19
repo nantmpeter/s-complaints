@@ -83,7 +83,9 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	}
 	if(isset($tmp['typeName'])) {
 		$data['zhuString'] = '"'.implode('","', $tmpName).'"';
+
 		$data['zhuData'] = implode(',', $tmpScore);
+
 	}
 	$data['pie'] = json_encode($data['pie']);
 

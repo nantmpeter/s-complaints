@@ -67,6 +67,7 @@
 </div>
 <div class="block">
 		<a style="float:right;padding:10px;" href="<{$export_excel}>" target="" >导出excel</a>
+        <a style="float:right;padding:10px;" href="javascript:;" onclick="updateComplaintProblemType()" >手动更新</a>
         <a href="#page-stats" class="block-heading" data-toggle="collapse">操作记录</a>
         <{if $data.result|@count > 0}>
         <div id="page-stats" class="block-body collapse in" style="width:97%">
@@ -91,6 +92,7 @@
 					<!-- <th style="width:30px">处理意见</th> -->
 					<!-- <th style="width:30px">投诉类型</th> -->
 					<th style="width:30px">投诉类型</th>
+					<th style="width:30px">投诉问题分类</th>
 					<!-- <th style="width:30px">投诉分级</th> -->
 					<th style="width:30px">业务分类</th>
                 </tr>
@@ -114,6 +116,7 @@
 					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.suggestion}>" title="" data-original-title1="">详情</a></td> -->
 					<!-- <td><{$result.complaint_type}></td> -->
 					<td><{$result.problem_type}></td>
+					<td><{$result.complaints_problem_type}></td>
 					<td><{$result.buss_class}></td>
 					</tr>
 				<{/foreach}>
@@ -141,6 +144,24 @@ $(function(){
 		$('.question_type').html($('.question'+$(this).val()).html());
 	});
 })
+
+
+function updateComplaintProblemType()
+{
+	alert("请不要关闭此页面，更新过程可能比较慢 ，大概1000条/分钟，更新完毕会提示更新成功");
+	$.ajax({
+        type: "POST",
+        url: "complaints_search.php",
+        data: {method:"updateComplaintProblemType",start_date:$('#start_date').val()},
+
+        success: function(data){
+            
+            alert(data);
+            
+        }
+	});
+	
+}
 </script>
 <!-- TPLEND 以下内容不需更改，请保证该TPL页内的标签匹配即可 -->
 <{include file="footer.tpl" }>

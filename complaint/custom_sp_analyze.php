@@ -47,7 +47,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$score[] = sprintf("%.2f",$value['score']);
 	}
 	$data['wanName']  = $name?('"'.implode('","', $name).'"'):'';
-	$data['chartWan'] = $score?('"'.implode('","', $score).'"'):'';
+	$data['chartWan'] = $score?(''.implode(',', $score).''):'';
 
 	$charData = Complaint::customSpAnalayze($param,0,20);
 	if($charData){
