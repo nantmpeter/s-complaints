@@ -37,9 +37,9 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 			if ($value['buss_name'] == '') {
 				unset($data['result'][$key]);
 				// var_dump(current($data['result']));
-				if($key == 0){
-					$data['result'][0] = current($data['result']);
-				}
+				// if($key == 0){
+				// 	$data['result'][0] = current($data['result']);
+				// }
 				continue;
 			}
 			$tmp['name'][] = $value['buss_name'];
