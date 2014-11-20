@@ -1405,8 +1405,8 @@ class Complaint extends Base {
 			'sum(province_income) as cos',
 			array(
 					'AND'=>array(
-						'month[<]'=>strtotime($start.'-01 +1 month -1 day'),
-						'month[>=]'=>strtotime($start.'-01'),
+						// 'month[<]'=>strtotime($start.'-01 +1 month -1 day'),
+						'month'=>strtotime($start.'-01'),
 						'province_id'=>$resultProvince
 						)
 					)
@@ -1418,15 +1418,19 @@ class Complaint extends Base {
 								)
 							))['num'];
 		$lastMonth = array();
-
+		$province = $db->select('co_base','province_id',array('AND'=>array('month'=>strtotime($start.'-01 -1 month')),'GROUP'=>'province_id'));
+		$tmpLastProvince = array();
+		foreach ($province as $pro) {
+			$tmpLastProvince[] = $pro['province_id'];
+		}
 		$lastMonth = $db->get(
 			'co_income',
 			'sum(province_income) as cos',
 			array(
 				'AND'=>array(
-				'month[>=]'=>strtotime($start.'-01 -1 month'),
-				'month[<]'=>strtotime($start.'-01 -1 day'),
-				'province_id'=>$resultProvince
+				'month'=>strtotime($start.'-01 -1 month'),
+				// 'month[<]'=>strtotime($start.'-01 -1 day'),
+				'province_id'=>$tmpLastProvince
 				)
 				)
 			)['cos']/10000;
