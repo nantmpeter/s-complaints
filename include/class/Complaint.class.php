@@ -25,6 +25,7 @@ class Complaint extends Base {
 	}
 
 	public static function save($param,$table,$month,$province_id,$record_id){
+
 		foreach ($param as $key => $value) {
 			$param[$key] = addslashes($value);
 		}

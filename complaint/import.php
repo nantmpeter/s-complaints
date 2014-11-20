@@ -18,6 +18,10 @@ $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
 $name_map = array('基础信息'=>'base','不规范定制'=>'custom','工信部投诉'=>'complaints','收入'=>'income','增值收入'=>'value_income');
 $mapName = array('base'=>'基础信息','custom'=>'不规范定制','complaints'=>'工信部投诉','income'=>'收入','value_income'=>'增值收入');
 if (Common::isPost ()) {
+	// $file = $_FILES['excel']['tmp_name'];
+	// $excel_array = ExcelReader::readXLS($file);
+	// exit;
+
 	$date = $_POST['start_date'];
 	$table = $_POST['table'];
 	$province_id = $_POST['province_id'];
@@ -51,8 +55,7 @@ if (Common::isPost ()) {
 			}else{
 				// TODO check if imported
 				if($excel_array) {
-
-					unset($excel_array[0]);
+					array_shift($excel_array);
 					$error[$_POST['table']] = array();
 
 					$record_id = Complaint::recordTable($_FILES['excel']['name'],$table,$date,$province_id,$user_info['user_id']);
