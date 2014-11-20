@@ -31,14 +31,13 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	{
 		$data['result'] = Complaint::baseSingle($param,$start,$page_size);
 	}
-
 	if($data['result']) {
 
 		foreach ($data['result'] as $key => $value) {
 			if($value['buss_name_detail'] == ''){
 				unset($data['result'][$key]);
-				if($key == 0)
-					$data['result'][0] = current($data['result']);
+				// if($key == 0)
+				// 	$data['result'][0] = current($data['result']);
 				// var_dump(current($data['result']));
 				continue;
 			}
