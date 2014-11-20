@@ -19,7 +19,9 @@ $name_map = array('基础信息'=>'base','不规范定制'=>'custom','工信部�
 $mapName = array('base'=>'基础信息','custom'=>'不规范定制','complaints'=>'工信部投诉','income'=>'收入','value_income'=>'增值收入');
 if (Common::isPost ()) {
 	// $file = $_FILES['excel']['tmp_name'];
+	// var_dump($file);
 	// $excel_array = ExcelReader::readXLS($file);
+	// var_dump($excel_array);
 	// exit;
 
 	$date = $_POST['start_date'];
