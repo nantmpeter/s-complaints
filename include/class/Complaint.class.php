@@ -899,6 +899,7 @@ class Complaint extends Base {
 			foreach ($r as $key => $value) {
 				if($value['sp_corp_name']){
 					$condition['AND']['sp_corp_name'][] = $value['sp_corp_name'];
+				}else{					
 					unset($r[$key]);
 				}
 			}
