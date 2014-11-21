@@ -897,7 +897,10 @@ class Complaint extends Base {
 			unset($condition['LIMIT']);
 
 			foreach ($r as $key => $value) {
-				$condition['AND']['sp_corp_name'][] = $value['sp_corp_name'];
+				if($value['sp_corp_name']){
+					$condition['AND']['sp_corp_name'][] = $value['sp_corp_name'];
+					unset($r[$key]);
+				}
 			}
 			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
 			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
