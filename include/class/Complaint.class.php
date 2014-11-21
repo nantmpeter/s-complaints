@@ -913,7 +913,7 @@ class Complaint extends Base {
 			}
 			foreach ($r as $key => $value) {
 				$value['num'] = $r[$key]['num'] = round($value['num']);
-				$t = isset($tmp[$value['part_name']])?$tmp[$value['part_name']]:0;
+				$t = isset($tmp[$value['sp_corp_name']])?$tmp[$value['sp_corp_name']]:0;
 				// $valid = $db->count('co_complaints',array('complaint_status'=>'有效'));
 				// $r[$key]['appealSuc'] = $db->count('co_complaints',array('appeal_status'=>'申诉成功'));
 				// $r[$key]['appealFail'] = $db->count('co_complaints',array('appeal_status'=>'申诉失败'));
