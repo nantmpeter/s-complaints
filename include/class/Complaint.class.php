@@ -277,6 +277,14 @@ class Complaint extends Base {
 			{
 				$condition["LIKE"]["AND"][$key] = $value;
 			}
+			elseif($key == 'question_type'){
+				$complaintType = Info::getComplaintType();
+				$questionType = Info::getQuestionType($param['problem_type']);
+				$condition['AND']['problem_type'] = $complaintType[$param['problem_type']];
+				$condition['AND']['contact_element'] = $questionType[$param['question_type']];
+			}elseif($key == 'problem_type'){
+
+			}
 			else
 			{
 				$condition["AND"][$key] = $value;
@@ -1646,14 +1654,18 @@ class Complaint extends Base {
 			{
 				$condition["LIKE"]["AND"][$key] = $value;
 			}
-			else
+			elseif($key == 'question_type'){
+				$complaintType = Info::getComplaintType();
+				$questionType = Info::getQuestionType($param['problem_type']);
+				$condition['AND']['problem_type'] = $complaintType[$param['problem_type']];
+				$condition['AND']['contact_element'] = $questionType[$param['question_type']];
+			}elseif($key == 'problem_type'){
+
+			}else
 			{
 				$condition["AND"][$key] = $value;
 			}
 		}
-		// foreach ($param as $key => $value) {
-		// 	$condition["AND"][$key] = $value;
-		// }
 		return $db->count('co_complaints',$condition);
 	}
 

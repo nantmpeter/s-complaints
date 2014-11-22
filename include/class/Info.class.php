@@ -23,7 +23,7 @@ class Info extends Base{
 	}
 
 
-	public static function getComplaintType($name,$format = false)
+	public static function getComplaintType($name = '',$format = false)
 	{
 		$r = array(
 				1 => '服务规范性',
@@ -36,7 +36,7 @@ class Info extends Base{
 		return $r;
 	}
 
-	public static function getQuestionType($class,$name,$format=false,$problem_type=0)
+	public static function getQuestionType($class,$name = '',$format=false,$problem_type=0)
 	{
 		$r = array(
 				1 => array(

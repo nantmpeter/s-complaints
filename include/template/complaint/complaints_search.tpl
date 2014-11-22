@@ -47,6 +47,26 @@
 		<label> SP公司名称</label>
 				<input type="text" name="sp_corp_name" value="<{$_GET.sp_corp_name}>" placeholder="SP公司名称" > 
 		</div>
+				<div style="float:left;margin-right:5px">
+		<label> 投诉类型 </label>
+			<select id="complaint_type" name="problem_type"><option value="0">全部</option>
+			<{foreach name=complaintType from=$data.complaintType key=key item=complaintType}>
+				<option value="<{$key}>" <{if $smarty.get.problem_type == $key}> selected='selected'<{/if}>><{$complaintType}></option>
+			<{/foreach}>
+			</select>
+			<!-- <{$data.complaintType}> -->
+				<!-- <input type="text" name="sp_code" value="<{$_GET.sp_code}>" placeholder="投诉类型" >  -->
+		</div>
+		<div style="float:left;margin-right:5px">
+
+		<label> 投诉问题分类 </label>
+			<div class="problem_type">
+			<select name="contact_element">
+				<option value="0">全部</option>
+			</select>				
+			</div>
+
+		</div>
 		<div class="btn-toolbar" style="padding-top:25px;padding-bottom:0px;margin-bottom:0px">
 		<button type="submit" class="btn btn-primary"><strong>检索</strong></button>
 		</div>
@@ -116,7 +136,7 @@
 					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.suggestion}>" title="" data-original-title1="">详情</a></td> -->
 					<!-- <td><{$result.complaint_type}></td> -->
 					<td><{$result.problem_type}></td>
-					<td><{$result.complaints_problem_type}></td>
+					<td><{$result.contact_element}></td>
 					<td><{$result.buss_class}></td>
 					</tr>
 				<{/foreach}>
@@ -137,13 +157,30 @@ $(function() {
 	$( "#appeal_date" ).datetimepicker({format: 'yyyy-mm-dd',startView: 2,minView: 2,viewSelect:'year'});
 
 });
-
-
 $(function(){
-	$('[name="complaint_type"]').change(function(msg){
-		$('.question_type').html($('.question'+$(this).val()).html());
+	$('[name="problem_type"]').change(function(msg){
+
+		if($(this).val()!=0)
+		{
+			// $('.question_type').html($('.question'+map[$(this).val()]).html());
+			$('.problem_type').html($('.question'+$(this).val()).html());
+		}
+		else
+		{
+			$('.problem_type').html("<select name='problem_type'><option value='0'>全部</option>");
+			
+		}
+
 	});
+	$('.problem_type').html($('.question'+$('[name="complaint_type"]').val()).html());
+
 })
+
+// $(function(){
+// 	$('[name="complaint_type"]').change(function(msg){
+// 		$('.question_type').html($('.question'+$(this).val()).html());
+// 	});
+// })
 
 
 function updateComplaintProblemType()
