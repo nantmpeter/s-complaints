@@ -91,7 +91,7 @@ Template::assign("param" ,$param);
 Template::assign ( 'page_html', $page_html );
 Template::assign ( 'export_excel', $export_excel );
 // Template::assign("output" ,$output);
-Template::display ('complaint/custom_sp_detail.tpl');
+Template::display ('complaint/sp_analyze_detail.tpl');
 
 
 //列表数据转化为字符串
