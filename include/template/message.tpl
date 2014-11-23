@@ -23,7 +23,8 @@
 				<{/if }>
 				-->
 				<p class="info"><{$message_detail}></p>
-				<h2>返回 <a href="<{$smarty.const.ADMIN_URL}><{$forward_url}>"><{$forward_title}></a></h2>
+				<a  href="javascript :;" onClick="javascript :history.back(-1);">返回</a>
+				<!-- <h2>返回 <a href="<{$smarty.const.ADMIN_URL}><{$forward_url}>"><{$forward_title}></a></h2> -->
 			</div>
 	<div>	
 <{include file="footer.tpl"}>
