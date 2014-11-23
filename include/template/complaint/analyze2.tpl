@@ -106,8 +106,9 @@
 					<!-- <td><{$result.buss_name}></td> -->
 					<td><{$result.month|date_format:'%Y-%m'}></td>
 					<td><{$result.num}></td>
-					<td><{$result.increase}></td>
-					<td><{$result.increasePercent|string_format:"%.2f"}>%</td>
+					<td><{if $result.increase}><{$result.increase}><{else}>--<{/if}></td>
+
+					<td><{$result.increasePercent}></td>
 
 					<td><{$result.cos|string_format:"%.2f"}></td>
 					<td><{$result.wan|string_format:"%.2f"}></td>

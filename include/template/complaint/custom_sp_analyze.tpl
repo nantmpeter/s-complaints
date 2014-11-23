@@ -105,8 +105,9 @@
 					<td><a href="/complaint/custom_sp_detail.php?month=<{$result.month}>&sp_corp_code=<{$result.part_code}>"><{$result.part_name}></a></td>
 					<td><{$result.part_code}></td>
 					<td><{$result.num}></td>
-					<td><{$result.increase}></td>
-					<td><{$result.increasePercent|string_format:"%.2f"}>%</td>
+					<td><{if $result.increase}><{$result.increase}><{else}>--<{/if}></td>
+
+					<td><{$result.increasePercent}></td>
 					<td><{$result.appealSuc}></td>
 					<td><{$result.appealFail}></td>
 					<td><{$result.appealNot}></td>

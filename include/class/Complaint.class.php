@@ -431,7 +431,7 @@ class Complaint extends Base {
 				$r[$key]['valid'] = $r[$key]['num'] - $r[$key]['appealSuc'];
 				
 				$r[$key]['increase'] = $value['num'] - $t;
-				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
+				$r[$key]['increasePercent'] = $t?(round(($value['num'] - $t)*10000/($t))/100).'%':'--';
 			}
 		}
 		return $r?$r:array();
@@ -545,7 +545,7 @@ class Complaint extends Base {
 					$r[$key]['wan'] = 0;
 
 				$r[$key]['increase'] = $value['num'] - $t;
-				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
+				$r[$key]['increasePercent'] = $t?(round(($value['num'] - $t)*10000/($t))/100).'%':'--';
 			}
 		}
 		$r2 = $r2?$r2:array();
@@ -697,7 +697,7 @@ class Complaint extends Base {
 				$r[$key]['valid'] = $r[$key]['num'] - $r[$key]['appealSuc'];
 
 				$r[$key]['increase'] = $value['num'] - $t;
-				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
+				$r[$key]['increasePercent'] = $t?(round(($value['num'] - $t)*10000/($t))/100).'%':'--';
 			}
 		}
 		return $r;
@@ -796,8 +796,7 @@ class Complaint extends Base {
 
 				$r[$key]['increase'] = $value['num'] - $t;
 
-				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
-			}
+				$r[$key]['increasePercent'] = $t?(round(($value['num'] - $t)*10000/($t))/100).'%':'--';			}
 		}
 
 		return $r;
@@ -933,7 +932,7 @@ class Complaint extends Base {
 				// 	$r[$key]['wan'] = 0;
 				$r[$key]['valid'] = $valid;
 				$r[$key]['increase'] = $value['num'] - $t;
-				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
+				$r[$key]['increasePercent'] = $t?(round(($value['num'] - $t)*10000/($t))/100).'%':'--';
 			}
 		}
 		return $r;
@@ -1045,7 +1044,7 @@ class Complaint extends Base {
 
 				$r[$key]['valid'] = $r[$key]['num'] - $r[$key]['appealSuc'];
 				$r[$key]['increase'] = $value['num'] - $t;
-				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
+				$r[$key]['increasePercent'] = $t?(round(($value['num'] - $t)*10000/($t))/100).'%':'--';
 			}
 		}
 		return $r;
@@ -1133,7 +1132,7 @@ class Complaint extends Base {
 				$t = isset($tmp[$value['buss_name_detail']])?$tmp[$value['buss_name_detail']]:0;
 
 				$r[$key]['increase'] = $value['num'] - $t;
-				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
+				$r[$key]['increasePercent'] = $t?(round(($value['num'] - $t)*10000/($t))/100).'%':'--';
 			}
 		}
 		return $r;
@@ -1222,7 +1221,7 @@ class Complaint extends Base {
 
 				$r[$key]['valid'] = $valid;
 				$r[$key]['increase'] = $value['num'] - $t;
-				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
+				$r[$key]['increasePercent'] = $t?(round(($value['num'] - $t)*10000/($t))/100).'%':'--';
 			}
 		}
 		return $r;
@@ -1749,7 +1748,7 @@ class Complaint extends Base {
 					$r[$key]['wan'] = 0;
 				$r[$key]['valid'] = $valid;
 				$r[$key]['increase'] = $value['num'] - $t;
-				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
+				$r[$key]['increasePercent'] = $t?(round(($value['num'] - $t)*10000/($t))/100).'%':'--';
 			}
 		}
 
@@ -1814,7 +1813,7 @@ class Complaint extends Base {
 					$r[$key]['wan'] = 0;
 				$r[$key]['valid'] = $valid;
 				$r[$key]['increase'] = $value['num'] - $t;
-				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
+				$r[$key]['increasePercent'] = $t?(round(($value['num'] - $t)*10000/($t))/100).'%':'--';
 			}
 		}
 
@@ -2350,7 +2349,7 @@ class Complaint extends Base {
 
 				$r[$key]['valid'] = $valid;
 				$r[$key]['increase'] = $value['num'] - $t;
-				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
+				$r[$key]['increasePercent'] = $t?(round(($value['num'] - $t)*10000/($t))/100).'%':'--';
 			}
 		}
 		return $r;
@@ -2379,7 +2378,7 @@ class Complaint extends Base {
 
 				$r[$key]['valid'] = $valid;
 				$r[$key]['increase'] = $value['num'] - $t;
-				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
+				$r[$key]['increasePercent'] = $t?(round(($value['num'] - $t)*10000/($t))/100).'%':'--';
 			}
 		}
 		return $r;

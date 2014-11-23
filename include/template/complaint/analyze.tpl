@@ -114,8 +114,9 @@
 					<!-- <td><{$result.buss_name}></td> -->
 					<td><{$result.month|date_format:'%Y-%m'}></td>
 					<td><{$result.num}></td>
-					<td><{$result.increase}></td>
-					<td><{$result.increasePercent|string_format:"%.2f"}>%</td>
+					<td><{if $result.increase}><{$result.increase}><{else}>--<{/if}></td>
+
+					<td><{$result.increasePercent}></td>
 
 					<td><{$result.cos|string_format:"%.2f"}></td>
 					<td><{$result.wan|string_format:"%.2f"}></td>
@@ -139,8 +140,8 @@
 					<!-- <td><{$result.buss_name}></td> -->
 					<td><{$data.total.month}></td>
 					<td><{$data.total.num}></td>
-					<td><{$data.total.increase}></td>
-					<td><{if ($data.total.num-$data.total.increase)}><{($data.total.increase/($data.total.num-$data.total.increase)*100)|string_format:"%.2f"}><{else}>0.00<{/if}>%</td>
+					<td><{if $data.total.increase}><{$data.total.increase}><{else}>--<{/if}></td>
+					<td><{if ($data.total.num-$data.total.increase)}><{($data.total.increase/($data.total.num-$data.total.increase)*100)|string_format:"%.2f"}><{else}>--<{/if}>%</td>
 
 					<td><{$data.total.cos|string_format:"%.2f"}></td>
 					<td><{if $data.total.cos}><{($data.total.num/$data.total.cos)|string_format:"%.2f"}><{else}>0.00<{/if}></td>

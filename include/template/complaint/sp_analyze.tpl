@@ -122,8 +122,9 @@
 					<!-- <td><{$result.complaint_phone}></td> -->
 					<!-- <td><{$result.buss_name}></td> -->
 					<td><{$result.num}></td>
-					<td><{$result.increase}></td>
-					<td><{$result.increasePercent|string_format:"%.2f"}>%</td>
+					<td><{if $result.increase}><{$result.increase}><{else}>--<{/if}></td>
+
+					<td><{$result.increasePercent}></td>
 					<td><{if $data.total}><{($result.num/$data.total * 100)|string_format:'%.2f'}><{else}>0<{/if}>%</td>
 					<td><{$result.cos|string_format:'%.2f'}></td>
 

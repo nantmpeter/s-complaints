@@ -52,8 +52,9 @@
 					<!-- <td><{$result.complaint_phone}></td> -->
 					<!-- <td><{$result.buss_name}></td> -->
 					<td><{$result.num}></td>
-					<td><{$result.increase}></td>
-					<td><{$result.increasePercent|string_format:"%.2f"}>%</td>
+					<td><{if $result.increase}><{$result.increase}><{else}>--<{/if}></td>
+
+					<td><{$result.increasePercent}></td>
 
 					<!-- <td><{$result.sp_code}></td> -->
 					<!-- <td><a href="#" class="detail" data-toggle="popover" data-placement="top" data-original-title="<{$result.complaint_content}>" title="" data-original-title1="投诉内容">详情</a></td> -->
