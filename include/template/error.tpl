@@ -14,7 +14,8 @@
 		<p></p>
         <h1>Oops!</h1>
         <p class="info"><{$message_detail}></p>
-        <p><h3><a href="<{$smarty.const.ADMIN_URL}>/<{$forward_url}>"><{$forward_title}></a></h3></p>
+        <h2><a  href="javascript:;" onClick="javascript:history.back(-1);">返回</a></h2>
+        <!-- <p><h3><a href="<{$smarty.const.ADMIN_URL}>/<{$forward_url}>"><{$forward_title}></a></h3></p> -->
     </div>
 <{include file="footer.tpl"}>
 

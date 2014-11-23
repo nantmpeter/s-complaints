@@ -55,7 +55,7 @@ class Common {
 			$forward_title = $menu['menu_name'];
 		}
 		if ($forward_url) {
-			$message_detail = "$message_detail <script>setTimeout(\"window.location.href ='".ADMIN_URL."$forward_url';\", " . ($second * 1000) . ");</script>";
+			$message_detail = "$message_detail";
 		}
 		Template::assign ( 'type', $type );
 		Template::assign ( 'page_title', $page_title );
@@ -84,7 +84,7 @@ class Common {
 				$start = strpos($referer,ADMIN_URL);
 				$to_url = substr($referer,$start+strlen(ADMIN_URL));
 			}else{
-				$to_url = 'index.php';
+				$to_url = '/complaint/search.php';
 			}
 		}
 		
