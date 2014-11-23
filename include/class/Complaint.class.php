@@ -2307,6 +2307,55 @@ class Complaint extends Base {
 		return $r;
 	}
 
+	public static function getCustomSpDetail($sp_corp_code,$month)
+	{
+		$db=self::__instance();
+		$r = $db->select('co_custom','*,count(*) as num',array('AND'=>array('part_code'=>$sp_corp_code,'month'=>$month),'GROUP'=>'province_id'));
+
+		foreach ($r as $key => $value) {
+			if(!$value['province_id']){
+				unset($r[$key]);
+				continue;
+			}
+
+			$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>$month,'sp_code'=>$sp_corp_code))['cos']/10000;
+
+			$r[$key]['wan'] = $r[$key]['cos']?$value['num']/$r[$key]['cos']:0;
+
+			# code...
+		}
+		return $r;
+	}
+	
+	public static function getCustomSingleDetail($buss_name_detail,$month)
+	{
+		$db=self::__instance();
+		$r = $db->select('co_custom','*,count(*) as num',array('AND'=>array('buss_name'=>$buss_name_detail,'month'=>$month),'GROUP'=>'province_id'));
+		if($r && isset($month)) {
+			$condition["AND"]['month[=]'] = strtotime(date('Y-m-d',$month).' -1 month');
+			$condition["AND"]['buss_name'] = $buss_name_detail;
+			// var_dump($condition);
+			$r2 = $db->select('co_custom','*,count(*) as num',$condition);
+			$tmp = array();
+			foreach ($r2 as $key => $value) {
+				$tmp[$value['province_id']] = round($value['num']);
+			}
+			foreach ($r as $key => $value) {
+				if(!$value['province_id']){
+					unset($r[$key]);
+					continue;
+				}
+				$value['num'] = $r[$key]['num'] = round($value['num']);
+				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
+
+				$r[$key]['valid'] = $valid;
+				$r[$key]['increase'] = $value['num'] - $t;
+				$r[$key]['increasePercent'] = $t?(($value['num'] - $t)/$t * 100).'%':'';
+			}
+		}
+		return $r;
+	}
+
 	public static function getSingleDetail($buss_name_detail,$month)
 	{
 		$db=self::__instance();

@@ -14,7 +14,7 @@ foreach ($arr as $key => $value) {
 	}
 }
 // $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$_GET['start_date']:date('Y-m');
-$data['result'] = Complaint::getSpDetail($sp_corp_code,$month);
+$data['result'] = Complaint::getCustomSpDetail($sp_corp_code,$month);
 // if (Common::isPost ()) {
 // if($start_date != '' && $end_date !=''){
 	$page_size = PAGE_SIZE;
