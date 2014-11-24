@@ -45,8 +45,8 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 			$tmp['value'][] = $value['num'];
 		}
 
-		$data['chartName'] = '"'.implode('","', $tmp['name']).'"';
-		$data['chartValue'] = implode(',', $tmp['value']);
+		$data['chartName'] = $tmp['name']?'"'.implode('","', $tmp['name']).'"':'';
+		$data['chartValue'] = $tmp['value']?implode(',', $tmp['value']):'';
 	}
 	// rsort($tmp['wan']);
 	$start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$_GET['start_date']:date('Y-m');
