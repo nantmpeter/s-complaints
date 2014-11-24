@@ -4,7 +4,7 @@ $group_id = $province_id = '';
 $menu_ids = array ();
 extract ( $_REQUEST, EXTR_IF_EXISTS );
 
-$group_id =  $group_id == ""? 1:intval($group_id);
+$group_id =  $group_id == ""? 2:intval($group_id);
 
 $group_option_list = GroupRole::getGroupForOptions ();
 unset($group_option_list[1]);
