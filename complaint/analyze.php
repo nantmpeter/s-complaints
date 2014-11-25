@@ -144,7 +144,7 @@ function array_to_string($data) {
 		$dataStr="没有符合您要求的数据！^_^";
 	}
 	else {
- 		$dataStr = "省市\t统计月份\t月投诉件数\t环比增长量\t环比增长率\t投诉量/业务收入(万)\n ";
+ 		$dataStr = "省市\t统计月份\t月投诉件数\t环比增长量\t环比增长率\t业务收入(万)\t万投比\n ";
  		
  		$size_result = count($data['result']);
  		
@@ -157,6 +157,7 @@ function array_to_string($data) {
 			$dataStr.=$data['result'][$i]['increase']."\t";
 			$dataStr.=sprintf("%.2f",$data['result'][$i]['increasePercent'])."\t";
 			$dataStr.=sprintf("%.2f",$data['result'][$i]['cos'])."\n";
+			$dataStr.=($data['result'][$i]['cos']?sprintf("%.2f",$data['result'][$i]['num']/$data['result'][$i]['cos']):'0.00')."\n";
 		}
 		
 	}

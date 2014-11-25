@@ -230,7 +230,7 @@ function array_to_string($data) {
 		$dataStr="没有符合您要求的数据！^_^";
 	}
 	else {
- 		$dataStr = "省市\t工单时间\t投诉号码\t具体业务名称\t统计月份\tsp公司名称\tsp企业代码\tsp接入代码\t投诉内容\t处理意见\t投诉类型\t投诉问题分类\t投诉分级\t业务线\n ";
+ 		$dataStr = "省市\t工单时间\t投诉号码\t具体业务名称\t统计月份\tsp公司名称\tsp企业代码\tsp接入代码\t投诉内容\t处理意见\t投诉类型\t投诉问题分类\t投诉分级\t业务类型\n ";
  		
  		$size_result = count($data['result']);
  		
@@ -255,7 +255,7 @@ function array_to_string($data) {
 			$dataStr.=$data['result'][$i]['complaint_type']."\t";
 			$dataStr.=$data['result'][$i]['problem_type']."\t";
 			$dataStr.=$data['result'][$i]['complaint_level']."\t";
-			$dataStr.=$data['result'][$i]['buss_line']."\n";
+			$dataStr.=$data['result'][$i]['buss_name']."\n";
 		}
 		
 	}
