@@ -111,26 +111,28 @@ function array_to_string($data) {
 		$dataStr="没有符合您要求的数据！^_^";
 	}
 	else {
- 		$dataStr = "公司名称\t月不规范定制件数\t环比增长量\t环比增长率\t申诉成功\t申诉失败\t未申诉量\t不规范定制/业务收入(百万)\t投诉类型\t业务线\t认定有效量\n ";
+ 		$dataStr = "公司名称\tsp企业代码\t月不规范定制件数\t环比增长量\t环比增长率\t申诉成功\t申诉失败\t未申诉量\t不规范定制万投比\t投诉类型\t业务类型\t认定有效量\t不规范定制扣款(万元)\n ";
 
  		$size_result = count($data['result']);
  		
 		for($i = 0 ; $i < $size_result ; $i++) {
 
 			$dataStr.=$data['result'][$i]['part_name']."\t";
+			$dataStr.=$data['result'][$i]['part_code']."\t";
 			$dataStr.=$data['result'][$i]['num']."\t";
 			$dataStr.=$data['result'][$i]['increase']."\t";
 			$dataStr.=sprintf("%.2f",$data['result'][$i]['increasePercent'])."\t";
 			$dataStr.=$data['result'][$i]['appealSuc']."\t";
 			$dataStr.=$data['result'][$i]['appealFail']."\t";
 			$dataStr.=$data['result'][$i]['appealNot']."\t";
-			$dataStr.=sprintf("%.2f",$data['result'][$i]['cos'])."\t";
+			$dataStr.=sprintf("%.2f",$data['result'][$i]['cos']?($data['result'][$i]['num']/$data['result'][$i]['cos']):'0.00')."\t";
 			
 			$dataStr.=$data['result'][$i]['complaint_type']."\t";
 			
 			$dataStr.=$data['bussLine'][$data['result'][$i]['buss_type']]."\t";
 
-			$dataStr.=$data['result'][$i]['valid']."\n";
+			$dataStr.=$data['result'][$i]['valid']."\t";
+			$dataStr.=sprintf("%.2f",$data['result'][$i]['customCost'])."\n";
 			
 		}
 		
