@@ -45,7 +45,7 @@ $data['result'] = Complaint::getCustomSpDetail($sp_corp_code,$month);
 		rsort($tmp['value']);
 		krsort($tmp['name']);
 
-		$data['wanString'] = '"'.implode('","', $data['wanString']).'"';
+		$data['wanString'] = implode(',', $data['wanString']);
 		$data['chartName'] = '"'.implode('","', $tmp['name']).'"';
 		$data['chartValue'] = implode(',', $tmp['value']);
 		$data['chartWan'] = implode(',', $tmp['wan']);
