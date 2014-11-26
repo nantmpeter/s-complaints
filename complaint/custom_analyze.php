@@ -137,7 +137,7 @@ function array_to_string($data) {
 			$dataStr.=$data['result'][$i]['appealSuc']."\t";
 			$dataStr.=$data['result'][$i]['appealFail']."\t";
 			$dataStr.=$data['result'][$i]['appealNot']."\t";
-			$dataStr.=sprintf("%.2f",($data['result'][$i]['cos']?$data['result'][$i]['num']/$data['result'][$i]['cos']):'0.00')."\t";
+			$dataStr.=sprintf("%.2f",($data['result'][$i]['cos']?($data['result'][$i]['num']/$data['result'][$i]['cos']):'0.00'))."\t";
 			$dataStr.=sprintf("%.2f",$data['result'][$i]['cos'])."\t";
 
 			$dataStr.=$data['result'][$i]['complaint_type']."\t";
