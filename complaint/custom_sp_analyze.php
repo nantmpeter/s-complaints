@@ -121,7 +121,7 @@ function array_to_string($data) {
 			$dataStr.=$data['result'][$i]['part_code']."\t";
 			$dataStr.=$data['result'][$i]['num']."\t";
 			$dataStr.=$data['result'][$i]['increase']."\t";
-			$dataStr.=sprintf("%.2f",$data['result'][$i]['increasePercent'])."\t";
+			$dataStr.=sprintf("%.2f",$data['result'][$i]['increasePercent'])."%\t";
 			$dataStr.=$data['result'][$i]['appealSuc']."\t";
 			$dataStr.=$data['result'][$i]['appealFail']."\t";
 			$dataStr.=$data['result'][$i]['appealNot']."\t";
