@@ -122,7 +122,7 @@ function array_to_string($data) {
 			$dataStr.=$data['result'][$i]['increase']."\t";
 			$dataStr.=sprintf("%.2f",$data['result'][$i]['increasePercent'])."%\t";
 			$dataStr.=sprintf("%.2f",$data['result'][$i]['num']/$data['total']* 100)."%\t";
-			$dataStr.=$data['result'][$i]['cos']."\n";
+			$dataStr.=$data['result'][$i]['cos']."\t";
 			$dataStr.=$data['result'][$i]['wan']."\n";
 		}
 		
