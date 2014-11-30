@@ -2,6 +2,56 @@
 <{include file ="navibar.tpl"}>
 <{include file ="sidebar.tpl"}>
 <!-- TPLSTART 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+<div style="border:0px;padding-bottom:5px;height:auto">
+	<form action="" method="GET" style="margin-bottom:0px">
+	
+		<input type="hidden" name="method" value="addUnicomBusiness"/>
+		<div style="float:left;margin-right:5px">
+			<label> SP公司名称</label>
+			<input type="text" name="company_name" value="" placeholder="SP公司名称" > 
+		</div>
+		<div style="float:left;margin-right:5px">
+			<label> SP公司代码</label>
+			<input type="text" name="sp_company_code" value="" placeholder="SP公司代码" > 
+		</div>
+		<div style="float:left;margin-right:5px">
+			<label> 业务类型</label>
+			<input type="text" name="business_type" value="" placeholder="业务类型" > 
+		</div>
+		<div style="float:left;margin-right:5px">
+			<label> 业务代码</label>
+			<input type="text" name="business_code" value="" placeholder="业务代码" > 
+		</div>
+		<div style="float:left;margin-right:5px">
+			<label> 业务名称</label>
+			<input type="text" name="business_name" value="" placeholder="业务名称" > 
+		</div>
+		<div style="float:left;margin-right:5px">
+			<label> 申请时间</label>
+			<input type="text" id="apply_time" name="apply_time" value="" placeholder="申请时间" > 
+		</div>
+		<div style="float:left;margin-right:5px">
+			<label> 业务状态</label>
+			<input type="text" name="business_state" value="" placeholder="业务申请状态" > 
+		</div>
+		<div style="float:left;margin-right:5px">
+			<label> 业务申请状态</label>
+			<input type="text" name="business_apply_state" value="" placeholder="业务申请状态" > 
+		</div>
+		<div style="float:left;margin-right:5px">
+			<label> 所属区域</label>
+			<input type="text" name="area" value="" placeholder="所属区域" > 
+		</div>
+		
+		<div class="btn-toolbar" style="padding-top:25px;padding-bottom:0px;margin-bottom:0px">
+
+		<button type="submit" class="btn btn-primary"><strong>添加</strong></button>
+			
+		</div>
+		<div style="clear:both;"></div>
+	</div>
+	</form>
+</div>
 
 <div style="border:0px;padding-bottom:5px;height:auto">
 
@@ -44,7 +94,6 @@
 					<th style="width:50px">业务类型</th>
 					<th style="width:50px">业务代码</th>
 					<th style="width:50px">业务名称</th>
-					<th style="width:30px">业务制式</th>
 					<th style="width:30px">申请时间</th>
 					<th style="width:30px">业务状态</th>
 					<th style="width:30px">业务申请状态</th>
@@ -60,7 +109,6 @@
 					<td><{$result.business_type}></td>
 					<td><{$result.business_code}></td>
 					<td><{$result.business_name}></td>
-					<td><{$result.business_format}></td>
 					<td><{$result.apply_time}></td>
 					<td><{$result.business_state}></td>
 					<td><{$result.business_apply_state}></td>
@@ -77,6 +125,12 @@
 			   <!--- END -->
         </div>
     </div>
+<script>
+$(function() {
+	var date=$( "#apply_time" );
+	date.datetimepicker({format: 'yyyy-mm-dd HH:ii:ss'});
+});
+</script>
 <{$osadmin_action_confirm}>
 <!-- TPLEND 以下内容不需更改，请保证该TPL页内的标签匹配即可 -->
 <{include file="footer.tpl" }>

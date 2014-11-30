@@ -26,6 +26,28 @@ if ($method == 'del' && ! empty ( $id )) {
 }
 
 
+if ($method == 'addUnicomBusinessSp' ) {
+	
+	if($company_name=="" || $sp_company_code=="" || $sp_access_number =="" ){
+		
+		OSAdmin::alert("error",ErrorMessage::NEED_PARAM);
+	}else{
+		$input_data = array ('sp_company_code' => $sp_company_code, 'company_name' => $company_name, 
+		'sp_access_number' => $sp_access_number, 'create_time' => date("Y-m-d H:i:s"),
+		'update_time'=>date("Y-m-d H:i:s"),'del_flag'=>0);
+		$id = Complaint::addUnicomBusinessSp ( $input_data );
+
+		
+		if ($id) {
+			SysLog::addLog ( UserSession::getUserName(), 'ADD', 'UnicomBusiness' ,$id, json_encode($input_data) );
+			Common::exitWithSuccess ('sp名单添加成功','/complaint/unicom_business_sp_list.php');
+		}else{
+			OSAdmin::alert("error");
+		}
+	}
+	
+}
+
 $http_query = '';
 foreach ($arr as $key => $value) {
      $http_query .= $value.'='.$$value.'&';

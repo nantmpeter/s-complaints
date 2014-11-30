@@ -4,6 +4,8 @@ require ('../include/init.inc.php');
 $arr = array('company_name','sp_company_code','business_code');
 $company_name = $sp_company_code = $business_code = "";
 
+$business_type=$business_name=$apply_time=$business_state=$business_apply_state=$area="";
+
 $method = $id = '';
 extract ( $_GET, EXTR_IF_EXISTS );
 
@@ -24,6 +26,30 @@ if ($method == 'del' && ! empty ( $id )) {
 			OSAdmin::alert("error");
 		}
 	}
+}
+
+if ($method == 'addUnicomBusiness' ) {
+	
+	if($company_name=="" || $sp_company_code=="" || $business_code =="" || $business_type =="" ||
+	 $business_name =="" || $apply_time=="" || $business_state =="" || $business_apply_state ==""|| $area ==""){
+		
+		OSAdmin::alert("error",ErrorMessage::NEED_PARAM);
+	}else{
+		$input_data = array ('sp_company_code' => $sp_company_code, 'company_name' => $company_name, 
+		'business_type' => $business_type, 'business_code' => $business_code, 'business_name' => $business_name, 
+		'apply_time' => $apply_time, 'business_state' => $business_state, 'business_apply_state' => $business_apply_state, 
+		'area' => $area , 'create_time' => date("Y-m-d H:i:s"),'update_time'=>date("Y-m-d H:i:s"),'del_flag'=>0);
+		$id = Complaint::addUnicomBusiness ( $input_data );
+
+		
+		if ($id) {
+			SysLog::addLog ( UserSession::getUserName(), 'ADD', 'UnicomBusiness' ,$id, json_encode($input_data) );
+			Common::exitWithSuccess ('业务信息添加成功','/complaint/unicom_business_list.php');
+		}else{
+			OSAdmin::alert("error");
+		}
+	}
+	
 }
 
 
