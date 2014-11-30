@@ -2,7 +2,7 @@
 <{include file ="navibar.tpl"}>
 <{include file ="sidebar.tpl"}>
 <!-- TPLSTART 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
-<div style="border:0px;padding-bottom:5px;height:auto">
+<div style="border:1px solid #CCCCCC;padding-left:10px;padding-bottom:5px;margin-bottom:10px;height:auto">
 	<form action="" method="GET" style="margin-bottom:0px">
 	
 		<input type="hidden" name="method" value="addUnicomBusinessSp"/>
@@ -24,10 +24,10 @@
 			
 		</div>
 		<div style="clear:both;"></div>
-	</div>
+
 	</form>
 </div>
-<div style="border:0px;padding-bottom:5px;height:auto">
+<div style="border:1px solid #CCCCCC;padding-left:10px;padding-bottom:5px;height:auto">
 
 	<form action="" method="GET" style="margin-bottom:0px">
 		
