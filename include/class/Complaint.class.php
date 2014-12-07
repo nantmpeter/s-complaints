@@ -1375,7 +1375,6 @@ class Complaint extends Base {
 
 		unset($condition['AND']['wan']);
 		$r = $db->select('co_base','count(*) as num,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
-		echo $db->last_query();
 
 		// if($r && $s) {
 		// 	$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
@@ -1489,7 +1488,7 @@ class Complaint extends Base {
 			$lastN = 0;
 		else
 			$lastN = $lastMonthNum/$lastMonth;
-
+		// var_dump($rNum,$r,$lastMonthNum,$lastMonth);
 		return array($start=>$rn,date('Y-m',strtotime($start.'-01 -1 month'))=>$lastN);
 
 		// retrun array($start=>$r,date(strtotime($start.'-01 -1 month'),'Y-m')=>$lastMonth);
