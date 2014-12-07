@@ -2,8 +2,32 @@
 <{include file ="navibar.tpl"}>
 <{include file ="sidebar.tpl"}>
 <!-- TPLSTART 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
+<div style="border:1px solid #CCCCCC;padding-left:10px;padding-bottom:5px;margin-bottom:10px;height:auto">
+	<form action="" method="GET" style="margin-bottom:0px">
+	
+		<input type="hidden" name="method" value="addUnicomBusinessSp"/>
+		<div style="float:left;margin-right:5px">
+			<label> SP公司名称</label>
+			<input type="text" name="company_name" value="" placeholder="SP公司名称" > 
+		</div>
+		<div style="float:left;margin-right:5px">
+			<label> SP公司代码</label>
+			<input type="text" name="sp_company_code" value="" placeholder="SP公司代码" > 
+		</div>
+		<div style="float:left;margin-right:5px">
+			<label> sp接入代码</label>
+			<input type="text" name="sp_access_number" value="" placeholder="sp接入代码" > 
+		</div>
+		<div class="btn-toolbar" style="padding-top:25px;padding-bottom:0px;margin-bottom:0px">
 
-<div style="border:0px;padding-bottom:5px;height:auto">
+		<button type="submit" class="btn btn-primary"><strong>添加</strong></button>
+			
+		</div>
+		<div style="clear:both;"></div>
+
+	</form>
+</div>
+<div style="border:1px solid #CCCCCC;padding-left:10px;padding-bottom:5px;height:auto">
 
 	<form action="" method="GET" style="margin-bottom:0px">
 		

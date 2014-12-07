@@ -1918,7 +1918,14 @@ class Complaint extends Base {
 		return $db->count('co_black_list',$condition);
 	}
 	
-	
+	public static function addUnicomBusiness($unicom_business_data) {
+		if (! $unicom_business_data || ! is_array ( $unicom_business_data )) {
+			return false;
+		}
+		$db=self::__instance();
+		$id = $db->insert ('dic_unicom_business', $unicom_business_data );
+		return $id;
+	}
 
 	public static function getUnicomBusiness($id)
 	{
@@ -1940,6 +1947,15 @@ class Complaint extends Base {
 		$condition = array("id" => $id);
 		$ret = $db->update ('dic_unicom_business', array('del_flag'=>1),$condition );
 		return $ret;
+	}
+	
+	public static function addUnicomBusinessSp($unicom_business_sp_data) {
+		if (! $unicom_business_sp_data || ! is_array ( $unicom_business_sp_data )) {
+			return false;
+		}
+		$db=self::__instance();
+		$id = $db->insert ('dic_unicom_business_sp', $unicom_business_sp_data );
+		return $id;
 	}
 	
 	public static function getUnicomBusinessWithSpList($param,$start = 0,$page_size = 20)
