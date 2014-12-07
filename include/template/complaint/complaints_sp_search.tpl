@@ -45,7 +45,7 @@
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> SP公司名称</label>
-				<input type="text" name="sp_name" value="<{$_GET.sp_name}>" placeholder="SP公司名称" > 
+				<input type="text" name="sp_corp_name" value="<{$_GET.sp_corp_name}>" placeholder="SP公司名称" > 
 		</div>
 		<div class="btn-toolbar" style="padding-top:25px;padding-bottom:0px;margin-bottom:0px">
 		<button type="submit" class="btn btn-primary"><strong>检索</strong></button>
