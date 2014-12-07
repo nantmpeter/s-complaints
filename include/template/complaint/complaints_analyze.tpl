@@ -25,31 +25,31 @@
 			<label> 统计月份 </label>
 			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="统计月份" >
 		</div>
-		<div style="float:left;margin-right:5px">
+		<!-- <div style="float:left;margin-right:5px">
 		<label> 业务名称</label>
 			<input type="text" name="buss_name" value="<{$_GET.buss_name}>" placeholder="具体业务名称" > 
-		</div>
-		<div style="float:left;margin-right:5px">
+		</div> -->
+	<!-- 	<div style="float:left;margin-right:5px">
 		<label> 案件编号</label>
 			<input type="text" name="case_id" value="<{$_GET.case_id}>" placeholder="案件编号" > 
-		</div>
-		<div style="float:left;margin-right:5px">
+		</div> -->
+	<!-- 	<div style="float:left;margin-right:5px">
 		<label> 投诉号码</label>
 			<input type="text" name="dispute_phone" value="<{$_GET.dispute_phone}>" placeholder="投诉号码" > 
-		</div>
-		<div style="float:left;margin-right:5px">
+		</div> -->
+		<!-- <div style="float:left;margin-right:5px">
 		<label> SP公司名称</label>
 				<input type="text" name="sp_name" value="<{$_GET.sp_name}>" placeholder="SP公司名称" > 
-		</div>
-		<div style="float:left;margin-right:5px">
+		</div> -->
+	<!-- 	<div style="float:left;margin-right:5px">
 		<label> 业务类型</label>
 			<select name="buss_type"><option value="0">全部</option>
 			<{foreach name=bussLine from=$data.bussLine item=bussLine key=key}>
 				<option value="<{$key}>" <{if $param.buss_type == $key}> selected='selected'<{/if}>><{$bussLine}></option>
 			<{/foreach}>
 			</select>
-			<!-- <{$data.bussLine}> -->
-		</div>
+			 <{$data.bussLine}> 
+		</div> -->
 		
 		<div class="btn-toolbar" style="padding-top:25px;padding-bottom:0px;margin-bottom:0px">
 
@@ -105,7 +105,7 @@
               <tbody>
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
-					<td><{$data.provinceMap[$result.corp_area]}></td>
+					<td><{$data.provinceMap[$result.province_id]}></td>
 					<td><{$result.month|date_format:'%Y-%m'}></td>
 					<!-- <td><{$result.complaint_phone}></td> -->
 					<!-- <td><{$result.buss_name}></td> -->

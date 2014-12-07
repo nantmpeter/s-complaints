@@ -28,6 +28,8 @@
 						<option value="complaints">每月全国31省工信部投诉表</option>
 						<option value="income">每月全国31省联通在信业务收入</option>
 						<option value="value_income">每月所有增值业务收入</option>
+						<option value="complaint_province">各省工信部申请数据表</option>
+						<option value="complaint_class">各业务类型工信部申请数据表</option>
 					</select>
 				</div>
 				<div>
@@ -73,6 +75,8 @@
 						<option value="complaints"<{if $smarty.get.table=='complaints'}> selected='selected' <{/if}>>每月全国31省工信部投诉表</option>
 						<option value="income"<{if $smarty.get.table=='income'}> selected='selected' <{/if}>>每月全国31省联通在信业务收入</option>
 						<option value="value_income"<{if $smarty.get.table=='value_income'}> selected='selected' <{/if}>>每月所有增值业务收入</option>
+						<option value="complaint_province"<{if $smarty.get.table=='complaint_province'}> selected='selected' <{/if}>>各省工信部申请数据表</option>
+						<option value="complaint_class"<{if $smarty.get.table=='complaint_class'}> selected='selected' <{/if}>>各业务类型工信部申请数据表</option>
 					</select>
 				</div>
 			<!-- 	<div>

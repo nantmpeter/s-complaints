@@ -11,7 +11,7 @@
   <li class="active"><a href="/complaint/complaints_analyze2.php">图标分析</a></li>
 </ul>
 	<form action="" method="GET" style="margin-bottom:0px">
-		<div style="float:left;margin-right:5px">
+<!-- 		<div style="float:left;margin-right:5px">
 
 			<label> 选择省份 </label>
 			<select name="province_id"><option value="0">全部</option>
@@ -19,17 +19,17 @@
 				<option value="<{$province.id}>" <{if $param.province_id == $province.id}> selected='selected'<{/if}>><{$province.name}></option>
 			<{/foreach}>
 			</select>
-			<!-- <{$data.province}> -->
-		</div>
+			<!-- <{$data.province}> 
+		</div> -->
 		<div style="float:left;margin-right:5px">
 			<label> 统计时间 </label>
 			<input type="text" id="start_date" name="start_date" value="<{$_GET.start_date}>" placeholder="统计时间" >
 		</div>
 		<div style="float:left;margin-right:5px">
 		<label> 业务名称</label>
-			<input type="text" name="buss_name" value="<{$_GET.buss_name}>" placeholder="具体业务名称" > 
+			<input type="text" name="class" value="<{$_GET.class}>" placeholder="具体业务名称" > 
 		</div>
-		<div style="float:left;margin-right:5px">
+		<!-- <div style="float:left;margin-right:5px">
 		<label> 案件编号</label>
 			<input type="text" name="case_id" value="<{$_GET.case_id}>" placeholder="案件编号" > 
 		</div>
@@ -48,8 +48,8 @@
 				<option value="<{$key}>" <{if $param.buss_type == $key}> selected='selected'<{/if}>><{$bussLine}></option>
 			<{/foreach}>
 			</select>
-			<!-- <{$data.bussLine}> -->
-		</div>
+			<!-- <{$data.bussLine}> 
+		</div> -->
 		
 		<div class="btn-toolbar" style="padding-top:25px;padding-bottom:0px;margin-bottom:0px">
 
@@ -106,7 +106,7 @@
               <tbody>
                 <{foreach name=result from=$data.result item=result}>
 					<tr>
-					<td><{$result.buss_class}></td>
+					<td><{$result.class}></td>
 					<!-- <td><{$data.provinceMap[$result.corp_area]}></td> -->
 					<td><{$result.month|date_format:'%Y-%m'}></td>
 					<!-- <td><{$result.complaint_phone}></td> -->

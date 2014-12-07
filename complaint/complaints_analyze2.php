@@ -1,8 +1,8 @@
 <?php 
 header("Content-Type:text/html;charset=utf-8");
 require ('../include/init.inc.php');
-$arr = array('start_date','end_date','province_id','buss_name','sp_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_type','sp_code','case_id','dispute_phone');
-$start_date = $end_date = $page_no = $province_id = $buss_name = $sp_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_type = $sp_code =$start_date = $end_date = $case_id = $dispute_phone = "";
+$arr = array('start_date','end_date','province_id','buss_name','sp_name','sp_corp_code','complaint_type','question_type','complaint_level','buss_type','sp_code','case_id','dispute_phone','class');
+$start_date = $end_date = $page_no = $province_id = $buss_name = $sp_name = $sp_corp_code = $complaint_type = $question_type = $complaint_level = $buss_type = $sp_code =$start_date = $end_date = $case_id = $dispute_phone = $class = "";
 
 extract ( $_GET, EXTR_IF_EXISTS );
 $user_info = UserSession::getSessionInfo();
@@ -40,9 +40,9 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$total['num'] += $value['num'];
 		$total['wan'] += $value['wan'];
 		$total['month'] = date('Y-m',$value['month']);
-		$tmp['typeName'][$key] = $value['buss_class'];
+		$tmp['typeName'][$key] = $value['class'];
 		$data['pie'][$num]['value'] = round($value['num']/$result['total'],4);
-		$data['pie'][$num]['name'] = $value['buss_class'];
+		$data['pie'][$num]['name'] = $value['class'];
 		$num++;
 		// $data['pie'][$key]['color'] = "#F38630";
 		if($value['cos']){
@@ -51,7 +51,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 			$tmp['value'][$key] = 0;
 		}
 		$sortTmp[$key]['score'] = $tmp['value'][$key];
-		$sortTmp[$key]['name'] = $value['buss_class'];
+		$sortTmp[$key]['name'] = $value['class'];
 	}
 	if(is_array($tmp['value']))
 		array_multisort($tmp['value'], SORT_DESC, $tmp['typeName'], SORT_DESC, $sortTmp);
@@ -71,7 +71,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 
 	$row_count = Complaint::complaintsAnalayze2Count($param);
 
-	$data['month'] = Complaint::baseAnalayzeMonth($param);
+	// $data['month'] = Complaint::baseAnalayzeMonth($param);
 	// $r = Complaint::complaintsAnalayzeType($param);
 	// var_dump($r);
 	// $data['provinces'] = implode(',',Complaint::complaintsAnalayzeType($param)['province']);

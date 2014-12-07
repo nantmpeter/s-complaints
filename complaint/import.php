@@ -15,8 +15,8 @@ if($del && $table) {
 }
 $data['result'] = Complaint::getImprotData($start_date_search,$table,$province_id);
 $menus = MenuUrl::getMenuByIds($user_info['shortcuts']);
-$name_map = array('基础信息'=>'base','不规范定制'=>'custom','工信部投诉'=>'complaints','收入'=>'income','增值收入'=>'value_income');
-$mapName = array('base'=>'基础信息','custom'=>'不规范定制','complaints'=>'工信部投诉','income'=>'收入','value_income'=>'增值收入');
+$name_map = array('基础信息'=>'base','不规范定制'=>'custom','工信部投诉'=>'complaints','收入'=>'income','增值收入'=>'value_income','各省工信部申请数据表'=>'complaint_province','各业务类型工信部申请数据表'=>'complaint_class');
+$mapName = array('base'=>'基础信息','custom'=>'不规范定制','complaints'=>'工信部投诉','income'=>'收入','value_income'=>'增值收入','complaint_province'=>'各省工信部申请数据表','complaint_class'=>'各业务类型工信部申请数据表');
 if (Common::isPost ()) {
 	// $file = $_FILES['excel']['tmp_name'];
 	// var_dump($file);

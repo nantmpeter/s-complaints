@@ -11,6 +11,8 @@ class Complaint extends Base {
 	private static $income = "province_id,sp_name,sp_code,buss_type,province_income,sp_income,owe,tuipei_cost,imbalance_cost,20_cost,diaozhang_cost,violate_cost,custom_cost,month,mastsp_code,mastsp_cost,mastsp_sleave,record_id";
 	private static $value_income = "month,buss_type,value,custom_cost,record_id";
 	private static $black_list = "complaint_phone,province_id,sp_corp_code,month,sp_corp_name,complaint_phone_tag,level,time_limit";
+	private static $complaint_province = "province_id,num,month,record_id";
+	private static $complaint_class = "class,num,month,record_id";
 
 	public static function getTableName(){
 		return parent::$table_prefix.self::$table_name;
@@ -36,6 +38,8 @@ class Complaint extends Base {
 		$columns['income'] = self::$income;
 		$columns['value_income'] = self::$value_income;
 		$columns['black_list'] = self::$black_list;
+		$columns['complaint_province'] = self::$complaint_province;
+		$columns['complaint_class'] = self::$complaint_class;
 		// unset($param[0]);
 		// var_dump(count(explode(',', $columns[$table])),count($param));exit;
 		$bussLine = array(
@@ -44,6 +48,17 @@ class Complaint extends Base {
 			);
 		$db=self::__instance();
 
+		if($table == 'complaint_province') {
+			$param[0] = Info::getProvinceByName($param[0]);
+			$param[2] = strtotime($param[2].'01');
+			if(strtotime($month.'-01') != $param[2])
+				return false;
+		}
+		if($table == 'complaint_class') {
+			$param[2] = strtotime($param[2].'01');
+			if(strtotime($month.'-01') != $param[2])
+				return false;
+		}
 		if($table == 'base') {
 			$param[0] = Info::getProvinceByName($param[0]);
 			// $param[6] = ExcelReader::xlsTime($param[6]);
@@ -1360,7 +1375,7 @@ class Complaint extends Base {
 
 		unset($condition['AND']['wan']);
 		$r = $db->select('co_base','count(*) as num,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
-
+		echo $db->last_query();
 
 		// if($r && $s) {
 		// 	$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
@@ -1566,8 +1581,8 @@ class Complaint extends Base {
 		foreach ($param as $key => $value) {
 			$condition["AND"][$key] = $value;
 		}
-		$condition['GROUP'] = 'province_id';
-		$r = $db->select('co_complaints','sum(complaint_num) as num,corp_area as province_id',$condition);
+		// $condition['GROUP'] = 'province_id';
+		$r = $db->select('co_complaint_province','*',$condition);
 
 		$province = Info::getProvince();
 		foreach ($province as $key => $value) {
@@ -1708,39 +1723,33 @@ class Complaint extends Base {
 				$condition["AND"][$key] = $value;
 			}
 		}
-		$condition['GROUP'] = 'corp_area';
+		// $condition['GROUP'] = 'corp_area';
 		// $condition['LIMIT']=array($start,$page_size);
 
-		$r = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
+		$r = $db->select('co_complaint_province','*',$condition);
+		// $r = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
 
 
 		if($r && isset($s)) {
 			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
 			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
 
-			$r2 = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
+			$r2 = $db->select('co_complaint_province','*',$condition);
+			// $r2 = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
 			$tmp = array();
 			foreach ($r2 as $key => $value) {
-				$tmp[$value['corp_area']] = round($value['num']);
+				$tmp[$value['province_id']] = round($value['num']);
 			}
 			foreach ($r as $key => $value) {
-				if(!$value['corp_area']){
+				if(!$value['province_id']){
 					unset($r[$key]);
 					continue;
 				}
 				$value['num'] = $r[$key]['num'] = round($value['num']);
-				$t = isset($tmp[$value['corp_area']])?$tmp[$value['corp_area']]:0;
+				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
 				$valid = $db->count('co_custom',array('complaint_status'=>'有效'));
-				// $r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
-				// $r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));
-				// $r[$key]['appealNot'] = $valid-$db->count('co_custom',array('appeal_status'=>'失败'));
-				// $r2 = $db->select('co_value_income','sum(value) as num',$condition);
-				// var_dump($r2);exit;
-				// echo 'select sum(custom_cost) as num where month='.strtotime($s.'-01').' and province_id='.$value['corp_area'];
-				// $r = $db->query('select sum(custom_cost) as num where month='.strtotime($s.'-01').' and province_id='.$value['corp_area'].' ')->fetchAll();
-				// var_dump($r);exit;
-				// $r[$key]['cos'] = $db->sum('co_value_income','value',array('AND'=>array('month'=>strtotime($s.'-01'))))/10000000;
-				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['corp_area'],'month'=>strtotime($s.'-01')))['cos']/10000000;
+
+				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01')))['cos']/10000000;
 
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
@@ -1776,37 +1785,37 @@ class Complaint extends Base {
 				$condition["AND"][$key] = $value;
 			}
 		}
-		$condition['GROUP'] = 'buss_class';
+		// $condition['GROUP'] = 'buss_class';
 		$condition['LIMIT']=array($start,$page_size);
-
-		$r = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
+		// var_dump($condition);
+		$r = $db->select('co_complaint_class','*',$condition);
 
 		if($r && isset($s)) {
 			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
 			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
 			unset($condition['LIMIT']);
-			$r2 = $db->select('co_complaints','*,sum(complaint_num) as num',$condition);
+			$r2 = $db->select('co_complaint_class','*',$condition);
 		// var_dump($start,$condition,$r2);
 
 			$tmp = array();
 			foreach ($r2 as $key => $value) {
-				$tmp[$value['buss_class']] = round($value['num']);
+				$tmp[$value['class']] = round($value['num']);
 			}
 			// var_dump($tmp);
 			$total = 0;
 			foreach ($r as $key => $value) {
-				if(!$value['corp_area']){
-					unset($r[$key]);
-					continue;
-				}
+				// if(!$value['corp_area']){
+				// 	unset($r[$key]);
+				// 	continue;
+				// }
 				$value['num'] = $r[$key]['num'] = round($value['num']);
 				$total += $value['num'];
-				$t = isset($tmp[$value['buss_class']])?$tmp[$value['buss_class']]:0;
+				$t = isset($tmp[$value['class']])?$tmp[$value['class']]:0;
 				$valid = $db->count('co_custom',array('complaint_status'=>'有效'));
 				// $r[$key]['appealSuc'] = $db->count('co_custom',array('appeal_status'=>'申诉成功'));
 				// $r[$key]['appealFail'] = $db->count('co_custom',array('appeal_status'=>'申诉失败'));
 				// $r[$key]['appealNot'] = $valid-$db->count('co_custom',array('appeal_status'=>'失败'));
-				$r[$key]['cos'] = $db->get('co_value_income','sum(value) as cos',array('AND'=>array('buss_type'=>$value['buss_class'],'month'=>strtotime($s.'-01'))))['cos']/10000000;
+				$r[$key]['cos'] = $db->get('co_value_income','sum(value) as cos',array('AND'=>array('buss_type'=>$value['class'],'month'=>strtotime($s.'-01'))))['cos']/10000000;
 				if($r[$key]['cos'])
 					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
 				else
@@ -1816,7 +1825,6 @@ class Complaint extends Base {
 				$r[$key]['increasePercent'] = $t?(round(($value['num'] - $t)*10000/($t))/100).'%':'--';
 			}
 		}
-
 		return array('list'=>$r,'total'=>$total);
 	}
 
@@ -1833,7 +1841,7 @@ class Complaint extends Base {
 		if(empty($param))
 			$param = array();
 		foreach ($param as $key => $value) {
-			if($key=='case_id'||$key=='buss_name'||$key=='sp_name'||$key=='dispute_phone')
+			if($key=='case_id'||$key=='buss_name'||$key=='sp_name'||$key=='dispute_phone'||$key =='class')
 			{
 				$condition["LIKE"]["AND"][$key] = $value;
 				$where .= ' and '.$key.' "%'.$value.'%" ';
@@ -1844,13 +1852,14 @@ class Complaint extends Base {
 				$where .= ' and '.$key.'='.$value;
 			}
 		}
-		$where .= ' group by buss_class';
-		$condition['GROUP'] = 'buss_class';
+		// $where .= ' group by buss_class';
+		// $condition['GROUP'] = 'buss_class';
 		// $condition['LIMIT']=array($start,$page_size);
 		// var_dump($condition);
 
-		$r = count($db->query('select id from co_complaints'.$where)->fetchAll());
-		// $r = $db->count('co_complaints',$condition);
+		// $r = count($db->query('select id from co_complaint_class'.$where)->fetchAll());
+
+		$r = $db->count('co_complaint_class',$condition);
 		// var_dump($r);
 		// $start = $start?$start:date('Y-m');
 
@@ -2234,8 +2243,8 @@ class Complaint extends Base {
 		$db=self::__instance();
 		$condition = array('AND'=>array('month'=>$month));
 		if($province_id)
-			$condition['AND']['corp_area']=$province_id;
-		$r = ceil($db->sum('co_complaints','complaint_num',$condition));
+			$condition['AND']['province_id']=$province_id;
+		$r = ceil($db->sum('co_complaint_province','num',$condition));
 
 		return $r;
 	}
