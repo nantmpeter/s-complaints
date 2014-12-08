@@ -1418,7 +1418,7 @@ class Complaint extends Base {
 			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 		}
 		$start = isset($start)?$start:date('Y-m');
-		unset($param['province_id'],$param['start_date']);
+		unset($param['start_date']);
 		foreach ($param as $key => $value) {
 			$condition["AND"][$key] = $value;
 		}
@@ -1508,7 +1508,7 @@ class Complaint extends Base {
 			$condition["AND"][$key] = $value;
 		}
 		$condition['GROUP'] = 'm';
-		$r = $db->select('co_complaint_province','*,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
+		$r = $db->select('co_complaint_province','sum(num) as num,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
 		for ($i = 1;$i<=12;$i++){
 			$tmp[substr($start, 0,4).'-'.sprintf('%02s',$i)] = 0;
 		}
