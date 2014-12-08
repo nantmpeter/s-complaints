@@ -1440,6 +1440,7 @@ class Complaint extends Base {
 							'AND'=>array(
 								'month[<]'=>strtotime($start.'-01 +1 month -1 day'),
 								'month[>=]'=>strtotime($start.'-01'),
+								'province_id'=>$resultProvince
 								)
 							))['num'];
 		$lastMonth = array();
@@ -1465,7 +1466,8 @@ class Complaint extends Base {
 			array(
 				'AND'=>array(
 				'month[>=]'=>strtotime($start.'-01 -1 month'),
-				'month[<]'=>strtotime($start.'-01 -1 day')
+				'month[<]'=>strtotime($start.'-01 -1 day'),
+				'province_id'=>$resultProvince
 				)
 				)
 			)['num'];
