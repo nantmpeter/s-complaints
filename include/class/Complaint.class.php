@@ -1508,7 +1508,7 @@ class Complaint extends Base {
 			$condition["AND"][$key] = $value;
 		}
 		$condition['GROUP'] = 'm';
-		$r = $db->select('co_complaints','sum(complaint_num) as num,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
+		$r = $db->select('co_complaint_province','*,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
 		for ($i = 1;$i<=12;$i++){
 			$tmp[substr($start, 0,4).'-'.sprintf('%02s',$i)] = 0;
 		}
