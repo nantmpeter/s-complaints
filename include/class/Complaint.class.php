@@ -1445,6 +1445,7 @@ class Complaint extends Base {
 							))['num'];
 		$lastMonth = array();
 		$province = $db->select('co_base','province_id',array('AND'=>array('month'=>strtotime($start.'-01 -1 month')),'GROUP'=>'province_id'));
+
 		$tmpLastProvince = array();
 		foreach ($province as $pro) {
 			$tmpLastProvince[] = $pro['province_id'];
@@ -1456,7 +1457,7 @@ class Complaint extends Base {
 				'AND'=>array(
 				'month'=>strtotime($start.'-01 -1 month'),
 				// 'month[<]'=>strtotime($start.'-01 -1 day'),
-				'province_id'=>$tmpLastProvince
+				// 'province_id'=>$tmpLastProvince
 				)
 				)
 			)['cos']/10000;
@@ -1467,7 +1468,7 @@ class Complaint extends Base {
 				'AND'=>array(
 				'month[>=]'=>strtotime($start.'-01 -1 month'),
 				'month[<]'=>strtotime($start.'-01 -1 day'),
-				'province_id'=>$tmpLastProvince
+				// 'province_id'=>$tmpLastProvince
 				)
 				)
 			)['num'];
