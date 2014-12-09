@@ -1457,7 +1457,7 @@ class Complaint extends Base {
 				'AND'=>array(
 				'month'=>strtotime($start.'-01 -1 month'),
 				// 'month[<]'=>strtotime($start.'-01 -1 day'),
-				// 'province_id'=>$tmpLastProvince
+				'province_id'=>$resultProvince
 				)
 				)
 			)['cos']/10000;
