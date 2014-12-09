@@ -1450,6 +1450,8 @@ class Complaint extends Base {
 		foreach ($province as $pro) {
 			$tmpLastProvince[] = $pro['province_id'];
 		}
+		if($_GET['province_id'])
+			$tmpProvince = $_GET['province_id'];
 		$lastMonth = $db->get(
 			'co_income',
 			'sum(province_income) as cos',
@@ -1457,7 +1459,8 @@ class Complaint extends Base {
 				'AND'=>array(
 				'month'=>strtotime($start.'-01 -1 month'),
 				// 'month[<]'=>strtotime($start.'-01 -1 day'),
-				'province_id'=>$resultProvince
+				'province_id'=>$tmpLastProvince
+				// 'province_id'=>$resultProvince
 				)
 				)
 			)['cos']/10000;
@@ -1468,7 +1471,8 @@ class Complaint extends Base {
 				'AND'=>array(
 				'month[>=]'=>strtotime($start.'-01 -1 month'),
 				'month[<]'=>strtotime($start.'-01 -1 day'),
-				'province_id'=>$resultProvince
+				'province_id'=>$tmpLastProvince
+				// 'province_id'=>$resultProvince
 				)
 				)
 			)['num'];
