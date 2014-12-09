@@ -1451,7 +1451,7 @@ class Complaint extends Base {
 			$tmpLastProvince[] = $pro['province_id'];
 		}
 		if($_GET['province_id'])
-			$tmpProvince = $_GET['province_id'];
+			$tmpLastProvince = $_GET['province_id'];
 		$lastMonth = $db->get(
 			'co_income',
 			'sum(province_income) as cos',
