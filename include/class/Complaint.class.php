@@ -140,12 +140,19 @@ class Complaint extends Base {
 
 	public static function checkFirstLine($arr,$table) {
 		// $checkParams['base'] = 1;
-		$checkParams['custom'] = 20;
+		$checkParams['custom'] = 29;
 		$db=self::__instance();
 		$params = explode(',', self::$$table);
 
 		// var_dump(count($params),count($arr[1]),$arr[1]);exit;
-		$r = $db->select('co_'.$table,'*',array($params[$checkParams[$table]]=>$arr[1][$checkParams[$table]]));
+		if($table=='custom')
+		{
+			$r = $db->select('co_'.$table,'*',array($params[$checkParams[$table]]=>strtotime($arr[1][$checkParams[$table]].'01 00:00:00')));
+		}
+		else {
+			$r = $db->select('co_'.$table,'*',array($params[$checkParams[$table]]=>$arr[1][$checkParams[$table]]));
+		}
+		//var_dump(strtotime($arr[1][$checkParams[$table]].'01 00:00:00'),$arr[1][$checkParams[$table]],$db->last_query());exit;
 		if($r && count($r) > 0) {
 			return array('error'=>'该数据以导入过！');
 		}
@@ -217,8 +224,11 @@ class Complaint extends Base {
 
 		$db=self::__instance();
 		if($param['start_date']){
-			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			//$condition["AND"]['order_time[>=]'] = strtotime($param['start_date'].'-01');
+			//$condition["AND"]['order_time[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date']." 00:00:00");
+			$condition["AND"]['order_time[<]'] = strtotime($param['end_date']." 23:59:59");
+			
 			unset($param['start_date'],$param['end_date']);	
 		}
 
@@ -250,7 +260,9 @@ class Complaint extends Base {
 			$condition['LIMIT']=array($start,$page_size);
 		}
 
-		return $db->select('co_custom','*',$condition);
+		$ret=$db->select('co_custom','*',$condition);
+		//var_dump($db->last_query());exit;
+		return $ret;
 	}
 
 	public static function customSearchCount($param)
@@ -258,8 +270,11 @@ class Complaint extends Base {
 		$condition = array();
 		$db=self::__instance();
 		if($param['start_date']){
-			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			//$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
+			//$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
+			$condition["AND"]['order_time[>=]'] = strtotime($param['start_date']." 00:00:00");
+			$condition["AND"]['order_time[<]'] = strtotime($param['end_date']." 23:59:59");
+			
 			unset($param['start_date'],$param['end_date']);	
 		}
 
