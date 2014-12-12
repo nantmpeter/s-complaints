@@ -86,7 +86,8 @@ class Complaint extends Base {
 			// if($province_id != $param[22])
 			// 	return true;
 			$param[25] = ExcelReader::xlsTime($param[25]);
-			$param[6] = ExcelReader::xlsTime($param[6]);
+			//$param[6] = ExcelReader::xlsTime($param[6]);
+			$param[6] = strtotime($param[6]);
 			$param[7] = $bussLine[$param[7]];
 			$tmp = array($param[16],$param[22],$param[6],$param[29],$param[2],'',1,'一年');
 			$num = $db->count('co_custom',array('complaint_phone'=>$param[16]));
