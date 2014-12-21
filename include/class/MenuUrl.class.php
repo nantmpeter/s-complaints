@@ -13,11 +13,11 @@ class MenuUrl extends Base {
 	public static function getMenuByRole($user_role,$online=1) {
 		$url_array = array ();
 		$db=self::__instance();
-		
+		$user_role = $user_role?$user_role:5;
 		$sql ="select * from ".self::getTableName()." me ,".Module::getTableName()." mo where me.menu_id in ($user_role) and me.online=$online and me.module_id = mo.module_id and  mo.online=1";
-		 
+
 		$list = $db->query($sql) ->fetchAll();
-		
+
 		if ($list) {
 			foreach ( $list as $menu_info ) {
 				$url_array [] = $menu_info ['menu_url'];
