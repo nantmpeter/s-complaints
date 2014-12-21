@@ -8,7 +8,7 @@
   <li class="active">
     <a href="/complaint/analyze.php">全国发展趋势及各省分布情况</a>
   </li>
-  <li><a href="/complaint/analyze2.php">全国各省投诉量/各省业务收入</a></li>
+  <li><a href="/complaint/analyze2.php">全国各省万投比</a></li>
 </ul>
 	<form action="" method="GET" style="margin-bottom:0px">
 		<div style="float:left;margin-right:5px">
