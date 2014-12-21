@@ -295,7 +295,7 @@ option = {
     xAxis : [
         {
             type : 'category',
-            data : [<{$data.wanName}>]
+            data : [<{$data.wanName}>],
             axisLabel :{show:true,interval : 0,rotate:30},
         }
     ],
