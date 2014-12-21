@@ -172,7 +172,7 @@ if( OSAdmin::checkNoNeedLogin($action_url,$no_need_login_page) ){
 
 $user_info = UserSession::getSessionInfo();
 
-Template::assign('user_province_id',4);
+Template::assign('user_province_id',isset($user_info['province_id'])?$user_info['province_id']:0);
 Template::assign ( 'osa_templates', $OSA_TEMPLATES);
 $sidebarStatus=$_COOKIE['sidebarStatus']==null?"yes":$_COOKIE['sidebarStatus'];
 Template::assign ( 'sidebarStatus', $sidebarStatus);
