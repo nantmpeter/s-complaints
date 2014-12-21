@@ -394,7 +394,7 @@ option = {
                     <textarea md="code" name="code">
 option = {
     title : {
-        text: '最近两月投诉量与收入比',
+        text: '全年万投比',
         //subtext: '纯属虚构'
     },
     tooltip : {
@@ -417,7 +417,7 @@ option = {
     xAxis : [
         {
             type : 'category',
-            data : [<{$data.baseTwoMonthWanString}>]
+            data : ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
         }
     ],
     yAxis : [

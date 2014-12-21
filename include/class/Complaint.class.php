@@ -1428,11 +1428,11 @@ class Complaint extends Base {
 
 		if(empty($param))
 			$param = array();
-		if($param['start_date']){
-			$start = $param['start_date'];
-			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
-			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
-		}
+		// if($param['start_date']){
+			// $start = $param['start_date'];
+			$condition["AND"]['month[>=]'] = strtotime(date('Y').'-01-01');
+			$condition["AND"]['month[<]'] = strtotime(date('Y').'-12-31');
+		// }
 		$start = isset($start)?$start:date('Y-m');
 		unset($param['start_date']);
 		foreach ($param as $key => $value) {
@@ -1441,57 +1441,93 @@ class Complaint extends Base {
 		$condition['GROUP'] = 'm';
 		// $r = $db->select('co_base','count(*) as num,FROM_UNIXTIME(month,"%Y-%m") AS m',$condition);
 
-		$r = $db->get(
-			'co_income',
-			'sum(province_income) as cos',
-			array(
-					'AND'=>array(
+		$tmpCon = array(
 						// 'month[<]'=>strtotime($start.'-01 +1 month -1 day'),
-						'month'=>strtotime($start.'-01'),
-						'province_id'=>$resultProvince
-						)
-					)
-				)['cos']/10000;
-		$rNum = $db->get('co_base','count(*) as num',array(
-							'AND'=>array(
-								'month[<]'=>strtotime($start.'-01 +1 month -1 day'),
-								'month[>=]'=>strtotime($start.'-01'),
-								'province_id'=>$resultProvince
-								)
-							))['num'];
-		$lastMonth = array();
-		$province = $db->select('co_base','province_id',array('AND'=>array('month'=>strtotime($start.'-01 -1 month')),'GROUP'=>'province_id'));
-
-		$tmpLastProvince = array();
-		foreach ($province as $pro) {
-			$tmpLastProvince[] = $pro['province_id'];
+						'month[>=]'=>strtotime(date('Y').'-01-01'),
+						'month[<]'=>strtotime(date('Y').'-12-31'),
+						// 'province_id'=>$resultProvince
+						);
+		if(isset($param['province_id']) && $param['province_id'] > 0) {
+			$tmpCon['province_id'] = $param['province_id'];
 		}
-		if($_GET['province_id'])
-			$tmpLastProvince = $resultProvince;
-		$lastMonth = $db->get(
+		$r = $db->select(
 			'co_income',
-			'sum(province_income) as cos',
+			'sum(province_income) as cos,month',
 			array(
-				'AND'=>array(
-				'month'=>strtotime($start.'-01 -1 month'),
-				// 'month[<]'=>strtotime($start.'-01 -1 day'),
-				'province_id'=>$tmpLastProvince
-				// 'province_id'=>$resultProvince
-				)
-				)
-			)['cos']/10000;
-		$lastMonthNum = $db->get(
+					'AND'=>$tmpCon,
+					'GROUP'=>'month',
+					)
+				);
+
+		$rnum = $db->select(
 			'co_base',
-			'count(*) as num',
+			'count(*) as num,month',
 			array(
-				'AND'=>array(
-				'month[>=]'=>strtotime($start.'-01 -1 month'),
-				'month[<]'=>strtotime($start.'-01 -1 day'),
-				'province_id'=>$tmpLastProvince
-				// 'province_id'=>$resultProvince
-				)
-				)
-			)['num'];
+					'AND'=>$tmpCon,
+					'GROUP'=>'month',
+					)
+				);
+		$cos = $nums = array();
+		foreach ($rnum as $key => $value) {
+			$nums[date('m',$value['month'])*1] = $value['num'];
+		}
+		foreach ($r as $key => $value) {
+			$cos[date('m',$value['month'])*1] = $value['cos'];
+		}
+
+		for ($i=1; $i <= 12; $i++) { 
+			if(isset($cos[$i])) {
+				if(!isset($nums[$i]))
+					$nums[$i] = 0;
+				$wan[$i] = $nums[$i]/$cos[$i]*10000;
+			}else{
+				$wan[$i] = 0;
+			}
+
+		}
+		return $wan;
+		var_dump($wan);
+		// var_dump($rnum);exit;
+		// $rNum = $db->get('co_base','count(*) as num',array(
+		// 					'AND'=>array(
+		// 						'month[<]'=>strtotime($start.'-01 +1 month -1 day'),
+		// 						'month[>=]'=>strtotime($start.'-01'),
+		// 						'province_id'=>$resultProvince
+		// 						)
+		// 					))['num'];
+		// $lastMonth = array();
+		// $province = $db->select('co_base','province_id',array('AND'=>array('month'=>strtotime($start.'-01 -1 month')),'GROUP'=>'province_id'));
+
+		// $tmpLastProvince = array();
+		// foreach ($province as $pro) {
+		// 	$tmpLastProvince[] = $pro['province_id'];
+		// }
+		// if($_GET['province_id'])
+		// 	$tmpLastProvince = $resultProvince;
+		// $lastMonth = $db->get(
+		// 	'co_income',
+		// 	'sum(province_income) as cos',
+		// 	array(
+		// 		'AND'=>array(
+		// 		'month'=>strtotime($start.'-01 -1 month'),
+		// 		// 'month[<]'=>strtotime($start.'-01 -1 day'),
+		// 		'province_id'=>$tmpLastProvince
+		// 		// 'province_id'=>$resultProvince
+		// 		)
+		// 		)
+		// 	)['cos']/10000;
+		// $lastMonthNum = $db->get(
+		// 	'co_base',
+		// 	'count(*) as num',
+		// 	array(
+		// 		'AND'=>array(
+		// 		'month[>=]'=>strtotime($start.'-01 -1 month'),
+		// 		'month[<]'=>strtotime($start.'-01 -1 day'),
+		// 		'province_id'=>$tmpLastProvince
+		// 		// 'province_id'=>$resultProvince
+		// 		)
+		// 		)
+		// 	)['num'];
 
 		// for ($i = 1;$i<=12;$i++){
 		// 	$tmp[substr($start, 0,4).'-'.sprintf('%02s',$i)] = 0;
@@ -1502,6 +1538,7 @@ class Complaint extends Base {
 		// 		continue;
 		// 	$tmp[$value['m']] = $value['num'];
 		// }
+
 		if(!$rNum || !$r)
 			$rn = 0;
 		else
