@@ -69,7 +69,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$tmpP[$key] = $value['name'];
 	}
 
-	$data['provinceString'] = '"'.implode('","', array_merge($tmp,$tmpP)).'"';
+	$data['provinceString'] = '"'.implode('","', $tmp).'"';
 
 	// $baseTwoMonthWan = Complaint::baseTwoMonthWan($param,$resultProvince);
 	// foreach ($baseTwoMonthWan as $key => $value) {

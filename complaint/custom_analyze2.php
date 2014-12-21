@@ -48,8 +48,10 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$edition[$key] = $row['name']; 
 	}
 	array_multisort($volume, SORT_DESC, $edition, SORT_ASC, $data['provinces']); 
-	$wan = array();
+	$wan = $name = array();
 	foreach ($data['provinces'] as $key => $value) {
+		if (!$value['name'] || $value['wan'] == 0)
+			continue;
 		$name[] = $value['name'];
 		$wan[] = sprintf("%.2f", $value['wan']);
 	}

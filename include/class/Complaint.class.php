@@ -1829,7 +1829,7 @@ class Complaint extends Base {
 			$s = $param['start_date'];
 			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
-			unset($param['start_date'],$param['end_date']);	
+			unset($param['start_date'],$param['end_date'],$param['province_id']);	
 		}
 
 		if(empty($param))
@@ -1848,7 +1848,7 @@ class Complaint extends Base {
 		$condition['LIMIT']=array($start,$page_size);
 		// var_dump($condition);
 		$r = $db->select('co_complaint_class','*',$condition);
-
+		// echo $db->last_query();exit;
 		if($r && isset($s)) {
 			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
 			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
@@ -1894,7 +1894,7 @@ class Complaint extends Base {
 			$where .= ' and month >= '.strtotime($param['start_date'].'-01').' and month < '.strtotime($param['start_date'].'-01 +1 month -1 day');
 			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
-			unset($param['start_date'],$param['end_date']);	
+			unset($param['start_date'],$param['end_date'],$param['province_id']);	
 		}
 
 		if(empty($param))

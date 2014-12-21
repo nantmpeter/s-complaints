@@ -60,6 +60,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 
 	array_multisort($provincesData, SORT_DESC, $province, SORT_ASC, $data['provinces']); 
 	array_multisort($complaintsData, SORT_DESC, $province, SORT_ASC, $data['complaints']); 
+	$proName = $proScore = array();
 	foreach ($data['provinces'] as $key => $value) {
 		if (!$value['name'] || $value['score'] == 0)
 			continue;

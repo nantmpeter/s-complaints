@@ -247,7 +247,7 @@ option = {
         {
             type : 'category',
             data : [<{$data.chartName}>],
-            axisLabel :{show:true,interval : 0,rotate:30},
+            axisLabel :{show:true,interval : 0,rotate:30,margin:0},
         }
     ],
     yAxis : [

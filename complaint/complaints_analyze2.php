@@ -33,6 +33,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	{
 		$result = Complaint::complaintsAnalayze2($param,$start,$page_size);
 	}
+
 	$data['result'] = $result['list'];
 	$num=0;
 	$sortTmp = array();
@@ -53,7 +54,8 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$sortTmp[$key]['score'] = $tmp['value'][$key];
 		$sortTmp[$key]['name'] = $value['class'];
 	}
-	if(is_array($tmp['value']))
+
+	if(isset($tmp['value']) && is_array($tmp['value']))
 		array_multisort($tmp['value'], SORT_DESC, $tmp['typeName'], SORT_DESC, $sortTmp);
 	$tmpName = $tmpScore = array();
 	foreach ($sortTmp as $key => $value) {
