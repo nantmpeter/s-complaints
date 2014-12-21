@@ -228,6 +228,7 @@
 
     </style>
 
+            <{if $user_province_id = 0}>
     
     <div class="container-fluid" idx='0' style="padding:0;">
         <div class="row-fluid">
@@ -297,6 +298,7 @@ option = {
             </div><!--/span-->
         </div><!--/row-->
     </div><!--/.fluid-container-->
+    <{/if}>
     <!--------1:bar--------->
     <div class="container-fluid" idx="1"  style="padding:0;">
         <div class="row-fluid">
@@ -372,6 +374,7 @@ option = {
                     </textarea>
               </div><!--/.well -->
             </div><!--/span-->
+
             <div md="graphic" class="span12" style="margin: 0;">
                 <div md="main" class="main"></div>
                 <div>
@@ -379,6 +382,7 @@ option = {
                     <span md='wrong-message' style="color:red"></span>
                 </div>
             </div><!--/span-->
+
         </div><!--/row-->
     </div><!--/.fluid-container-->
     <!--------2:scatter--------->
