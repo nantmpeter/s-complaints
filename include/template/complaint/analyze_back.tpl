@@ -198,12 +198,10 @@ option = {
             name:'短彩信数',
             type:'bar',
             data:[<{$data.month}>],
-            markPoint : {
-                data : [
-                    {type : 'max', name: '最大值'},
-                    {type : 'min', name: '最小值'}
-                ]
-            },
+            itemStyle:{
+               normal:{label:{show:true}},
+               emphasis:{label:{show:true}}
+           },
             markLine : {
                 data : [
                     {type : 'average', name: '平均值'}
@@ -253,12 +251,10 @@ option = {
             name:'短彩信数',
             type:'bar',
             data:[<{$data.month}>],
-            markPoint : {
-                data : [
-                    {type : 'max', name: '最大值'},
-                    {type : 'min', name: '最小值'}
-                ]
-            },
+            itemStyle:{
+               normal:{label:{show:true}},
+               emphasis:{label:{show:true}}
+           },
             markLine : {
                 data : [
                     {type : 'average', name: '平均值'}

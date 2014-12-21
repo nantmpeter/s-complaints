@@ -220,7 +220,8 @@ option = {
     xAxis : [
         {
             type : 'category',
-            data : [<{$data.chartName}>]
+            data : [<{$data.chartName}>],
+            axisLabel :{show:true,interval : 0,rotate:30},
         }
     ],
     yAxis : [
@@ -233,12 +234,10 @@ option = {
             name:'定制',
             type:'bar',
             data:[<{$data.chartValue}>],
-            markPoint : {
-                data : [
-                    {type : 'max', name: '最大值'},
-                    {type : 'min', name: '最小值'}
-                ]
-            },
+            itemStyle:{
+               normal:{label:{show:true}},
+               emphasis:{label:{show:true}}
+           },
             markLine : {
                 data : [
                     {type : 'average', name: '平均值'}
@@ -304,12 +303,10 @@ option = {
             name:'万投比',
             type:'bar',
             data:[<{$data.chartWan}>],
-            markPoint : {
-                data : [
-                    {type : 'max', name: '最大值'},
-                    {type : 'min', name: '最小值'}
-                ]
-            },
+            itemStyle:{
+               normal:{label:{show:true}},
+               emphasis:{label:{show:true}}
+           },
             markLine : {
                 data : [
                     {type : 'average', name: '平均值'}

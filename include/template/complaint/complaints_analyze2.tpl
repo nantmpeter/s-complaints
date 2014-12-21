@@ -249,12 +249,10 @@ option = {
             name:'申诉量/业务收入',
             type:'bar',
             data:[<{$data.zhuData}>],
-            markPoint : {
-                data : [
-                    {type : 'max', name: '最大值'},
-                    {type : 'min', name: '最小值'}
-                ]
-            },
+            itemStyle:{
+               normal:{label:{show:true}},
+               emphasis:{label:{show:true}}
+           },
             markLine : {
                 data : [
                     {type : 'average', name: '平均值'}

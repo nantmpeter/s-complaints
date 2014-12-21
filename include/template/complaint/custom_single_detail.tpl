@@ -176,12 +176,10 @@ option = {
             name:'收入比',
             type:'bar',
             data:[<{$data.value}>],
-            markPoint : {
-                data : [
-                    {type : 'max', name: '最大值'},
-                    {type : 'min', name: '最小值'}
-                ]
-            },
+            itemStyle:{
+               normal:{label:{show:true}},
+               emphasis:{label:{show:true}}
+           },
             markLine : {
                 data : [
                     {type : 'average', name: '平均值'}

@@ -206,14 +206,15 @@ option = {
             dataView : {show: true, readOnly: false},
             magicType : {show: true, type: ['line', 'bar']},
             restore : {show: true},
-            saveAsImage : {show: true}
+            saveAsImage : {show: true},
         }
     },
     calculable : true,
     xAxis : [
         {
             type : 'category',
-            data : [<{$data.chartName}>]
+            data : [<{$data.chartName}>],
+            axisLabel :{show:true,interval : 0,rotate:30},
         }
     ],
     yAxis : [
@@ -226,12 +227,10 @@ option = {
             name:'投诉',
             type:'bar',
             data:[<{$data.chartValue}>],
-            markPoint : {
-                data : [
-                    {type : 'max', name: '最大值'},
-                    {type : 'min', name: '最小值'}
-                ]
-            },
+            itemStyle:{
+               normal:{label:{show:true}},
+               emphasis:{label:{show:true}}
+           },
             markLine : {
                 data : [
                     {type : 'average', name: '平均值'}

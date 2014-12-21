@@ -256,12 +256,10 @@ option = {
             name:'投诉',
             type:'bar',
             data:[<{$data.month}>],
-            markPoint : {
-                data : [
-                    {type : 'max', name: '最大值'},
-                    {type : 'min', name: '最小值'}
-                ]
-            },
+            itemStyle:{
+               normal:{label:{show:true}},
+               emphasis:{label:{show:true}}
+           },
             markLine : {
                 data : [
                     {type : 'average', name: '平均值'}
@@ -282,7 +280,7 @@ option = {
             </div><!--/span-->
         </div><!--/row-->
     </div><!--/.fluid-container-->
-    <!--------1:bar--------->
+    <!--------1:bar-->
     <div class="container-fluid" idx="1"  style="padding:0;">
         <div class="row-fluid">
             <div md="sidebar-code" class="span4" style="display:none;">
@@ -314,7 +312,8 @@ option = {
     xAxis : [
         {
             type : 'category',
-            data : [<{$data.provinceString}>]
+            data : [<{$data.provinceString}>],
+            axisLabel :{show:true,interval : 0,rotate:30},
         }
     ],
     yAxis : [
@@ -327,12 +326,10 @@ option = {
             name:'投诉分布',
             type:'bar',
             data:[<{$data.provinces}>],
-            markPoint : {
-                data : [
-                    {type : 'max', name: '最大值'},
-                    {type : 'min', name: '最小值'}
-                ]
-            },
+            itemStyle:{
+               normal:{label:{show:true}},
+               emphasis:{label:{show:true}}
+           },
             markLine : {
                 data : [
                     {type : 'average', name: '平均值'}

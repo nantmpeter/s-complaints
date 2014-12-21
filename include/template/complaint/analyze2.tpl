@@ -220,7 +220,8 @@ option = {
     xAxis : [
         {
             type : 'category',
-            data : [<{$data.provinceString}>]
+            data : [<{$data.provinceString}>],
+            axisLabel :{show:true,interval : 0,rotate:30},
         }
     ],
     yAxis : [
@@ -233,12 +234,10 @@ option = {
             name:'万投比',
             type:'bar',
             data:[<{$data.provinces}>],
-            markPoint : {
-                data : [
-                    {type : 'max', name: '最大值'},
-                    {type : 'min', name: '最小值'}
-                ]
-            },
+            itemStyle:{
+               normal:{label:{show:true}},
+               emphasis:{label:{show:true}}
+           },
             markLine : {
                 data : [
                     {type : 'average', name: '平均值'}
@@ -249,12 +248,10 @@ option = {
             name:'收入比',
             type:'bar',
             data:[<{$data.provinces2}>],
-            markPoint : {
-                data : [
-                    {type : 'max', name: '最大值'},
-                    {type : 'min', name: '最小值'}
-                ]
-            },
+            itemStyle:{
+               normal:{label:{show:true}},
+               emphasis:{label:{show:true}}
+           },
             markLine : {
                 data : [
                     {type : 'average', name: '平均值'}
