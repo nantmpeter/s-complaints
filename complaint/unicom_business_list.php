@@ -28,6 +28,60 @@ if ($method == 'del' && ! empty ( $id )) {
 	}
 }
 
+
+if (Common::isPost ()&&$_POST['importunicombl']==1) {
+	if(empty($_FILES['excel'])) {
+		OSAdmin::alert("error","empty file");
+	}else{
+		if($_FILES['excel']['error'] != 0) {
+			$message = '导入出错,error number('.$_FILES['excel']['error'].')';
+			OSAdmin::alert("error",$message);
+		}
+
+		$file = $_FILES['excel']['tmp_name'];
+
+		$excel_array = ExcelReader::readXLS($file);
+		$error = '';
+		if($excel_array) {
+			array_shift($excel_array);
+
+			$successnum=0;
+			$existnum=0;
+			foreach ($excel_array as $key => $value) {
+				if(count($value)>=8&&$value[0]&&$value[3])
+				$r=Complaint::checkUnicomBusiness($value[0],$value[3]);
+				if(!$r){
+					$ret=Complaint::addUnicomBusiness(array(
+														'sp_company_code'=>$value[0],
+														'company_name'=>$value[1],
+														'business_type'=>$value[2],
+														'business_code'=>$value[3],
+														'business_name'=>$value[4],
+														'business_format'=>'',
+														'apply_time'=>$value[5],
+														'business_state'=>$value[6],
+														'business_apply_state'=>$value[7],
+														'area'=>$value[8],
+														'create_time'=>date('Y-m-d H:i:s'),
+														'update_time'=>date('Y-m-d H:i:s')));
+					if($ret){
+						$successnum++;
+					}
+				}
+				else{
+					$existnum++;
+					continue;
+				}
+			}
+			
+			$error = '需要导入'.count($excel_array).'条，已经存在'.$existnum.'条，成功'.$successnum.'条！';
+			
+		}else{
+			$error= "导入文件有问题！";
+		}
+	}
+}
+
 if ($method == 'addUnicomBusiness' ) {
 	
 	if($company_name=="" || $sp_company_code=="" || $business_code =="" || $business_type =="" ||

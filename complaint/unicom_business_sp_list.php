@@ -25,6 +25,52 @@ if ($method == 'del' && ! empty ( $id )) {
 	}
 }
 
+if (Common::isPost ()&&$_POST['importunicombspl']==1) {
+	if(empty($_FILES['excel'])) {
+		OSAdmin::alert("error","empty file");
+	}else{
+		if($_FILES['excel']['error'] != 0) {
+			$message = '导入出错,error number('.$_FILES['excel']['error'].')';
+			OSAdmin::alert("error",$message);
+		}
+
+		$file = $_FILES['excel']['tmp_name'];
+
+		$excel_array = ExcelReader::readXLS($file);
+		$error = '';
+		if($excel_array) {
+			array_shift($excel_array);
+
+			$successnum=0;
+			$existnum=0;
+			foreach ($excel_array as $key => $value) {
+				if(count($value)>=4&&$value[2]&&$value[3])
+				$r=Complaint::checkUnicomBusinessSp($value[2],$value[3]);
+				if(!$r){
+					$ret=Complaint::addUnicomBusinessSp(array('company_name'=>$value[1],
+														'sp_company_code'=>$value[2],
+														'sp_access_number'=>$value[3],
+														'create_time'=>date('Y-m-d H:i:s'),
+														'update_time'=>date('Y-m-d H:i:s')));
+					if($ret){
+						$successnum++;
+					}
+				}
+				else{
+					$existnum++;
+					continue;
+				}
+			}
+			
+			$error = '需要导入'.count($excel_array).'条，已经存在'.$existnum.'条，成功'.$successnum.'条！';
+			
+		}else{
+			$error= "导入文件有问题！";
+		}
+	}
+}
+
+
 
 if ($method == 'addUnicomBusinessSp' ) {
 	

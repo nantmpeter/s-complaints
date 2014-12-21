@@ -1,6 +1,12 @@
 <{include file ="header.tpl"}>
 <{include file ="navibar.tpl"}>
 <{include file ="sidebar.tpl"}>
+<{if $error}>
+<div class="error alert">
+	<{$error}>
+
+</div>
+<{/if}>
 <!-- TPLSTART 以上内容不需更改，保证该TPL页内的标签匹配即可 -->
 <div style="border:1px solid #CCCCCC;padding-left:10px;padding-bottom:5px;margin-bottom:10px;height:auto">
 	<form action="" method="GET" style="margin-bottom:0px">
@@ -27,6 +33,20 @@
 
 	</form>
 </div>
+<div style="border:1px solid #CCCCCC;padding-left:10px;padding-bottom:5px;margin-bottom:10px;height:auto">
+	<form id="tab" method="post" action="" autocomplete="off" ENCTYPE="multipart/form-data" style="margin-bottom:0px;">
+		<div>
+			<input type="hidden" name="importunicombspl" value=1 />
+			<div style="float:left;margin-right:5px">
+			<input type="file" name="excel"  id="DropDownTimezone"  class="input-xlarge"/>
+			</div>
+			<div class="btn-toolbar" style="padding-bottom:0px;margin-bottom:0px">
+			<button type="submit" class="btn btn-primary"><strong>提交</strong></button>	
+			</div>
+		</div>
+	</form>	
+</div>
+
 <div style="border:1px solid #CCCCCC;padding-left:10px;padding-bottom:5px;height:auto">
 
 	<form action="" method="GET" style="margin-bottom:0px">
