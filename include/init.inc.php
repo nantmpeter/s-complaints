@@ -84,8 +84,96 @@ if( OSAdmin::checkNoNeedLogin($action_url,$no_need_login_page) ){
 	}
 }
 
+ $user_info = UserSession::getSessionInfo();
+		
+					$role_menu_url = MenuUrl::getMenuByRole ( $user_info['user_role']); 
+					$menus = array(
+							'客诉分析'=>array(
+									'数据导入'=>'/complaint/import.php',
+								),
+							'基本信息分析'=>array(
+									'全网SP信息查询'=>'/complaint/sp_search.php',
+									'客户投诉查询'=>'/complaint/search.php',
+									'客户投诉分析'=> array(
+											'全国投诉情况分析'=>'/complaint/analyze.php',
+											'sp公司投诉情况分析'=>'/complaint/sp_analyze.php',
+											'单产品投诉情况'=>'/complaint/single.php'
+										),
+								),
+							'不规范定制分析'=>array(
+									'不规范定制查询'=>'/complaint/custom_search.php',
+									'客户投诉分析'=> array(
+											'全国投诉情况分析'=>'/complaint/custom_analyze.php',
+											'sp公司投诉情况分析'=>'/complaint/custom_sp_analyze.php',
+											'单产品投诉情况'=>'/complaint/custom_single.php'
+										),
+								),
+							'工信部投诉分析'=>array(
+									'全网SP信息查询'=>'/complaint/complaints_sp_search.php',
+									'工信部投诉查询'=>'/complaint/complaints_search.php',
+									'客户投诉分析'=> array(
+											'全国投诉情况分析'=>'/complaint/complaints_analyze.php',
+											'sp公司投诉情况分析'=>'/complaint/complaints_sp_analyze.php',
+											'单产品投诉情况'=>'/complaint/complaints_single.php'
+										),
+								),
+							'黑名单'=>'/complaint/black_list.php',
+							'数据字典'=>array(
+											'投诉类型及问题分类管理'=>'/complaint/complaints_type_manage.php',
+											'投诉分级管理'=>'/complaint/complaints_level_manage.php',
+											'全网联通在信业务-sp名单'=>'/complaint/unicom_business_sp_list.php',
+											'全网联通在信业务-业务信息'=>'/complaint/unicom_business_list.php'
+										),
+						);
+					$m = '<ul class="top_ul" >';
+					foreach ($menus as $k1 => $menu1) {
+						$m1 = '';
+						if(!is_array($menu1)){
+							$m .= '<li class="top_li" style="border-left: 3px solid #12AEFF;"><a href="'.$menu1.'">'.$k1.'</a></li>';
+							continue;
+						}
+						foreach ($menu1 as $k2 => $menu2) {
+							$m2 = '';
+							$flag2 = 0;
+							$arr = array();
+							if(is_array($menu2)){
+								$flag3 = 0;
+								$tmp = '';
+								foreach ($menu2 as $k3 => $menu3) {
+									if(in_array($menu3, $role_menu_url)){
+										$flag3 = 1;
+										$tmp .= '<li class="third_li"><a href="'.$menu3.'">'.$k3.'</a></li>';
+									}
+								}
+								if($flag3) {
+									$m2 .= '<li class="second_li">'.$k2.'</li><ul class="third_ul">'.$tmp.'</ul>';
+								}
+							}else{
+								if(in_array($menu2, $role_menu_url)){
+									$flag2 = 1;
+
+									$m1 .= '<li class="second_li"><a href="'.$menu2.'">'.$k2.'</a></li>';
+								}
+							}
+
+							if($flag3) {
+								$m1 = $m1 . $m2; 
+							}
+						}
+						if($flag2 || $flag3 && $m1) {
+							$m .= '<li class="top_li" style="border-left: 3px solid #12AEFF;">'.$k1.'</li><ul class="second_ul">'.$m1.'</ul>';
+
+						}
+					}
+					$m .= '</ul>';
+					// var_dump($m);exit;
+
+					
+
+
 Template::assign ( 'osa_templates', $OSA_TEMPLATES);
 $sidebarStatus=$_COOKIE['sidebarStatus']==null?"yes":$_COOKIE['sidebarStatus'];
 Template::assign ( 'sidebarStatus', $sidebarStatus);
 Template::assign ( 'isLogin', 0);
+Template::assign( 'menu', $m);
 ?>

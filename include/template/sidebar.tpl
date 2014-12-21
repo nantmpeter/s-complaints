@@ -26,7 +26,9 @@
 				
 
 				</style>
-				<ul class="top_ul" >
+
+				<{$menu}>
+				<!-- <ul class="top_ul" >
 					<li class="top_li" style="border-left: 3px solid #12AEFF;">客诉分析</li>
 					<ul class="second_ul" >
 						<li class="second_li"><a href="/complaint/import.php">数据导入</a></li>
@@ -75,7 +77,7 @@
 						<li class="second_li"><a href="/complaint/unicom_business_list.php">全网联通在信业务-业务信息</a></li>
 							
 					</ul>
-				</ul>
+				</ul> -->
 				<{else}>
 			<a href="#sidebar_menu_<{$module.module_id}>" class="nav-header collapsed" data-toggle="collapse"><i class="<{$module.module_icon}>"></i><{$module.module_name}> <i class="icon-chevron-up"></i></a>
 				<{if $module.module_id == $current_module_id }>
