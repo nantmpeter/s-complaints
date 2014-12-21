@@ -74,7 +74,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	// 把 $data 作为最后一个参数，以通用键排序 
 	array_multisort($volume, SORT_DESC, $edition, SORT_ASC, $tmp);
 	foreach ($tmp as $key => $value) {
-		if (!$value['name'])
+		if (!$value['name'] || $value['score'] == 0)
 			continue;
 		$name[] = $value['name'];
 		$score[] = $value['score'];
