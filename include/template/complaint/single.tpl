@@ -211,6 +211,7 @@ option = {
             axisLabel :{show:true,interval : 0,rotate:30},
         }
     ],
+    grid:{y2:'30%',x:'15%'},
     yAxis : [
         {
             type : 'value'

@@ -227,6 +227,7 @@ option = {
             type : 'value'
         }
     ],
+    grid:{y2:'30%',x:'15%'},
     series : [
         {
             name:'投诉',

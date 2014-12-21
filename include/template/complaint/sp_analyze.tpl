@@ -247,7 +247,7 @@ option = {
         {
             type : 'category',
             data : [<{$data.chartName}>],
-            axisLabel :{show:true,interval : 0,rotate:30,margin:0},
+            axisLabel :{show:true,interval : 0,rotate:20,margin:0,textStyle:{fontSize:1}},
         }
     ],
     yAxis : [
@@ -255,6 +255,7 @@ option = {
             type : 'value'
         }
     ],
+    grid:{y2:'30%',x:'15%'},
     series : [
         {
             name:'投诉量',
@@ -317,7 +318,7 @@ option = {
         {
             type : 'category',
             data : [<{$data.wanString}>],
-            axisLabel :{show:true,interval : 0,rotate:30},
+            axisLabel :{show:true,interval : 0,rotate:20,margin:0,textStyle:{fontSize:1}},
         }
     ],
     yAxis : [
@@ -325,6 +326,8 @@ option = {
             type : 'value'
         }
     ],
+    grid:{y2:'30%',x:'15%'},
+
     series : [
         {
             name:'万投比',

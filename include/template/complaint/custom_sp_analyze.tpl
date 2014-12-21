@@ -226,7 +226,7 @@ option = {
         {
             type : 'category',
             data : [<{$data.chartName}>],
-            axisLabel :{show:true,interval : 0,rotate:30},
+            axisLabel :{show:true,interval : 0,rotate:20,margin:0,textStyle:{fontSize:1}},
         }
     ],
     yAxis : [
@@ -234,6 +234,7 @@ option = {
             type : 'value'
         }
     ],
+    grid:{y2:'30%',x:'15%'},
     series : [
         {
             name:'定制',
@@ -295,10 +296,11 @@ option = {
     xAxis : [
         {
             type : 'category',
-            data : [<{$data.wanName}>],
-            axisLabel :{show:true,interval : 0,rotate:30},
+            data : [<{$data.wanName}>], 
+            axisLabel :{show:true,interval : 0,rotate:20,margin:0,textStyle:{fontSize:1}},
         }
     ],
+    grid:{y2:'30%',x:'15%'},
     yAxis : [
         {
             type : 'value'
