@@ -216,6 +216,7 @@
 
     </style>
 
+    <{if $user_province_id == 0}>
     
     <div class="container-fluid" idx='0'  style="padding:0;">
         <div class="row-fluid">
@@ -285,6 +286,7 @@ option = {
             </div><!--/span-->
         </div><!--/row-->
     </div><!--/.fluid-container-->
+    <{/if}>
     <!--------1:bar-->
     <div class="container-fluid" idx="1"  style="padding:0;">
         <div class="row-fluid">
