@@ -149,8 +149,8 @@
 
                     <td><{if ($data.total.num-$data.total.increase)}><{($data.total.increase/($data.total.num-$data.total.increase)*100)|string_format:"%.2f"}><{else}>--<{/if}>%</td>
                     <td><{$data.total.suc}></td>
-                    <td><{$data.total.fail}></td>
-                    <td><{$data.total.not}></td>
+                    <!-- <td><{$data.total.fail}></td>
+                    <td><{$data.total.not}></td> -->
                     <td><{$data.total.cos|string_format:"%.2f"}></td>
                     <td><{if $data.total.cos}><{($data.total.num/$data.total.cos)|string_format:"%.2f"}><{else}>0.00<{/if}></td>
                     <td></td>
