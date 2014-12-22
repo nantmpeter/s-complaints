@@ -89,8 +89,8 @@
 					<th style="width:30px">环比增长量</th>
 					<th style="width:30px">环比增长率</th>
 					<th style="width:30px">申诉成功</th>
-					<th style="width:30px">申诉失败</th>
-					<th style="width:30px">未申诉量</th>
+				<!-- 	<th style="width:30px">申诉失败</th>
+					<th style="width:30px">未申诉量</th> -->
 					<!-- <th style="width:30px">不规范定制/业务收入(百万)</th> -->
 					<!-- <th style="width:30px">sp接入代码</th> -->
 					<!-- <th style="width:30px">投诉内容</th> -->
@@ -115,8 +115,8 @@
 
 					<td><{$result.increasePercent}></td>
 					<td><{$result.appealSuc}></td>
-					<td><{$result.appealFail}></td>
-					<td><{$result.appealNot}></td>
+				<!-- 	<td><{$result.appealFail}></td>
+					<td><{$result.appealNot}></td> -->
 
 					<td><{$result.complaint_type}></td>
 

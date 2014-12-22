@@ -93,8 +93,8 @@
 					<th style="width:30px">环比增长量</th>
 					<th style="width:30px">环比增长率</th>
 					<th style="width:30px">申诉成功</th>
-					<th style="width:30px">申诉失败</th>
-					<th style="width:30px">未申诉量</th>
+					<!-- <th style="width:30px">申诉失败</th>
+					<th style="width:30px">未申诉量</th> -->
 					<th style="width:30px">不规范定制万投比</th>
 
 					<th style="width:30px">投诉类型</th>
@@ -114,8 +114,8 @@
 
 					<td><{$result.increasePercent}></td>
 					<td><{$result.appealSuc}></td>
-					<td><{$result.appealFail}></td>
-					<td><{$result.appealNot}></td>
+				<!-- 	<td><{$result.appealFail}></td>
+					<td><{$result.appealNot}></td> -->
 					<td><{$result.wan|string_format:"%.2f"}></td>
 
 					<td><{$result.complaint_type}></td>

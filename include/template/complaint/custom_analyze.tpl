@@ -94,8 +94,8 @@
 					<th style="width:30px">环比增长量</th>
 					<th style="width:30px">环比增长率</th>
 					<th style="width:30px">申诉成功</th>
-					<th style="width:30px">申诉失败</th>
-					<th style="width:30px">未申诉量</th>
+					<!-- <th style="width:30px">申诉失败</th>
+					<th style="width:30px">未申诉量</th> -->
                     <th style="width:30px">省份应收(万元)</th>
 					<th style="width:30px">不规范定制万投比</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
@@ -121,8 +121,8 @@
 
 					<td><{$result.increasePercent}></td>
 					<td><{$result.appealSuc}></td>
-					<td><{$result.appealFail}></td>
-					<td><{$result.appealNot}></td>
+				<!-- 	<td><{$result.appealFail}></td>
+					<td><{$result.appealNot}></td> -->
                     <td><{$result.cos|string_format:"%.2f"}></td>
 					<td><{$result.wan|string_format:"%.2f"}></td>
 
