@@ -32,7 +32,7 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		$data['result'] = Complaint::baseSpAnalayze($param,$start,$page_size);
 	}
 	$total = Complaint::getProMonthTotal($province_id,$start_date);
-
+	$tmp = array();
 	if($data['result']){
 		foreach ($data['result'] as $key => $value) {
 			// $total += $value['num'];

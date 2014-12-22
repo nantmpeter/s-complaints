@@ -31,7 +31,7 @@
 				<td>
 				<a href="group.php?group_id=<{$group.group_id}>" title= "成员列表" ><i class="icon-list-alt"></i></a>
 				&nbsp;
-				<a href="group_modify.php?group_id=<{$group.group_id}>" title= "修改" ><i class="icon-pencil"></i></a>
+				<a href="/panel/group_modify.php?group_id=<{$group.group_id}>" title= "修改" ><i class="icon-pencil"></i></a>
 				&nbsp;
 				
 				<{if $group.group_id != 1 }>

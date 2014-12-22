@@ -15,9 +15,14 @@
 
 			<label> 选择省份 </label>
 			<select name="province_id"><option value="0">全部</option>
+            <{if $user_province_id > 0 }>
+                <option value="<{$user_province_id}>" <{if $param.province_id == $province.id}> selected='selected'<{/if}>><{$data.province.$user_province_id.name}></option>
+
+            <{else}>
 			<{foreach name=province from=$data.province item=province}>
 				<option value="<{$province.id}>" <{if $param.province_id == $province.id}> selected='selected'<{/if}>><{$province.name}></option>
 			<{/foreach}>
+            <{/if}>
 			</select>
 			<!-- <{$data.province}> -->
 		</div>
@@ -211,6 +216,7 @@
 
     </style>
 
+    <{if $user_province_id == 0}>
     
     <div class="container-fluid" idx='0'  style="padding:0;">
         <div class="row-fluid">
@@ -280,6 +286,7 @@ option = {
             </div><!--/span-->
         </div><!--/row-->
     </div><!--/.fluid-container-->
+    <{/if}>
     <!--------1:bar-->
     <div class="container-fluid" idx="1"  style="padding:0;">
         <div class="row-fluid">

@@ -11,10 +11,14 @@ class Info extends Base{
 		}
 		$r = $tmp;
 		if($format) {
+			$user_info = UserSession::getSessionInfo();
 			$html = '<select name="province" id="DropDownTimezone"><option value="0" id="DropDownTimezone-0">全部</option>';
-
-			foreach ($r as $key => $value) {
-				$html.='<option value="'.$value['id'].'" id="DropDownTimezone-0">'.$value['name'].'</option>';
+			if($user_info && $user_info['province_id'] > 0) {
+				$html.='<option value="'.$user_info['province_id'].'" id="DropDownTimezone-0">'.$r[$user_info['province_id']]['name'].'</option>';
+			}else{
+				foreach ($r as $key => $value) {
+					$html.='<option value="'.$value['id'].'" id="DropDownTimezone-0">'.$value['name'].'</option>';
+				}
 			}
 			$html.='</select>'; 
 			$r = $html;

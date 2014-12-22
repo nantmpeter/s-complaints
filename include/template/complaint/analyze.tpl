@@ -8,16 +8,26 @@
   <li class="active">
     <a href="/complaint/analyze.php">全国发展趋势及各省分布情况</a>
   </li>
-  <li><a href="/complaint/analyze2.php">全国各省投诉量/各省业务收入</a></li>
+  <li><a href="/complaint/analyze2.php">全国各省万投比</a></li>
 </ul>
 	<form action="" method="GET" style="margin-bottom:0px">
 		<div style="float:left;margin-right:5px">
 
 			<label> 选择省份 </label>
 			<select name="province_id"><option value="0">全部</option>
+            <{if $user_province_id > 0 }>
+                <option value="<{$user_province_id}>" <{if $param.province_id == $province.id}> selected='selected'<{/if}>><{$data.province.$user_province_id.name}></option>
+
+            <{else}>
+            <{if $user_province_id > 0 }>
+                <option value="<{$user_province_id}>" <{if $param.province_id == $province.id}> selected='selected'<{/if}>><{$data.province.$user_province_id.name}></option>
+
+            <{else}>
 			<{foreach name=province from=$data.province item=province}>
 				<option value="<{$province.id}>" <{if $param.province_id == $province.id}> selected='selected'<{/if}>><{$province.name}></option>
 			<{/foreach}>
+            <{/if}>
+            <{/if}>
 			</select>
 			<!-- <{$data.province}> -->
 		</div>
@@ -218,6 +228,7 @@
 
     </style>
 
+    <{if $user_province_id == 0}>
     
     <div class="container-fluid" idx='0' style="padding:0;">
         <div class="row-fluid">
@@ -287,6 +298,7 @@ option = {
             </div><!--/span-->
         </div><!--/row-->
     </div><!--/.fluid-container-->
+    <{/if}>
     <!--------1:bar--------->
     <div class="container-fluid" idx="1"  style="padding:0;">
         <div class="row-fluid">
@@ -362,6 +374,7 @@ option = {
                     </textarea>
               </div><!--/.well -->
             </div><!--/span-->
+
             <div md="graphic" class="span12" style="margin: 0;">
                 <div md="main" class="main"></div>
                 <div>
@@ -369,6 +382,7 @@ option = {
                     <span md='wrong-message' style="color:red"></span>
                 </div>
             </div><!--/span-->
+
         </div><!--/row-->
     </div><!--/.fluid-container-->
     <!--------2:scatter--------->
@@ -380,7 +394,7 @@ option = {
                     <textarea md="code" name="code">
 option = {
     title : {
-        text: '最近两月投诉量与收入比',
+        text: '全年万投比',
         //subtext: '纯属虚构'
     },
     tooltip : {
@@ -403,7 +417,7 @@ option = {
     xAxis : [
         {
             type : 'category',
-            data : [<{$data.baseTwoMonthWanString}>]
+            data : ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
         }
     ],
     yAxis : [

@@ -54,6 +54,10 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 					$total['wan'] += $value['wan'];
 					$total['month'] = date('Y-m',$value['month']);
 					// $total['increase'] += $value['increase'];
+					if($value['num'] == 0) {
+						unset($result['now'][$key]);
+						continue;
+					}
 					$tmpProvince[$value['province_id']] = $value['num'];
 					$rand = rand(0,100);
 					$tmp[(string)($value['num']+$rand/100)] = $province[$value['province_id']]['name'];
@@ -91,8 +95,8 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 	foreach ($strProvince as $key => $value) {
 		$tmpP[$key] = $value['name'];
 	}
-
-	$data['provinceString'] = '"'.implode('","', array_merge($tmp,$tmpP)).'"';
+	// var_dump($tmp,$tmpP);
+	$data['provinceString'] = '"'.implode('","', $tmp).'"';
 
 	$baseTwoMonthWan = Complaint::baseTwoMonthWan($param,$resultProvince);
 

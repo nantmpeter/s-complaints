@@ -10,9 +10,14 @@
 
 			<label> 选择省份 </label>
 			<select name="province_id"><option value="0">全部</option>
+            <{if $user_province_id > 0 }>
+                <option value="<{$user_province_id}>" <{if $param.province_id == $province.id}> selected='selected'<{/if}>><{$data.province.$user_province_id.name}></option>
+
+            <{else}>
 			<{foreach name=province from=$data.province item=province}>
 				<option value="<{$province.id}>" <{if $param.province_id == $province.id}> selected='selected'<{/if}>><{$province.name}></option>
 			<{/foreach}>
+            <{/if}>
 			</select>
 			<!-- <{$data.province}> -->
 		</div>
@@ -206,6 +211,7 @@ option = {
             axisLabel :{show:true,interval : 0,rotate:30},
         }
     ],
+    grid:{y2:'30%',x:'15%'},
     yAxis : [
         {
             type : 'value'

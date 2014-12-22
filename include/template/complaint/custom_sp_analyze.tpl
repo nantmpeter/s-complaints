@@ -10,9 +10,14 @@
 
 			<label> 选择省份 </label>
 			<select name="province_id"><option value="0">全部</option>
+            <{if $user_province_id > 0 }>
+                <option value="<{$user_province_id}>" <{if $param.province_id == $province.id}> selected='selected'<{/if}>><{$data.province.$user_province_id.name}></option>
+
+            <{else}>
 			<{foreach name=province from=$data.province item=province}>
 				<option value="<{$province.id}>" <{if $param.province_id == $province.id}> selected='selected'<{/if}>><{$province.name}></option>
 			<{/foreach}>
+            <{/if}>
 			</select>
 			<!-- <{$data.province}> -->
 		</div>
@@ -88,8 +93,8 @@
 					<th style="width:30px">环比增长量</th>
 					<th style="width:30px">环比增长率</th>
 					<th style="width:30px">申诉成功</th>
-					<th style="width:30px">申诉失败</th>
-					<th style="width:30px">未申诉量</th>
+					<!-- <th style="width:30px">申诉失败</th>
+					<th style="width:30px">未申诉量</th> -->
 					<th style="width:30px">不规范定制万投比</th>
 
 					<th style="width:30px">投诉类型</th>
@@ -109,8 +114,8 @@
 
 					<td><{$result.increasePercent}></td>
 					<td><{$result.appealSuc}></td>
-					<td><{$result.appealFail}></td>
-					<td><{$result.appealNot}></td>
+				<!-- 	<td><{$result.appealFail}></td>
+					<td><{$result.appealNot}></td> -->
 					<td><{$result.wan|string_format:"%.2f"}></td>
 
 					<td><{$result.complaint_type}></td>
@@ -221,7 +226,7 @@ option = {
         {
             type : 'category',
             data : [<{$data.chartName}>],
-            axisLabel :{show:true,interval : 0,rotate:30},
+            axisLabel :{show:true,interval : 0,rotate:20,margin:0,textStyle:{fontSize:1}},
         }
     ],
     yAxis : [
@@ -229,6 +234,7 @@ option = {
             type : 'value'
         }
     ],
+    grid:{y2:'30%',x:'15%'},
     series : [
         {
             name:'定制',
@@ -290,9 +296,11 @@ option = {
     xAxis : [
         {
             type : 'category',
-            data : [<{$data.wanName}>]
+            data : [<{$data.wanName}>], 
+            axisLabel :{show:true,interval : 0,rotate:20,margin:0,textStyle:{fontSize:1}},
         }
     ],
+    grid:{y2:'30%',x:'15%'},
     yAxis : [
         {
             type : 'value'

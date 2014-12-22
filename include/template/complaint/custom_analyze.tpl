@@ -8,16 +8,21 @@
   <li class="active">
     <a href="/complaint/custom_analyze.php">全国不规范定制发展趋势及各省分布情况</a>
   </li>
-  <li><a href="/complaint/custom_analyze2.php">全国不规范定制件数/各省业务收入</a></li>
+  <li><a href="/complaint/custom_analyze2.php">全国不规范定制万投比</a></li>
 </ul>
 	<form action="" method="GET" style="margin-bottom:0px">
 		<div style="float:left;margin-right:5px">
 
 			<label> 选择省份 </label>
 			<select name="province_id"><option value="0">全部</option>
+            <{if $user_province_id > 0 }>
+                <option value="<{$user_province_id}>" <{if $param.province_id == $province.id}> selected='selected'<{/if}>><{$data.province.$user_province_id.name}></option>
+
+            <{else}>
 			<{foreach name=province from=$data.province item=province}>
 				<option value="<{$province.id}>" <{if $param.province_id == $province.id}> selected='selected'<{/if}>><{$province.name}></option>
 			<{/foreach}>
+            <{/if}>
 			</select>
 			<!-- <{$data.province}> -->
 		</div>
@@ -89,8 +94,8 @@
 					<th style="width:30px">环比增长量</th>
 					<th style="width:30px">环比增长率</th>
 					<th style="width:30px">申诉成功</th>
-					<th style="width:30px">申诉失败</th>
-					<th style="width:30px">未申诉量</th>
+					<!-- <th style="width:30px">申诉失败</th>
+					<th style="width:30px">未申诉量</th> -->
                     <th style="width:30px">省份应收(万元)</th>
 					<th style="width:30px">不规范定制万投比</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
@@ -116,8 +121,8 @@
 
 					<td><{$result.increasePercent}></td>
 					<td><{$result.appealSuc}></td>
-					<td><{$result.appealFail}></td>
-					<td><{$result.appealNot}></td>
+				<!-- 	<td><{$result.appealFail}></td>
+					<td><{$result.appealNot}></td> -->
                     <td><{$result.cos|string_format:"%.2f"}></td>
 					<td><{$result.wan|string_format:"%.2f"}></td>
 
@@ -144,8 +149,8 @@
 
                     <td><{if ($data.total.num-$data.total.increase)}><{($data.total.increase/($data.total.num-$data.total.increase)*100)|string_format:"%.2f"}><{else}>--<{/if}>%</td>
                     <td><{$data.total.suc}></td>
-                    <td><{$data.total.fail}></td>
-                    <td><{$data.total.not}></td>
+                    <!-- <td><{$data.total.fail}></td>
+                    <td><{$data.total.not}></td> -->
                     <td><{$data.total.cos|string_format:"%.2f"}></td>
                     <td><{if $data.total.cos}><{($data.total.num/$data.total.cos)|string_format:"%.2f"}><{else}>0.00<{/if}></td>
                     <td></td>
@@ -220,6 +225,7 @@
     </style>
 
     
+    <{if $user_province_id == 0}>
     <div class="container-fluid" idx='0' style="padding:0;">
         <div class="row-fluid">
             <div md="sidebar-code" class="span4" style="display:none;">
@@ -288,6 +294,7 @@ option = {
             </div><!--/span-->
         </div><!--/row-->
     </div><!--/.fluid-container-->
+    <{/if}>
     <!--------1:bar--------->
     <div class="container-fluid" idx="1" style="padding:0;">
         <div class="row-fluid">
