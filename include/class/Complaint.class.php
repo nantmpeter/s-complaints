@@ -1450,14 +1450,14 @@ class Complaint extends Base {
 		if(isset($param['province_id']) && $param['province_id'] > 0) {
 			$tmpCon['province_id'] = $param['province_id'];
 		}
-		$r = $db->select(
-			'co_income',
-			'sum(province_income) as cos,month',
-			array(
-					'AND'=>$tmpCon,
-					'GROUP'=>'month',
-					)
-				);
+		// $r = $db->select(
+		// 	'co_income',
+		// 	'sum(province_income) as cos,month',
+		// 	array(
+		// 			'AND'=>$tmpCon,
+		// 			'GROUP'=>'month',
+		// 			)
+		// 		);
 
 		$rnum = $db->select(
 			'co_base',
@@ -1471,11 +1471,37 @@ class Complaint extends Base {
 		foreach ($rnum as $key => $value) {
 			$nums[date('m',$value['month'])*1] = $value['num'];
 		}
-		foreach ($r as $key => $value) {
-			$cos[date('m',$value['month'])*1] = $value['cos'];
-		}
+		// foreach ($r as $key => $value) {
+		// 	$cos[date('m',$value['month'])*1] = $value['cos'];
+		// }
 
 		for ($i=1; $i <= 12; $i++) { 
+			// $db->select('co_base',array('month'=>strtotime(date('Y').'-'.$i.'-01'),'GROUP'=>'province_id'));
+			$province = $db->select('co_base','province_id',array('AND'=>array('month'=>strtotime(date('Y').'-'.$i.'-01')),'GROUP'=>'province_id'));
+			// echo $db->last_query();
+			// var_dump($i,$province);
+
+			$tmpLastProvince = array();
+			if($province) {
+			foreach ($province as $pro) {
+				$tmpLastProvince[] = $pro['province_id'];
+			}
+			$tmpCon['province_id'] = $tmpLastProvince;
+			if(isset($param['province_id']) && $param['province_id'] > 0) {
+				$tmpCon['province_id'] = $param['province_id'];
+			}
+			// $cos[$i] = $db->select('co_income','cos',)
+			// var_dump($tmpCon);
+			$tmpCon['month'] = strtotime(date('Y').'-'.$i.'-01');
+			$cos[$i] = $db->select(
+			'co_income',
+			'sum(province_income) as cos,month',
+			array(
+					'AND'=>$tmpCon
+					)
+				)[0]['cos'];
+			// echo $db->last_query();
+			// var_dump($cos[$i]);
 			if(isset($cos[$i])) {
 				if(!isset($nums[$i]))
 					$nums[$i] = 0;
@@ -1483,6 +1509,9 @@ class Complaint extends Base {
 			}else{
 				$wan[$i] = 0;
 			}
+		}else{
+			$wan[$i] = 0;
+		}
 
 		}
 		return $wan;
