@@ -2234,6 +2234,29 @@ class Complaint extends Base {
 		return $db->count('dic_unicom_business_sp',$condition);
 	}
 	
+	//检查是否有存在的联通在信业务sp名单
+	public static function checkUnicomBusinessSp($sp_company_code,$sp_access_number)
+	{
+		$db=self::__instance();
+		$condition["AND"]["sp_company_code"] = $sp_company_code;
+		$condition["AND"]["sp_access_number"] = $sp_access_number;
+		$condition["AND"]["del_flag"] = 0;
+		return $db->count('dic_unicom_business_sp',$condition);
+		
+	}
+	
+	//检查是否有存在的联通在信业务 业务信息
+	public static function checkUnicomBusiness($sp_company_code,$business_code)
+	{
+		$db=self::__instance();
+		$condition["AND"]["sp_company_code"] = $sp_company_code;
+		$condition["AND"]["business_code"] = $business_code;
+		$condition["AND"]["del_flag"] = 0;
+		return $db->count('dic_unicom_business',$condition);
+		
+	}
+	
+	
 	//投诉分级列表 
 	public static function getAllComplaintsLevel() {
 		$db=self::__instance();
