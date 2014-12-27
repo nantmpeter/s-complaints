@@ -22,6 +22,9 @@ if (Common::isPost ()) {
 		}
 		
 		if (! empty ( $password )) {
+			if(!preg_match("/^(([a-z]+[0-9]+)|([0-9]+[a-z]+))[a-z0-9]*$/i",$password)){
+					Common::exitWithError('密码必须由数字和字母的组合而成','');
+				}
 			$update_data = array_merge ( $update_data, array ('password' => md5 ( $password ) ) );
 		}
 		
