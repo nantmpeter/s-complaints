@@ -299,7 +299,7 @@ option = {
         </div><!--/row-->
     </div><!--/.fluid-container-->
     <{/if}>
-    <!--------1:bar--------->
+    <!--------1:bar-->
     <div class="container-fluid" idx="1"  style="padding:0;">
         <div class="row-fluid">
             <div md="sidebar-code" class="span4" style="display:none;">
@@ -315,7 +315,7 @@ option = {
         trigger: 'axis'
     },
     legend: {
-        data:['本月投诉量','上月投诉量']
+        data:['本月投诉量']
     },
     toolbox: {
         show : true,
@@ -355,20 +355,6 @@ option = {
                 ]
             }
         },
-        {
-            name:'上月投诉量',
-            type:'bar',
-            data:[<{$data.provinces2}>],
-            itemStyle:{
-               normal:{label:{show:true}},
-               emphasis:{label:{show:true}}
-           },
-            markLine : {
-                data : [
-                    {type : 'average', name: '平均值'}
-                ]
-            }
-        }
     ]
 };
                     </textarea>

@@ -76,15 +76,15 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 		// var_dump($total);
 		krsort($tmp);
 
-		foreach ($result['last'] as $key => $value) {
-				if ($value['province_id']) {
-					$tmpProvince2[$value['province_id']] = $value['num'];
-				}
-		}
+		// foreach ($result['last'] as $key => $value) {
+		// 		if ($value['province_id']) {
+		// 			$tmpProvince2[$value['province_id']] = $value['num'];
+		// 		}
+		// }
 		rsort($tmpProvince);
-		rsort($tmpProvince2);
+		// rsort($tmpProvince2);
 		$data['provinces'] = implode(',', $tmpProvince);
-		$data['provinces2'] = implode(',', $tmpProvince2);
+		// $data['provinces2'] = implode(',', $tmpProvince2);
 
 	// $province = Info::getProvince();
 	foreach ($province as $key => $value) {

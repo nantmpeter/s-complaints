@@ -543,43 +543,43 @@ class Complaint extends Base {
 		// }
 		
 
-		if($r && isset($s)) {
-			unset($condition["AND"]);
-			$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
-			$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
-			$condition["AND"]['province_id'] = $r2Province;
+		// if($r && isset($s)) {
+		// 	unset($condition["AND"]);
+		// 	$condition["AND"]['month[>=]'] = strtotime($s.'-01 -1 month');
+		// 	$condition["AND"]['month[<]'] = strtotime($s.'-01 -1 day');
+		// 	$condition["AND"]['province_id'] = $r2Province;
 
-			$r2 = $db->select('co_base','*,count(*) as num',$condition);
+		// 	$r2 = $db->select('co_base','*,count(*) as num',$condition);
 
-			$tmp = $lastMonth = array();
-			foreach ($r2 as $key => $value) {
-				$tmp[$value['province_id']] = $lastMonth[$value['province_id']] = $value['num'];
-				$r2[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01 -1 month')))['cos']/10000;
-				if($r[$key]['cos'])
-					$r2[$key]['wan'] = $value['num']/$r2[$key]['cos'];
-				else
-					$r2[$key]['wan'] = 0;
+		// 	$tmp = $lastMonth = array();
+		// 	foreach ($r2 as $key => $value) {
+		// 		$tmp[$value['province_id']] = $lastMonth[$value['province_id']] = $value['num'];
+		// 		$r2[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01 -1 month')))['cos']/10000;
+		// 		if($r[$key]['cos'])
+		// 			$r2[$key]['wan'] = $value['num']/$r2[$key]['cos'];
+		// 		else
+		// 			$r2[$key]['wan'] = 0;
 
-			}
+		// 	}
 
-			foreach ($r as $key => $value) {
-				if(!$value['province_id']){
-					unset($r[$key]);
-					continue;
-				}
-				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
+		// 	foreach ($r as $key => $value) {
+		// 		if(!$value['province_id']){
+		// 			unset($r[$key]);
+		// 			continue;
+		// 		}
+		// 		$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
 
-				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01')))['cos']/10000;
-				if($r[$key]['cos'])
-					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
-				else
-					$r[$key]['wan'] = 0;
+		// 		$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01')))['cos']/10000;
+		// 		if($r[$key]['cos'])
+		// 			$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
+		// 		else
+		// 			$r[$key]['wan'] = 0;
 
-				$r[$key]['increase'] = $value['num'] - $t;
-				$r[$key]['increasePercent'] = $t?(round(($value['num'] - $t)*10000/($t))/100).'%':'--';
-			}
-		}
-		$r2 = $r2?$r2:array();
+		// 		$r[$key]['increase'] = $value['num'] - $t;
+		// 		$r[$key]['increasePercent'] = $t?(round(($value['num'] - $t)*10000/($t))/100).'%':'--';
+		// 	}
+		// }
+		// $r2 = $r2?$r2:array();
 		$r = $r?$r:array();
 		return array('now' => $r,'last'=>$r2);
 	}
