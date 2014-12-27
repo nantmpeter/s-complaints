@@ -12,6 +12,7 @@ if ($method == 'del' && ! empty ( $group_id )) {
 	}else{
 		$group = UserGroup::getGroupById($group_id);
 		$result = UserGroup::delGroup ( $group_id );
+
 		if ($result>0) {
 			SysLog::addLog ( UserSession::getUserName(), 'DELETE', 'UserGroup',$group_id, json_encode($group) );
 			Common::exitWithSuccess ('已将账号组删除','complaint/group.php');
@@ -22,6 +23,7 @@ if ($method == 'del' && ! empty ( $group_id )) {
 }
 
 $groups = UserGroup::getAllGroup();
+
 unset($groups[0]);
 $confirm_html = OSAdmin::renderJsConfirm("icon-remove");
 Template::assign ( 'osadmin_action_confirm' , $confirm_html);

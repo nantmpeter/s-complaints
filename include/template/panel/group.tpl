@@ -48,11 +48,11 @@
               </tbody>
             </table> 
 		
-			<label>选择账号组</label>
+			<!-- <label>选择账号组</label>
 				<{html_options name=user_group id="DropDownTimezone" class="input-xlarge" options=$groupOptions selected=0}>
 				<div class="btn-toolbar">
 					<button type="submit" class="btn btn-primary"><strong>修改账号组</strong></button>
-				</div>
+				</div> -->
 			</form>
         </div>
     </div>

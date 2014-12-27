@@ -29,9 +29,9 @@
 				<td><{$group.owner_name}></td>
 				<td><{$group.group_desc}></td>
 				<td>
-				<a href="group.php?group_id=<{$group.group_id}>" title= "成员列表" ><i class="icon-list-alt"></i></a>
+				<a href="/complaint/group_member.php?group_id=<{$group.group_id}>" title= "成员列表" ><i class="icon-list-alt"></i></a>
 				&nbsp;
-				<a href="/panel/group_modify.php?group_id=<{$group.group_id}>" title= "修改" ><i class="icon-pencil"></i></a>
+				<a href="/complaint/group_modify.php?group_id=<{$group.group_id}>" title= "修改" ><i class="icon-pencil"></i></a>
 				&nbsp;
 				
 				<{if $group.group_id != 1 }>
