@@ -562,23 +562,23 @@ class Complaint extends Base {
 
 		// 	}
 
-		// 	foreach ($r as $key => $value) {
-		// 		if(!$value['province_id']){
-		// 			unset($r[$key]);
-		// 			continue;
-		// 		}
-		// 		$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
+			foreach ($r as $key => $value) {
+				if(!$value['province_id']){
+					unset($r[$key]);
+					continue;
+				}
+				$t = isset($tmp[$value['province_id']])?$tmp[$value['province_id']]:0;
 
-		// 		$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01')))['cos']/10000;
-		// 		if($r[$key]['cos'])
-		// 			$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
-		// 		else
-		// 			$r[$key]['wan'] = 0;
+				$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>strtotime($s.'-01')))['cos']/10000;
+				if($r[$key]['cos'])
+					$r[$key]['wan'] = $value['num']/$r[$key]['cos'];
+				else
+					$r[$key]['wan'] = 0;
 
-		// 		$r[$key]['increase'] = $value['num'] - $t;
-		// 		$r[$key]['increasePercent'] = $t?(round(($value['num'] - $t)*10000/($t))/100).'%':'--';
-		// 	}
-		// }
+				$r[$key]['increase'] = $value['num'] - $t;
+				$r[$key]['increasePercent'] = $t?(round(($value['num'] - $t)*10000/($t))/100).'%':'--';
+			}
+		
 		// $r2 = $r2?$r2:array();
 		$r = $r?$r:array();
 		return array('now' => $r,'last'=>$r2);
