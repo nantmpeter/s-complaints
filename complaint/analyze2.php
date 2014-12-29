@@ -49,11 +49,13 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 					unset($strProvince[$value['province_id']]);
 				}
 		}
-		foreach ($result['last'] as $key => $value) {
-				if ($value['province_id']) {
-					$tmpProvince2[$value['province_id']] = $value['wan'];
-				}
-		} 
+		if($result['last']) {
+			foreach ($result['last'] as $key => $value) {
+					if ($value['province_id']) {
+						$tmpProvince2[$value['province_id']] = $value['wan'];
+					}
+			} 
+		}
 		rsort($tmpProvince);
 		rsort($tmpProvince2);
 		$data['provinces'] = implode(',', $tmpProvince);
