@@ -41,14 +41,14 @@ if($method=='updateComplaintLevelAndType' && $start_date!='')
 					}
 					$keywordArr=explode('|', $v1['keywords']);
 					foreach($keywordArr as $v2)
-					{
-						if($v['complaint_content']!=''&&$v4!=''&&mb_strpos($v['complaint_content'], $v2,0,'utf8')!==false)
+					{var_dump($v['complaint_content'], $v2);
+						if($v['complaint_content']!=''&&$v2!=''&&mb_strpos($v['complaint_content'], $v2,0,'utf8')!==false)
 						{
 							$complaint_level=$v1['complaints_level'];
 							$find_level=1;
 							break;
 						}
-						if($v['suggestion']!=''&&$v4!=''&&mb_strpos($v['suggestion'], $v2,0,'utf8')!==false)
+						if($v['suggestion']!=''&&$v2!=''&&mb_strpos($v['suggestion'], $v2,0,'utf8')!==false)
 						{
 							$complaint_level=$v1['complaints_level'];
 							$find_level=1;
