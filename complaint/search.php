@@ -41,7 +41,7 @@ if($method=='updateComplaintLevelAndType' && $start_date!='')
 					}
 					$keywordArr=explode('|', $v1['keywords']);
 					foreach($keywordArr as $v2)
-					{var_dump($v['complaint_content'], $v2);
+					{
 						if($v['complaint_content']!=''&&$v2!=''&&mb_strpos($v['complaint_content'], $v2,0,'utf8')!==false)
 						{
 							$complaint_level=$v1['complaints_level'];
