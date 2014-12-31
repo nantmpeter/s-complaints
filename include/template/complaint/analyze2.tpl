@@ -248,21 +248,7 @@ option = {
                     {type : 'average', name: '平均值'}
                 ]
             }
-        },
-<!--         {
-            name:'收入比',
-            type:'bar',
-            data:[<{$data.provinces2}>],
-            itemStyle:{
-               normal:{label:{show:true}},
-               emphasis:{label:{show:true}}
-           },
-            markLine : {
-                data : [
-                    {type : 'average', name: '平均值'}
-                ]
-            }
-        } -->
+        }
     ]
 };
                     </textarea>
