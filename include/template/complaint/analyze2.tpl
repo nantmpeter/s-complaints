@@ -249,7 +249,7 @@ option = {
                 ]
             }
         },
-        {
+<!--         {
             name:'收入比',
             type:'bar',
             data:[<{$data.provinces2}>],
@@ -262,7 +262,7 @@ option = {
                     {type : 'average', name: '平均值'}
                 ]
             }
-        }
+        } -->
     ]
 };
                     </textarea>

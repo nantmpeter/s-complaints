@@ -49,17 +49,17 @@ $start_date = $param['start_date'] = $_GET['start_date'] = $_GET['start_date']?$
 					unset($strProvince[$value['province_id']]);
 				}
 		}
-		if($result['last']) {
-			foreach ($result['last'] as $key => $value) {
-					if ($value['province_id']) {
-						$tmpProvince2[$value['province_id']] = $value['wan'];
-					}
-			} 
-		}
+		// if($result['last']) {
+		// 	foreach ($result['last'] as $key => $value) {
+		// 			if ($value['province_id']) {
+		// 				$tmpProvince2[$value['province_id']] = $value['wan'];
+		// 			}
+		// 	} 
+		// }
 		rsort($tmpProvince);
-		rsort($tmpProvince2);
+		// rsort($tmpProvince2);
 		$data['provinces'] = implode(',', $tmpProvince);
-		$data['provinces2'] = implode(',', $tmpProvince2);
+		// $data['provinces2'] = implode(',', $tmpProvince2);
 
 	// $province = Info::getProvince();
 	foreach ($province as $key => $value) {
