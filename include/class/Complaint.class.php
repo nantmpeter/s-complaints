@@ -1381,7 +1381,7 @@ class Complaint extends Base {
 			$condition["AND"]['month[<]'] = strtotime(substr($param['start_date'], 0,4).'-12-31');
 			unset($param['start_date'],$param['end_date']);	
 		}
-		$s = isset($s)?$s:date('Y');
+		$s = isset($s)?$s:$year;
 		if(empty($param))
 			$param = array();
 		foreach ($param as $key => $value) {
@@ -1428,10 +1428,13 @@ class Complaint extends Base {
 
 		if(empty($param))
 			$param = array();
-		// if($param['start_date']){
+		$year = date('Y');
+		if($param['start_date']){
+			$year = substr($param['start_date'], 0,4);
+		}
 			// $start = $param['start_date'];
-			$condition["AND"]['month[>=]'] = strtotime(date('Y').'-01-01');
-			$condition["AND"]['month[<]'] = strtotime(date('Y').'-12-31');
+			$condition["AND"]['month[>=]'] = strtotime($year.'-01-01');
+			$condition["AND"]['month[<]'] = strtotime($year.'-12-31');
 		// }
 		$start = isset($start)?$start:date('Y-m');
 		unset($param['start_date']);
@@ -1443,8 +1446,8 @@ class Complaint extends Base {
 
 		$tmpCon = array(
 						// 'month[<]'=>strtotime($start.'-01 +1 month -1 day'),
-						'month[>=]'=>strtotime(date('Y').'-01-01'),
-						'month[<]'=>strtotime(date('Y').'-12-31'),
+						'month[>=]'=>strtotime($year.'-01-01'),
+						'month[<]'=>strtotime($year.'-12-31'),
 						// 'province_id'=>$resultProvince
 						);
 		if(isset($param['province_id']) && $param['province_id'] > 0) {
@@ -1476,8 +1479,8 @@ class Complaint extends Base {
 		// }
 
 		for ($i=1; $i <= 12; $i++) { 
-			// $db->select('co_base',array('month'=>strtotime(date('Y').'-'.$i.'-01'),'GROUP'=>'province_id'));
-			$province = $db->select('co_base','province_id',array('AND'=>array('month'=>strtotime(date('Y').'-'.$i.'-01')),'GROUP'=>'province_id'));
+			// $db->select('co_base',array('month'=>strtotime($year.'-'.$i.'-01'),'GROUP'=>'province_id'));
+			$province = $db->select('co_base','province_id',array('AND'=>array('month'=>strtotime($year.'-'.$i.'-01')),'GROUP'=>'province_id'));
 			// echo $db->last_query();
 			// var_dump($i,$province);
 
@@ -1492,7 +1495,7 @@ class Complaint extends Base {
 			}
 			// $cos[$i] = $db->select('co_income','cos',)
 			// var_dump($tmpCon);
-			$tmpCon['month'] = strtotime(date('Y').'-'.$i.'-01');
+			$tmpCon['month'] = strtotime($year.'-'.$i.'-01');
 			$cos[$i] = $db->select(
 			'co_income',
 			'sum(province_income) as cos,month',
@@ -1588,8 +1591,10 @@ class Complaint extends Base {
 	{
 		$condition = array();
 		$db=self::__instance();
-
-		$start = isset($start)?$start:date('Y');
+		$year = date('Y');
+		if($param['start_date'])
+			$year = substr($param['start_date'], 0,4);
+		$start = isset($start)?$start:$year;
 		if(empty($param))
 			$param = array();
 		unset($param['province_id'],$param['start_date']);
@@ -1700,14 +1705,16 @@ class Complaint extends Base {
 		$flag = isset($param['flag'])?$param['flag']:0;
 		unset($param['flag']);
 		$condition = array();
+		$year = date('Y');
 		$db=self::__instance();
 		if($param['start_date']){
+			$year = substr($param['start_date'], 0,4);
 			$start = $param['start_date'];
 			$condition["AND"]['month[>=]'] = strtotime($param['start_date'].'-01');
 			$condition["AND"]['month[<]'] = strtotime($param['start_date'].'-01 +1 month -1 day');
 			unset($param['start_date'],$param['end_date']);	
 		}
-		$start = isset($start)?$start:date('Y');
+		$start = isset($start)?$start:$year;
 		if(empty($param))
 			$param = array();
 		foreach ($param as $key => $value) {
