@@ -217,7 +217,7 @@ option = {
         trigger: 'axis'
     },
     legend: {
-        data:['收入比']
+        data:['万投比']
     },
     toolbox: {
         show : true,
@@ -243,7 +243,7 @@ option = {
     ],
     series : [
         {
-            name:'收入比',
+            name:'万投比',
             type:'bar',
             data:[<{$data.chartWan}>],
             itemStyle:{
