@@ -2460,12 +2460,11 @@ class Complaint extends Base {
 				unset($r[$key]);
 				continue;
 			}
+			$r[$key]['valid'] = $db->select('co_custom','count(*) as num',array('AND'=>array('part_code'=>$sp_corp_code,'month'=>$month,'complaint_status'=>'有效','province_id'=>$value['province_id'])))[0]['num'];
 
 			$r[$key]['cos'] = self::getCos(array('province_id'=>$value['province_id'],'month'=>$month,'sp_code'=>$sp_corp_code))['cos']/10000;
 
 			$r[$key]['wan'] = $r[$key]['cos']?$value['num']/$r[$key]['cos']:0;
-
-			# code...
 		}
 		return $r;
 	}

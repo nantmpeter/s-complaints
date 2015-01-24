@@ -32,6 +32,7 @@
 					<!-- <th style="width:55px">具体业务名称</th> -->
 					<th>统计月份</th>
 					<th >月投诉件数</th>
+                    <th>有效量</th>
                     <th>sp应收（万）</th>
 					<th >sp万投比</th>
 					<!-- <th style="width:30px">sp接入代码</th> -->
@@ -51,7 +52,8 @@
 					<!-- <td><{$result.complaint_phone}></td> -->
 					<!-- <td><{$result.buss_name}></td> -->
 					<td><{$result.month|date_format:'%Y-%m'}></td>
-					<td><{$result.num}></td>
+                    <td><{$result.num}></td>
+					<td><{$result.valid}></td>
 					<td><{$result.cos|string_format:"%.2f"}></td>
 					<td><{$result.wan|string_format:"%.2f"}></td>
 
